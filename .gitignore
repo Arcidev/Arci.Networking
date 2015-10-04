@@ -1,0 +1,3 @@
+#Ignore files build by Visual Studio
+[Bb]in*/
+[Oo]bj*/
