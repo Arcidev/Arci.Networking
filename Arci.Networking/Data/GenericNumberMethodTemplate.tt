@@ -1,40 +1,67 @@
 ﻿<#@ template language="C#" #>
 <#@ output extension=".cs" #>
 <#@ assembly name="System.Core" #>
-
 <# Type[] types = new[] {
-    typeof(Int16), typeof(Int32),
-    typeof(UInt16), typeof(UInt32),	typeof(byte)
+    typeof(Int16), typeof(Int32), typeof(sbyte),
+    typeof(UInt16), typeof(UInt32), typeof(byte)
     };
 #>
-
 <# Type[] sizeTypes = new[] {
     typeof(byte[])
     };
 #>
 
 using System;
+
 namespace Arci.Networking.Data
 {
-	public partial class Packet : IDisposable
-	{
-		<# foreach (var type in types)
-		{ #>
-			public void Write (<#= type.Name #> val)
-			{
-				writeData.Write(val);
-			}
-		<# 
-		} #>
+    public partial class ByteBuffer : IDisposable
+    {
+        <# foreach (var type in types)
+        { #>
 
-		<# foreach (var type in sizeTypes)
-		{ #>
-			public void Write (<#= type.Name #> val)
-			{
-				writeData.Write((UInt16)val.Length);
-				writeData.Write(val);
-			}
-		<# 
-		} #>
-	}
+        public void Write(<#= type.Name #> val)
+        {
+            writeData.Write(val);
+        }
+
+        public void WriteBit(<#= type.Name #> bit)
+        {
+            --bitPos;
+            if (bit != 0)
+                curBitVal |= (byte)(1 << bitPos);
+
+            if (bitPos == 0)
+                WriteCurBitVal();
+        }
+        <# 
+        } #>
+
+        public void WriteBit(bool bit)
+        {
+            --bitPos;
+            if (bit)
+                curBitVal |= (byte)(1 << bitPos);
+
+            if (bitPos == 0)
+                WriteCurBitVal();
+        }
+        <# foreach (var type in sizeTypes)
+        { #>
+
+        public void Write(<#= type.Name #> val)
+        {
+            writeData.Write((UInt16)val.Length);
+            writeData.Write(val);
+        }
+        <# 
+        } #>
+
+        private void WriteCurBitVal()
+        {
+            bitPos = 8;
+            Write(curBitVal);
+            curBitVal = 0;
+        }
+    }
 }

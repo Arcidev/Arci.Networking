@@ -50,6 +50,7 @@
       <DependentUpon>GenericNumberMethodTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Guid.cs" />
+    <Compile Include="Data\ByteBuffer.cs" />
     <Compile Include="Data\Packet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AesEncryptor.cs" />
