@@ -6,11 +6,28 @@ namespace Arci.Networking.Data
     public partial class ByteBuffer : IDisposable
     {
         
+        /// <summary>
+        /// Reads Int16 value from stream
+        /// </summary>
+        /// <returns>Int16 value from stream</returns>
+        public Int16 ReadInt16()
+        {
+            return readData.ReadInt16();
+        }
+
+        /// <summary>
+        /// Writes Int16 value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
         public void Write(Int16 val)
         {
             writeData.Write(val);
         }
 
+        /// <summary>
+        /// Writes 1 if Int16 value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
         public void WriteBit(Int16 bit)
         {
             --bitPos;
@@ -21,11 +38,28 @@ namespace Arci.Networking.Data
                 WriteCurBitVal();
         }
         
+        /// <summary>
+        /// Reads Int32 value from stream
+        /// </summary>
+        /// <returns>Int32 value from stream</returns>
+        public Int32 ReadInt32()
+        {
+            return readData.ReadInt32();
+        }
+
+        /// <summary>
+        /// Writes Int32 value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
         public void Write(Int32 val)
         {
             writeData.Write(val);
         }
 
+        /// <summary>
+        /// Writes 1 if Int32 value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
         public void WriteBit(Int32 bit)
         {
             --bitPos;
@@ -36,11 +70,28 @@ namespace Arci.Networking.Data
                 WriteCurBitVal();
         }
         
+        /// <summary>
+        /// Reads SByte value from stream
+        /// </summary>
+        /// <returns>SByte value from stream</returns>
+        public SByte ReadSByte()
+        {
+            return readData.ReadSByte();
+        }
+
+        /// <summary>
+        /// Writes SByte value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
         public void Write(SByte val)
         {
             writeData.Write(val);
         }
 
+        /// <summary>
+        /// Writes 1 if SByte value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
         public void WriteBit(SByte bit)
         {
             --bitPos;
@@ -51,11 +102,28 @@ namespace Arci.Networking.Data
                 WriteCurBitVal();
         }
         
+        /// <summary>
+        /// Reads UInt16 value from stream
+        /// </summary>
+        /// <returns>UInt16 value from stream</returns>
+        public UInt16 ReadUInt16()
+        {
+            return readData.ReadUInt16();
+        }
+
+        /// <summary>
+        /// Writes UInt16 value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
         public void Write(UInt16 val)
         {
             writeData.Write(val);
         }
 
+        /// <summary>
+        /// Writes 1 if UInt16 value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
         public void WriteBit(UInt16 bit)
         {
             --bitPos;
@@ -66,11 +134,28 @@ namespace Arci.Networking.Data
                 WriteCurBitVal();
         }
         
+        /// <summary>
+        /// Reads UInt32 value from stream
+        /// </summary>
+        /// <returns>UInt32 value from stream</returns>
+        public UInt32 ReadUInt32()
+        {
+            return readData.ReadUInt32();
+        }
+
+        /// <summary>
+        /// Writes UInt32 value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
         public void Write(UInt32 val)
         {
             writeData.Write(val);
         }
 
+        /// <summary>
+        /// Writes 1 if UInt32 value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
         public void WriteBit(UInt32 bit)
         {
             --bitPos;
@@ -81,11 +166,28 @@ namespace Arci.Networking.Data
                 WriteCurBitVal();
         }
         
+        /// <summary>
+        /// Reads Byte value from stream
+        /// </summary>
+        /// <returns>Byte value from stream</returns>
+        public Byte ReadByte()
+        {
+            return readData.ReadByte();
+        }
+
+        /// <summary>
+        /// Writes Byte value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
         public void Write(Byte val)
         {
             writeData.Write(val);
         }
 
+        /// <summary>
+        /// Writes 1 if Byte value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
         public void WriteBit(Byte bit)
         {
             --bitPos;
@@ -96,6 +198,10 @@ namespace Arci.Networking.Data
                 WriteCurBitVal();
         }
         
+        /// <summary>
+        /// Writes bit value to stream
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
         public void WriteBit(bool bit)
         {
             --bitPos;
@@ -106,16 +212,23 @@ namespace Arci.Networking.Data
                 WriteCurBitVal();
         }
         
+        /// <summary>
+        /// Writes Byte[] value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
         public void Write(Byte[] val)
         {
             writeData.Write((UInt16)val.Length);
             writeData.Write(val);
         }
         
+        /// <summary>
+        /// Writes current bit values to stream
+        /// </summary>
         private void WriteCurBitVal()
         {
-            bitPos = 8;
             Write(curBitVal);
+            bitPos = 8;
             curBitVal = 0;
         }
     }

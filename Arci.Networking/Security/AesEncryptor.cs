@@ -11,9 +11,14 @@ namespace Arci.Networking.Security
         private byte[] iVec = new byte[16];
         private byte[] key = new byte[16];
 
+        /// <summary>
+        /// Current encryptors. First 16 bytes represent key, the rest 16 bytes represent iVec
+        /// </summary>
         public byte[] Encryptors { get { return key.Concat(iVec).ToArray(); } }
 
-        // Creates AES instance
+        /// <summary>
+        /// Creates AES instance
+        /// </summary>
         public AesEncryptor()
         {
             aes = Aes.Create();
@@ -28,21 +33,37 @@ namespace Arci.Networking.Security
             aes.Padding = PaddingMode.Zeros;
         }
 
+        /// <summary>
+        /// Creates AES instance
+        /// </summary>
+        /// <param name="key">Key to be set as AES key</param>
+        /// <param name="iVec">IVec to be set as AES iVec</param>
         public AesEncryptor(byte[] key, byte[] iVec)
         {
+            this.key = key;
+            this.iVec = iVec;
+
             aes = Aes.Create();
             aes.IV = iVec;
             aes.Key = key;
             aes.Padding = PaddingMode.Zeros;
         }
 
-        // Encrypts data
+        /// <summary>
+        /// Encrypts data with current encryptor
+        /// </summary>
+        /// <param name="toEncrypt">Data to encrypt</param>
+        /// <returns>Encrypted data</returns>
         public byte[] Encrypt(string toEncrypt)
         {
             return Encrypt(System.Text.Encoding.ASCII.GetBytes(toEncrypt));
         }
 
-        // Encrypts data
+        /// <summary>
+        /// Encrypts data
+        /// </summary>
+        /// <param name="toEncrypt">Data to encrypt</param>
+        /// <returns>Encrypted data</returns>
         public byte[] Encrypt(byte[] toEncrypt)
         {
             ICryptoTransform encryptor = aes.CreateEncryptor();
@@ -65,13 +86,21 @@ namespace Arci.Networking.Security
             return encodedText;
         }
 
-        // Decrypts data
+        /// <summary>
+        /// Decrypts data
+        /// </summary>
+        /// <param name="toDecrypt">Data to decrypt</param>
+        /// <returns>Decrypted data</returns>
         public byte[] Decrypt(string toDecrypt)
         {
             return Decrypt(System.Text.Encoding.ASCII.GetBytes(toDecrypt));
         }
 
-        // Decrypts data
+        /// <summary>
+        /// Decrypts data
+        /// </summary>
+        /// <param name="toDecrypt">Data to decrypt</param>
+        /// <returns>Decrypted data</returns>
         public byte[] Decrypt(byte[] toDecode)
         {
             ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
@@ -92,7 +121,9 @@ namespace Arci.Networking.Security
             return decodedText;
         }
 
-        // Clears allocated resources
+        /// <summary>
+        /// Clears allocated resources
+        /// </summary>
         public void Dispose()
         {
             aes.Clear();

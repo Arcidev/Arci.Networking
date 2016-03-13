@@ -2,8 +2,8 @@
 <#@ output extension=".cs" #>
 <#@ assembly name="System.Core" #>
 <# Type[] types = new[] {
-    typeof(Int16), typeof(Int32), typeof(sbyte),
-    typeof(UInt16), typeof(UInt32), typeof(byte)
+    typeof(Int16), typeof(Int32), typeof(SByte),
+    typeof(UInt16), typeof(UInt32), typeof(Byte)
     };
 #>
 <# Type[] sizeTypes = new[] {
@@ -20,11 +20,28 @@ namespace Arci.Networking.Data
         <# foreach (var type in types)
         { #>
 
+        /// <summary>
+        /// Reads <#= type.Name #> value from stream
+        /// </summary>
+        /// <returns><#= type.Name #> value from stream</returns>
+        public <#= type.Name #> Read<#= type.Name #>()
+        {
+            return readData.Read<#= type.Name #>();
+        }
+
+        /// <summary>
+        /// Writes <#= type.Name #> value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
         public void Write(<#= type.Name #> val)
         {
             writeData.Write(val);
         }
 
+        /// <summary>
+        /// Writes 1 if <#= type.Name #> value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
         public void WriteBit(<#= type.Name #> bit)
         {
             --bitPos;
@@ -37,6 +54,10 @@ namespace Arci.Networking.Data
         <# 
         } #>
 
+        /// <summary>
+        /// Writes bit value to stream
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
         public void WriteBit(bool bit)
         {
             --bitPos;
@@ -49,6 +70,10 @@ namespace Arci.Networking.Data
         <# foreach (var type in sizeTypes)
         { #>
 
+        /// <summary>
+        /// Writes <#= type.Name #> value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
         public void Write(<#= type.Name #> val)
         {
             writeData.Write((UInt16)val.Length);
@@ -57,10 +82,13 @@ namespace Arci.Networking.Data
         <# 
         } #>
 
+        /// <summary>
+        /// Writes current bit values to stream
+        /// </summary>
         private void WriteCurBitVal()
         {
-            bitPos = 8;
             Write(curBitVal);
+            bitPos = 8;
             curBitVal = 0;
         }
     }

@@ -12,13 +12,22 @@ namespace Arci.Networking
         private TcpClient tcpClnt;
         private NetworkStream stream;
 
+        /// <summary>
+        /// Creates new instance
+        /// </summary>
+        /// <param name="client">TcpClient to be used</param>
         public Client(TcpClient client)
         {
             tcpClnt = client;
             stream = tcpClnt.GetStream();
         }
 
-        // Creates new network instance
+        /// <summary>
+        /// Creates new network instance
+        /// </summary>
+        /// <param name="server">Ip adress of the server</param>
+        /// <param name="port">Port of the server</param>
+        /// <returns>New instance of client</returns>
         public static Client Create(string server, int port)
         {
             TcpClient client = null;
@@ -36,7 +45,11 @@ namespace Arci.Networking
             return new Client(client);
         }
 
-        // Sends packet to server
+        /// <summary>
+        /// Sends packet to server
+        /// </summary>
+        /// <param name="packet">Packet to send</param>
+        /// <param name="encrypt">Encrypts data with Aes key if set</param>
         public void SendPacket(Packet packet, bool encrypt = true)
         {
             var data = encrypt && AesEncryptor != null ? AesEncryptor.Encrypt(packet.Data) : packet.Data;
@@ -45,7 +58,11 @@ namespace Arci.Networking
             stream.Write(toSend, 0, data.Length + sizeof(UInt16));
         }
 
-        // Receive data from server
+        /// <summary>
+        /// Receive data from server
+        /// </summary>
+        /// <param name="decrypt">Decrypt data with Aes key if set</param>
+        /// <returns>List of packets received from server</returns>
         public IEnumerable<Packet> ReceiveData(bool decrypt)
         {
             if (stream.DataAvailable)
@@ -68,6 +85,10 @@ namespace Arci.Networking
             return null;
         }
 
+        /// <summary>
+        /// Receives data as byte stream
+        /// </summary>
+        /// <returns>Byte stream of received data</returns>
         public byte[] ReceiveData()
         {
             if (stream.DataAvailable)
@@ -76,15 +97,24 @@ namespace Arci.Networking
             return null;
         }
 
+        /// <summary>
+        /// Aes encryptor
+        /// </summary>
         public AesEncryptor AesEncryptor { get; set; }
 
-        // Free all resources
+        /// <summary>
+        /// Free all resources
+        /// </summary>
         public void Dispose()
         {
             stream.Close();
             tcpClnt.Close();
         }
 
+        /// <summary>
+        /// Reads data from server
+        /// </summary>
+        /// <returns>Byte array of data received</returns>
         private byte[] readData()
         {
             var data = new byte[Packet.MaxPacketSize];

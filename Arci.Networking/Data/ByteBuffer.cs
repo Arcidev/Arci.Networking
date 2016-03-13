@@ -12,20 +12,29 @@ namespace Arci.Networking.Data
         private int bitPos;
         private byte curBitVal;
 
+        /// <summary>
+        /// Creates new instance of readable ByteBuffer
+        /// </summary>
+        /// <param name="data">Data to form ByteBuffer from</param>
         protected ByteBuffer(byte[] data)
         {
             inicialize();
             readData = new BinaryReader(new MemoryStream(data));
         }
 
+        /// <summary>
+        /// Creates new instance of writable ByteBuffer
+        /// </summary>
         public ByteBuffer()
         {
-            inicialize();
-            memoryStream = new MemoryStream();
-            writeData = new BinaryWriter(memoryStream);
+            Initialize();
         }
 
-        // Writes guid byte stream in specified order
+        /// <summary>
+        /// Writes guid byte stream in specified order
+        /// </summary>
+        /// <param name="guid">Guid to be written</param>
+        /// <param name="indexes">Order</param>
         public void WriteGuidByteStreamInOrder(Guid guid, params int[] indexes)
         {
             foreach (var index in indexes)
@@ -33,26 +42,32 @@ namespace Arci.Networking.Data
                     Write(guid[index]);
         }
 
-        // Writes guid bit stream in specified order
+        /// <summary>
+        /// Writes guid bit stream in specified order
+        /// </summary>
+        /// <param name="guid">Guid to be written</param>
+        /// <param name="indexes">Order</param>
         public void WriteGuidBitStreamInOrder(Guid guid, params int[] indexes)
         {
             foreach (var index in indexes)
                 WriteBit(guid[index]);
         }
 
-        // Flushes bits from memory to stream
+        /// <summary>
+        /// Flushes bits from memory to stream
+        /// </summary>
         public void FlushBits()
         {
             if (bitPos == 8)
                 return;
 
-            Write(curBitVal);
-            curBitVal = 0;
-            bitPos = 8;
-
+            WriteCurBitVal();
         }
 
-        // Reads 1 bit
+        /// <summary>
+        /// Reads 1 bit
+        /// </summary>
+        /// <returns>1 bit from stream</returns>
         public bool ReadBit()
         {
             ++bitPos;
@@ -65,57 +80,59 @@ namespace Arci.Networking.Data
             return ((curBitVal >> (7 - bitPos)) & 1) != 0;
         }
 
-        // Writes string value
+        /// <summary>
+        /// Writes string value
+        /// </summary>
+        /// <param name="val">Value to be written</param>
         public void Write(string val)
 		{
 			writeData.Write((UInt16)val.Length);
             writeData.Write(System.Text.Encoding.ASCII.GetBytes(val));
 		}
 
-        // Appends the whole storage of bytebuffer to this one
+        /// <summary>
+        /// Appends the whole storage of bytebuffer to this one
+        /// </summary>
+        /// <param name="buffer">Buffer to be written</param>
         public void Write(ByteBuffer buffer)
         {
             writeData.Write(buffer.Data);
         }
 
-        // Reads Int16
-        public Int16 ReadInt16() { return readData.ReadInt16(); }
-
-        // Reads Int32
-        public Int32 ReadInt32() { return readData.ReadInt32(); }
-
-        // Reads UInt16
-        public UInt16 ReadUInt16() { return readData.ReadUInt16(); }
-
-        // Reads UInt32
-        public UInt32 ReadUInt32() { return readData.ReadUInt32(); }
-
-        // Reads byte
-        public byte ReadByte() { return readData.ReadByte(); }
-
-        // Reads sbyte
-        public sbyte ReadSByte() { return readData.ReadSByte(); }
-
-        // Reads multiple bytes
+        /// <summary>
+        /// Reads multiple bytes based on length written in stream
+        /// </summary>
+        /// <returns>Byte array from stream</returns>
         public byte[] ReadBytes()
         {
             var length = ReadUInt16();
             return readData.ReadBytes(length);
         }
 
-        // Reads multiple bytes
+        /// <summary>
+        /// Reads multiple bytes
+        /// </summary>
+        /// <param name="length">Bytes to be read</param>
+        /// <returns>Byte array from stream</returns>
         public byte[] ReadBytes(int length)
         {
             return readData.ReadBytes(length);
         }
 
-        // Reads string
+        /// <summary>
+        /// Reads string
+        /// </summary>
+        /// <returns>String in ASCII format</returns>
         public string ReadString()
         {
             return System.Text.Encoding.ASCII.GetString(ReadBytes());
         }
 
-        // Reads guid byte stream in specified order
+        /// <summary>
+        /// Reads guid byte stream in specified order
+        /// </summary>
+        /// <param name="guid">Guid to store value from stream</param>
+        /// <param name="indexes">Order</param>
         public void ReadGuidByteStreamInOrder(Guid guid, params int[] indexes)
         {
             foreach (var index in indexes)
@@ -123,16 +140,25 @@ namespace Arci.Networking.Data
                     guid[index] = ReadByte();
         }
 
-        // Reads guid bit stream in specified order
+        /// <summary>
+        /// Reads guid bit stream in specified order
+        /// </summary>
+        /// <param name="guid">Guid to store value from stream</param>
+        /// <param name="indexes">Order</param>
         public void ReadGuidBitStreamInOrder(Guid guid, params int[] indexes)
         {
             foreach (var index in indexes)
                 guid[index] = (byte) (ReadBit() ? 1 : 0);
         }
 
+        /// <summary>
+        /// Data in packet
+        /// </summary>
         public byte[] Data { get { return memoryStream.ToArray(); } }
 
-        // Disposing object
+        /// <summary>
+        /// Disposes object
+        /// </summary>
         public void Dispose()
         {
             if (writeData != null)
@@ -143,7 +169,9 @@ namespace Arci.Networking.Data
                 readData.Close();
         }
 
-        // Inicializes data in packet
+        /// <summary>
+        /// Inicializes data in ByteBuffer
+        /// </summary>
         protected void Initialize()
         {
             inicialize();
@@ -153,6 +181,9 @@ namespace Arci.Networking.Data
             writeData = new BinaryWriter(memoryStream);
         }
 
+        /// <summary>
+        /// Inicializes inner data
+        /// </summary>
         private void inicialize()
         {
             bitPos = 8;

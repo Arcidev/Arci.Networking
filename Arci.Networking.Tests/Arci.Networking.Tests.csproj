@@ -54,6 +54,8 @@
     <Compile Include="DataTests\ByteBufferTests.cs" />
     <Compile Include="DataTests\GuidTests.cs" />
     <Compile Include="DataTests\PacketTests.cs" />
+    <Compile Include="EncryptionTests\AesTests.cs" />
+    <Compile Include="EncryptionTests\RsaTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,9 +68,7 @@
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EncryptionTests\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
