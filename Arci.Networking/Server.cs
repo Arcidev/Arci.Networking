@@ -4,6 +4,9 @@ using System.Net.Sockets;
 
 namespace Arci.Networking
 {
+    /// <summary>
+    /// Server instance
+    /// </summary>
     public class Server : IDisposable
     {
         private TcpListener server;

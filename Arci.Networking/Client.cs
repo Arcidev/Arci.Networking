@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 namespace Arci.Networking
 {
+    /// <summary>
+    /// Client instance
+    /// </summary>
     public class Client : IDisposable
     {
         private TcpClient tcpClnt;

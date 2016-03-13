@@ -5,6 +5,9 @@ using System;
 
 namespace Arci.Networking.Security
 {
+    /// <summary>
+    /// Aes encryptor
+    /// </summary>
     public class AesEncryptor : IDisposable
     {
         private Aes aes;
@@ -99,7 +102,7 @@ namespace Arci.Networking.Security
         /// <summary>
         /// Decrypts data
         /// </summary>
-        /// <param name="toDecrypt">Data to decrypt</param>
+        /// <param name="toDecode">Data to decrypt</param>
         /// <returns>Decrypted data</returns>
         public byte[] Decrypt(byte[] toDecode)
         {

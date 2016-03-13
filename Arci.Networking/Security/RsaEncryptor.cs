@@ -3,6 +3,9 @@ using System.Security.Cryptography;
 
 namespace Arci.Networking.Security
 {
+    /// <summary>
+    /// Rsa encryptor
+    /// </summary>
     public class RsaEncryptor : IDisposable
     {
         private RSACryptoServiceProvider rsa;

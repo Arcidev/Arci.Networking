@@ -31,6 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Release\Arci.Networking.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -44,10 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
-    <Compile Include="Data\GenericNumberMethodTemplate.cs">
+    <Compile Include="Data\ByteBufferGenericTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GenericNumberMethodTemplate.tt</DependentUpon>
+      <DependentUpon>ByteBufferGenericTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Guid.cs" />
     <Compile Include="Data\ByteBuffer.cs" />
@@ -58,9 +59,9 @@
     <Compile Include="Server.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\GenericNumberMethodTemplate.tt">
+    <Content Include="Data\ByteBufferGenericTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GenericNumberMethodTemplate.cs</LastGenOutput>
+      <LastGenOutput>ByteBufferGenericTemplate.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

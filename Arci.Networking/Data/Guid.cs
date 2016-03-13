@@ -2,6 +2,9 @@
 
 namespace Arci.Networking.Data
 {
+    /// <summary>
+    /// Represents 64bit integer as 8 byte values
+    /// </summary>
     public class Guid
     {
         private byte[] byteVal;

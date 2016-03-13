@@ -3,6 +3,9 @@ using System.IO;
 
 namespace Arci.Networking.Data
 {
+    /// <summary>
+    /// Byffer to store byte stream
+    /// </summary>
     public partial class ByteBuffer : IDisposable
     {
         private BinaryReader readData;

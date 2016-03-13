@@ -2,6 +2,9 @@
 
 namespace Arci.Networking.Data
 {
+    /// <summary>
+    /// Represents byte stream as a packet
+    /// </summary>
     public partial class Packet : ByteBuffer
     {
         /// <summary>
