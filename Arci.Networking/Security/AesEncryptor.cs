@@ -125,6 +125,15 @@ namespace Arci.Networking.Security
         }
 
         /// <summary>
+        /// Sets aes padding mode
+        /// </summary>
+        /// <param name="mode">Padding mode to be used</param>
+        public void SetPaddingMode(PaddingMode mode)
+        {
+            aes.Padding = mode;
+        }
+
+        /// <summary>
         /// Clears allocated resources
         /// </summary>
         public void Dispose()

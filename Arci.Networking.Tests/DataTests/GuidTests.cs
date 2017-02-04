@@ -53,9 +53,9 @@ namespace Arci.Networking.Tests.DataTests
         [TestMethod]
         public void MatchTests()
         {
-            var guid1 = guidValues[0];
+            var guid1 = new Guid(guidValues[0]);
             var guid2 = guidValues[1];
-            Assert.IsTrue(guidValues[0] == guid1); // Testing against different adress
+            Assert.IsTrue(guidValues[0] == guid1); // Testing against different adress but with same value
             Assert.IsTrue(guid2 != guid1);
             Assert.IsFalse(guid1 == null);
             Assert.IsFalse(null == guid2);

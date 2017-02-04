@@ -11,6 +11,11 @@ namespace Arci.Networking.Security
         private RSACryptoServiceProvider rsa;
 
         /// <summary>
+        /// Sets true to use OAEP padding. Otherwise PKCS#1 v1.5 padding will be used
+        /// </summary>
+        public bool UseOAEPPadding { get; set; }
+
+        /// <summary>
         /// Creates RSA instance. Used only for encryption
         /// </summary>
         /// <param name="modulus">Modulus to be set</param>
@@ -42,7 +47,7 @@ namespace Arci.Networking.Security
         /// <returns>Encrypted data</returns>
         public byte[] Encrypt(byte[] toEncrypt)
         {
-            return rsa.Encrypt(toEncrypt, false);
+            return rsa.Encrypt(toEncrypt, UseOAEPPadding);
         }
 
         /// <summary>
@@ -52,7 +57,7 @@ namespace Arci.Networking.Security
         /// <returns>Decrypted data</returns>
         public byte[] Decrypt(byte[] toDecrypt)
         {
-            return rsa.Decrypt(toDecrypt, false);
+            return rsa.Decrypt(toDecrypt, UseOAEPPadding);
         }
 
         /// <summary>

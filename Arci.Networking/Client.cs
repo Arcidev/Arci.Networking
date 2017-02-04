@@ -124,6 +124,7 @@ namespace Arci.Networking
             int length = stream.Read(data, 0, Packet.MaxPacketSize);
             if (length == 0)
                 return null;
+
             return data.Take(length).ToArray();
         }
     }
