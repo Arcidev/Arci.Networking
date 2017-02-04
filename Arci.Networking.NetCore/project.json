@@ -26,6 +26,7 @@
         "../Arci.Networking/Client.cs",
         "../Arci.Networking/Server.cs"
       ]
-    }
+    },
+    "xmlDoc": true
   }
 }
