@@ -8,7 +8,7 @@ namespace Arci.Networking.Security
     /// </summary>
     public class RsaEncryptor : IDisposable
     {
-        private RSACryptoServiceProvider rsa;
+        private RSA rsa;
 
         /// <summary>
         /// Sets true to use OAEP padding. Otherwise PKCS#1 v1.5 padding will be used
@@ -22,7 +22,7 @@ namespace Arci.Networking.Security
         /// <param name="publicExponent">Exponent to be set</param>
         public RsaEncryptor(byte[] modulus, byte[] publicExponent)
         {
-            rsa = new RSACryptoServiceProvider();
+            rsa = RSA.Create();
 
             RSAParameters rsaParams = new RSAParameters();
             rsaParams.Exponent = publicExponent;
@@ -36,7 +36,7 @@ namespace Arci.Networking.Security
         /// <param name="rsaParams">Custom RSA Parameters</param>
         public RsaEncryptor(RSAParameters rsaParams)
         {
-            rsa = new RSACryptoServiceProvider();
+            rsa = RSA.Create();
             rsa.ImportParameters(rsaParams);
         }
 
@@ -47,7 +47,7 @@ namespace Arci.Networking.Security
         /// <returns>Encrypted data</returns>
         public byte[] Encrypt(byte[] toEncrypt)
         {
-            return rsa.Encrypt(toEncrypt, UseOAEPPadding);
+            return rsa.Encrypt(toEncrypt, UseOAEPPadding ? RSAEncryptionPadding.OaepSHA1 : RSAEncryptionPadding.Pkcs1);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Arci.Networking.Security
         /// <returns>Decrypted data</returns>
         public byte[] Decrypt(byte[] toDecrypt)
         {
-            return rsa.Decrypt(toDecrypt, UseOAEPPadding);
+            return rsa.Decrypt(toDecrypt, UseOAEPPadding ? RSAEncryptionPadding.OaepSHA1 : RSAEncryptionPadding.Pkcs1);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Arci.Networking.Security
         /// </summary>
         public void Dispose()
         {
-            rsa.Clear();
+            rsa.Dispose();
         }
     }
 }

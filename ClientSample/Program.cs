@@ -4,8 +4,8 @@ using Arci.Networking.Security;
 using Shared;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ClientSample
 {
@@ -13,7 +13,12 @@ namespace ClientSample
     {
         static void Main(string[] args)
         {
-            Client client = Client.Create("localhost", 10751);
+            RunClient().Wait();
+        }
+
+        private static async Task RunClient()
+        {
+            Client client = await Client.CreateAsync("localhost", 10751);
             if (client == null)
             {
                 Console.WriteLine("Server is offline");
@@ -50,7 +55,7 @@ namespace ClientSample
                 if (packets == null)
                     break;
 
-                foreach(var pck in packets)
+                foreach (var pck in packets)
                 {
                     switch (pck.OpcodeNumber)
                     {

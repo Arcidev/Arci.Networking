@@ -4,12 +4,18 @@ using Arci.Networking.Security;
 using Shared;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ServerSample
 {
     class Program
     {
         static void Main(string[] args)
+        {
+            RunServer().Wait();
+        }
+
+        private static async Task RunServer()
         {
             // Client will send us the key and iVec
             AesEncryptor aes = null;
@@ -19,7 +25,7 @@ namespace ServerSample
             // Creates new server instance on port 10751
             Server server = new Server(10751);
             // Awaits client connection
-            var tcpClient = server.AcceptClientBlockWait();
+            var tcpClient = await server.AcceptClientAsync();
             // Creates client instance
             var client = new Client(tcpClient);
             byte[] data = null;

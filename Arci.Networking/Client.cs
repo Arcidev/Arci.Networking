@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using Arci.Networking.Data;
 using Arci.Networking.Security;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Arci.Networking
 {
@@ -31,14 +32,15 @@ namespace Arci.Networking
         /// <param name="server">Ip adress of the server</param>
         /// <param name="port">Port of the server</param>
         /// <returns>New instance of client</returns>
-        public static Client Create(string server, int port)
+        public static async Task<Client> CreateAsync(string server, int port)
         {
             TcpClient client = null;
 
             // check connection
             try
             {
-                client = new TcpClient(server, port);
+                client = new TcpClient();
+                await client.ConnectAsync(server, port);
             }
             catch (SocketException)
             {
@@ -110,8 +112,8 @@ namespace Arci.Networking
         /// </summary>
         public void Dispose()
         {
-            stream.Close();
-            tcpClnt.Close();
+            stream.Dispose();
+            tcpClnt.Dispose();
         }
 
         /// <summary>

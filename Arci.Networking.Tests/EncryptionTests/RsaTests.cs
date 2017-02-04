@@ -21,10 +21,10 @@ namespace Arci.Networking.Tests.EncryptionTests
             TestEncryption(true);
         }
 
-        private void TestEncryption(bool useOAEPPadding)
+        private void TestEncryption(bool useOaepPadding)
         {
-            var rsa = new RsaEncryptor(RSAKey.Modulus, RSAKey.PublicExponent) { UseOAEPPadding = useOAEPPadding };
-            var rsa2 = new RsaEncryptor(RSAKey.RsaParams) { UseOAEPPadding = useOAEPPadding };
+            var rsa = new RsaEncryptor(RSAKey.Modulus, RSAKey.PublicExponent) { UseOAEPPadding = useOaepPadding };
+            var rsa2 = new RsaEncryptor(RSAKey.RsaParams) { UseOAEPPadding = useOaepPadding };
 
             var value = Encoding.ASCII.GetBytes("Hello from unecrypted world");
             var rsaEncryptedValue = rsa.Encrypt(value);

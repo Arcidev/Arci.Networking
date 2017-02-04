@@ -165,11 +165,11 @@ namespace Arci.Networking.Data
         public void Dispose()
         {
             if (writeData != null)
-                writeData.Close();
+                writeData.Dispose();
             if (memoryStream != null)
-                memoryStream.Close();
+                memoryStream.Dispose();
             if (readData != null)
-                readData.Close();
+                readData.Dispose();
         }
 
         /// <summary>

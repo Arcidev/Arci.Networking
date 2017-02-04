@@ -25,7 +25,7 @@ namespace Arci.Networking.Security
         public AesEncryptor()
         {
             aes = Aes.Create();
-            using (var rng = new RNGCryptoServiceProvider())
+            using (var rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(key);
                 rng.GetBytes(iVec);
@@ -138,7 +138,7 @@ namespace Arci.Networking.Security
         /// </summary>
         public void Dispose()
         {
-            aes.Clear();
+            aes.Dispose();
         }
     }
 }

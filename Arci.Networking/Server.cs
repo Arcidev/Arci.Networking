@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace Arci.Networking
 {
@@ -26,10 +27,10 @@ namespace Arci.Networking
         /// Accepts new client
         /// </summary>
         /// <returns>New Tcp client if pending. Otherwise null</returns>
-        public TcpClient AcceptClient()
+        public async Task<TcpClient> AcceptClient()
         {
             if (server.Pending())
-                return server.AcceptTcpClient();
+                return await server.AcceptTcpClientAsync();
 
             return null;
         }
@@ -38,9 +39,9 @@ namespace Arci.Networking
         /// Accepts new client with block waiting
         /// </summary>
         /// <returns>New Tcp client</returns>
-        public TcpClient AcceptClientBlockWait()
+        public async Task<TcpClient> AcceptClientAsync()
         {
-            return server.AcceptTcpClient();
+            return await server.AcceptTcpClientAsync();
         }
 
         /// <summary>
