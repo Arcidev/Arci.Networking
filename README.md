@@ -8,3 +8,6 @@ C# network library. Samples included. Library is available at https://www.nuget.
 <b>License:</b> Apache 2.0
 
 Read file [LICENSE](LICENSE.md)
+
+## Changes
+See [Wiki](https://github.com/Arcidev/Arci.Networking/wiki) for a list of changes between versions
