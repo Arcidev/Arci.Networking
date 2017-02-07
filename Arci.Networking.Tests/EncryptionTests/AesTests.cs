@@ -1,4 +1,5 @@
 ﻿using Arci.Networking.Security;
+using Arci.Networking.Security.AesOptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Security.Cryptography;
@@ -10,15 +11,21 @@ namespace Arci.Networking.Tests.EncryptionTests
     public class AesTests
     {
         [TestMethod]
-        public void Test16ByteAesEncryptor()
+        public void Test128AesEncryptor()
         {
-            TestAesEncryptorCreation(16);
+            TestAesEncryptorCreation(AesEncryptionType.Aes128Bits);
         }
 
         [TestMethod]
-        public void Test32ByteAesEncryptor()
+        public void Test192AesEncryptor()
         {
-            TestAesEncryptorCreation(32);
+            TestAesEncryptorCreation(AesEncryptionType.Aes192Bits);
+        }
+
+        [TestMethod]
+        public void Test256AesEncryptor()
+        {
+            TestAesEncryptorCreation(AesEncryptionType.Aes256Bits);
         }
 
         [TestMethod]
@@ -51,8 +58,8 @@ namespace Arci.Networking.Tests.EncryptionTests
             using (var aes = new AesEncryptor() { PaddingMode = PaddingMode.None })
             {
                 var sb = new StringBuilder("Hello from unecrypted world");
-                if(sb.Length % aes.CurrentKeyByteLength != 0)
-                    sb.Append('\0', aes.CurrentKeyByteLength - sb.Length % aes.CurrentKeyByteLength);
+                if(sb.Length % aes.Key.Length != 0)
+                    sb.Append('\0', aes.Key.Length - sb.Length % aes.Key.Length);
 
                 var value = sb.ToString();
                 var encryptedVal = aes.Encrypt(value);
@@ -70,7 +77,7 @@ namespace Arci.Networking.Tests.EncryptionTests
 
         private void TestEncryption(PaddingMode padding)
         {
-            using (var aes = new AesEncryptor() { PaddingMode = padding })
+            using (var aes = new AesEncryptor(AesEncryptionType.Aes256Bits) { PaddingMode = padding })
             {
                 var value = "Hello from unecrypted world";
                 var encryptedVal = aes.Encrypt(value);
@@ -82,21 +89,21 @@ namespace Arci.Networking.Tests.EncryptionTests
             }
         }
 
-        private void TestAesEncryptorCreation(int keyLength)
+        private void TestAesEncryptorCreation(AesEncryptionType type)
         {
-            var aesKey = new byte[keyLength];
+            var aesKey = new byte[(int)type];
             var iVec = new byte[16];
-            for (byte i = 0; i < keyLength; i++)
+            for (byte i = 0; i < (int)type; i++)
             {
                 aesKey[i] = i;
-                if (keyLength < 16)
+                if (i < 16)
                     iVec[i] = (byte)(byte.MaxValue - i);
             }
 
-            using (AesEncryptor aes = new AesEncryptor(keyLength), aes2 = new AesEncryptor(aesKey, iVec))
+            using (AesEncryptor aes = new AesEncryptor(type), aes2 = new AesEncryptor(aesKey, iVec))
             {
                 Assert.AreNotEqual(null, aes.Encryptors, "Encryptors not created");
-                Assert.AreEqual(aes.Encryptors.Length, keyLength + iVec.Length, "Invalid length of encryptors");
+                Assert.AreEqual(aes.Encryptors.Length, (int)type + iVec.Length, "Invalid length of encryptors");
 
                 Assert.AreNotEqual(null, aes2.Encryptors, "Encryptors not created");
                 Assert.IsTrue(aesKey.Concat(iVec).SequenceEqual(aes2.Encryptors), "Encryptors not created correctly");

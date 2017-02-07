@@ -4,6 +4,7 @@ using Arci.Networking.Security;
 using Shared;
 using System;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace ServerSample
@@ -20,7 +21,7 @@ namespace ServerSample
             // Client will send us the key and iVec
             AesEncryptor aes = null;
             // Rsa inicialization
-            RsaEncryptor rsa = new RsaEncryptor(RSAKey.RsaParams);
+            RsaEncryptor rsa = new RsaEncryptor(RSAKey.RsaParams) { UseOAEPPadding = true };
 
             // Creates new server instance on port 10751
             Server server = new Server(10751);
@@ -49,7 +50,7 @@ namespace ServerSample
                     {
                         case ClientPacketTypes.CMSG_INIT_ENCRYPTED_RSA:
                             var keys = rsa.Decrypt(packet.ReadBytes());
-                            aes = new AesEncryptor(keys.Take(16).ToArray(), keys.Skip(16).ToArray());
+                            aes = new AesEncryptor(keys.Take(32).ToArray(), keys.Skip(32).ToArray()) { PaddingMode = PaddingMode.PKCS7 };
                             client.AesEncryptor = aes;
                             response = new Packet(ServerPacketTypes.SMSG_INIT_RESPONSE_ENCRYPTED_RSA);
                             response.Write("Hello Client!");

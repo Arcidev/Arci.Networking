@@ -55,6 +55,7 @@
     <Compile Include="Data\Packet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AesEncryptor.cs" />
+    <Compile Include="Security\AesOptions\AesEncryptionType.cs" />
     <Compile Include="Security\RsaEncryptor.cs" />
     <Compile Include="Server.cs" />
   </ItemGroup>

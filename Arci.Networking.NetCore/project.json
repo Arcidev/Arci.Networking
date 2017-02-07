@@ -17,6 +17,7 @@
         "../Arci.Networking/Data/ByteBufferGenericTemplate.cs",
         "../Arci.Networking/Data/PacketGuid.cs",
         "../Arci.Networking/Data/Packet.cs",
+        "../Arci.Networking/Security/AesOptions/AesEncryptionType.cs",
         "../Arci.Networking/Security/AesEncryptor.cs",
         "../Arci.Networking/Security/RsaEncryptor.cs",
         "../Arci.Networking/Client.cs",

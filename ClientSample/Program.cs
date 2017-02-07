@@ -1,9 +1,11 @@
 ﻿using Arci.Networking;
 using Arci.Networking.Data;
 using Arci.Networking.Security;
+using Arci.Networking.Security.AesOptions;
 using Shared;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,9 +29,9 @@ namespace ClientSample
 
             // Sending AES key via RSA encryption
             // Aes (key, ivec generation)
-            AesEncryptor aes = new AesEncryptor();
+            AesEncryptor aes = new AesEncryptor(AesEncryptionType.Aes256Bits) { PaddingMode = PaddingMode.PKCS7 };
             // Rsa (sets server public key)
-            RsaEncryptor rsa = new RsaEncryptor(RSAKey.Modulus, RSAKey.PublicExponent);
+            RsaEncryptor rsa = new RsaEncryptor(RSAKey.Modulus, RSAKey.PublicExponent) { UseOAEPPadding = true };
             // Sets AES key for our client, key will be used for SendPacket function and ReceiveData function
             client.AesEncryptor = aes;
 

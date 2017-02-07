@@ -2,6 +2,7 @@
 using System.Security.Cryptography;
 using System.IO;
 using System;
+using Arci.Networking.Security.AesOptions;
 
 namespace Arci.Networking.Security
 {
@@ -11,18 +12,21 @@ namespace Arci.Networking.Security
     public class AesEncryptor : IDisposable
     {
         private Aes aes;
-        private byte[] iVec;
-        private byte[] key;
 
         /// <summary>
-        /// Current length of the key in bytes
+        /// Returns copy of the current aes key
         /// </summary>
-        public int CurrentKeyByteLength { get; private set; }
+        public byte[] Key { get { return aes.Key.ToArray(); } }
+
+        /// <summary>
+        /// Returns copy of the current aes iVec
+        /// </summary>
+        public byte[] IVec { get { return aes.IV.ToArray(); } }
 
         /// <summary>
         /// Current encryptors. First bytes represent key, last 16 bytes represent iVec
         /// </summary>
-        public byte[] Encryptors { get { return key.Concat(iVec).ToArray(); } }
+        public byte[] Encryptors { get { return aes.Key.Concat(aes.IV).ToArray(); } }
 
         /// <summary>
         /// Aes padding mode to be used
@@ -36,13 +40,12 @@ namespace Arci.Networking.Security
         /// <summary>
         /// Creates AES instance
         /// </summary>
-        /// <param name="keyByteLength">Valid length (16, 24, 32) of AES key in bytes</param>
-        public AesEncryptor(int keyByteLength = 16)
+        /// <param name="type">Bit version type of Aes to be used</param>
+        public AesEncryptor(AesEncryptionType type = AesEncryptionType.Aes128Bits)
         {
             aes = Aes.Create();
-            iVec = new byte[16];
-            key = new byte[keyByteLength];
-            CurrentKeyByteLength = keyByteLength;
+            var iVec = new byte[16];
+            var key = new byte[(int)type];
 
             using (var rng = RandomNumberGenerator.Create())
             {
@@ -62,10 +65,6 @@ namespace Arci.Networking.Security
         /// <param name="iVec">IVec to be set as AES iVec</param>
         public AesEncryptor(byte[] key, byte[] iVec)
         {
-            this.key = key;
-            this.iVec = iVec;
-            CurrentKeyByteLength = key?.Length ?? 0;
-
             aes = Aes.Create();
             aes.IV = iVec;
             aes.Key = key;
