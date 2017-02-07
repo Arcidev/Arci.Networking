@@ -50,7 +50,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ByteBufferGenericTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\Guid.cs" />
+    <Compile Include="Data\PacketGuid.cs" />
     <Compile Include="Data\ByteBuffer.cs" />
     <Compile Include="Data\Packet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

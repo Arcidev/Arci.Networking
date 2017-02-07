@@ -5,14 +5,14 @@ namespace Arci.Networking.Data
     /// <summary>
     /// Represents 64bit integer as 8 byte values
     /// </summary>
-    public class Guid
+    public class PacketGuid
     {
         private byte[] byteVal;
 
         /// <summary>
         /// Creates new Guid instance
         /// </summary>
-        public Guid()
+        public PacketGuid()
         {
             byteVal = new byte[8];
         }
@@ -21,7 +21,7 @@ namespace Arci.Networking.Data
         /// Creates new Guid instance from UInt64 value
         /// </summary>
         /// <param name="guid">Value to be stored as Guid</param>
-        public Guid(UInt64 guid)
+        public PacketGuid(UInt64 guid)
         {
             byteVal = BitConverter.GetBytes(guid);
         }
@@ -30,9 +30,9 @@ namespace Arci.Networking.Data
         /// Conversion operator from UInt64 to Guid
         /// </summary>
         /// <param name="guid">Value to be converted to Guid</param>
-        public static implicit operator Guid(UInt64 guid)
+        public static implicit operator PacketGuid(UInt64 guid)
         {
-            return new Guid(guid);
+            return new PacketGuid(guid);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Arci.Networking.Data
         /// Conversion operator from Guid to UInt64
         /// </summary>
         /// <param name="guid">Value to be converted to UInt64</param>
-        public static implicit operator UInt64(Guid guid)
+        public static implicit operator UInt64(PacketGuid guid)
         {
             return BitConverter.ToUInt64(guid.byteVal, 0);
         }
@@ -61,7 +61,7 @@ namespace Arci.Networking.Data
         /// <param name="guid1">First guid value</param>
         /// <param name="guid2">Second guid value</param>
         /// <returns>true if values represents same UIn64 value, otherwise false</returns>
-        public static bool operator ==(Guid guid1, Guid guid2)
+        public static bool operator ==(PacketGuid guid1, PacketGuid guid2)
         {
             if (object.ReferenceEquals(guid1, null))
                 return object.ReferenceEquals(guid2, null);
@@ -75,7 +75,7 @@ namespace Arci.Networking.Data
         /// <param name="guid1">First guid value</param>
         /// <param name="guid2">Second guid value</param>
         /// <returns>false if values represents same UIn64 value, otherwise true</returns>
-        public static bool operator !=(Guid guid1, Guid guid2)
+        public static bool operator !=(PacketGuid guid1, PacketGuid guid2)
         {
             if (object.ReferenceEquals(guid1, null))
                 return !object.ReferenceEquals(guid2, null);
@@ -96,7 +96,7 @@ namespace Arci.Networking.Data
             if (obj is UInt64)
                 return (UInt64)this == (UInt64)obj;
 
-            Guid guid = obj as Guid;
+            PacketGuid guid = obj as PacketGuid;
             return guid != null && (UInt64)this == (UInt64)guid;
         }
 

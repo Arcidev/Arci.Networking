@@ -70,24 +70,22 @@ namespace Arci.Networking
         /// <returns>List of packets received from server</returns>
         public IEnumerable<Packet> ReceiveData(bool decrypt)
         {
-            if (stream.DataAvailable)
-            {
-                byte[] data = readData();
-                List<Packet> packets = new List<Packet>();
-                while (data.Any())
-                {
-                    var length = BitConverter.ToUInt16(data, 0);
-                    data = data.Skip(sizeof(UInt16)).ToArray();
-                    var packetData = data.Take(length).ToArray();
-                    Packet packet = new Packet(decrypt && AesEncryptor != null ? AesEncryptor.Decrypt(packetData) : packetData);
-                    packets.Add(packet);
-                    data = data.Skip(length).ToArray();
-                }
+            var data = ReceiveData();
+            if (data == null)
+                return null;
 
-                return packets;
+            List<Packet> packets = new List<Packet>();
+            while (data.Any())
+            {
+                var length = BitConverter.ToUInt16(data, 0);
+                data = data.Skip(sizeof(UInt16)).ToArray();
+                var packetData = data.Take(length).ToArray();
+                Packet packet = new Packet(decrypt && AesEncryptor != null ? AesEncryptor.Decrypt(packetData) : packetData);
+                packets.Add(packet);
+                data = data.Skip(length).ToArray();
             }
 
-            return null;
+            return packets;
         }
 
         /// <summary>

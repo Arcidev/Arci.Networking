@@ -38,7 +38,7 @@ namespace Arci.Networking.Data
         /// </summary>
         /// <param name="guid">Guid to be written</param>
         /// <param name="indexes">Order</param>
-        public void WriteGuidByteStreamInOrder(Guid guid, params int[] indexes)
+        public void WriteGuidByteStreamInOrder(PacketGuid guid, params int[] indexes)
         {
             foreach (var index in indexes)
                 if (guid[index] != 0)
@@ -50,7 +50,7 @@ namespace Arci.Networking.Data
         /// </summary>
         /// <param name="guid">Guid to be written</param>
         /// <param name="indexes">Order</param>
-        public void WriteGuidBitStreamInOrder(Guid guid, params int[] indexes)
+        public void WriteGuidBitStreamInOrder(PacketGuid guid, params int[] indexes)
         {
             foreach (var index in indexes)
                 WriteBit(guid[index]);
@@ -136,7 +136,7 @@ namespace Arci.Networking.Data
         /// </summary>
         /// <param name="guid">Guid to store value from stream</param>
         /// <param name="indexes">Order</param>
-        public void ReadGuidByteStreamInOrder(Guid guid, params int[] indexes)
+        public void ReadGuidByteStreamInOrder(PacketGuid guid, params int[] indexes)
         {
             foreach (var index in indexes)
                 if (guid[index] != 0)
@@ -148,7 +148,7 @@ namespace Arci.Networking.Data
         /// </summary>
         /// <param name="guid">Guid to store value from stream</param>
         /// <param name="indexes">Order</param>
-        public void ReadGuidBitStreamInOrder(Guid guid, params int[] indexes)
+        public void ReadGuidBitStreamInOrder(PacketGuid guid, params int[] indexes)
         {
             foreach (var index in indexes)
                 guid[index] = (byte) (ReadBit() ? 1 : 0);

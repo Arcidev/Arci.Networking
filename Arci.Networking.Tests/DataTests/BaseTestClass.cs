@@ -1,6 +1,6 @@
-﻿using Shared;
+﻿using Arci.Networking.Data;
+using Shared;
 using System;
-using Guid = Arci.Networking.Data.Guid;
 
 namespace Arci.Networking.Tests.DataTests
 {
@@ -18,7 +18,7 @@ namespace Arci.Networking.Tests.DataTests
         protected const ClientPacketTypes clientEnumOpcode = ClientPacketTypes.CMSG_INIT_ENCRYPTED_AES;
         protected const ServerPacketTypes serverEnumOpcode = ServerPacketTypes.SMSG_INIT_RESPONSE_ENCRYPTED_RSA;
 
-        protected static readonly Guid[] guidValues = new Guid[] { new Guid(uint64Value), new Guid(0xDDEEFF1199AABBCC), new Guid(0xAA1199BBCCDDEEFF) };
+        protected static readonly PacketGuid[] guidValues = new PacketGuid[] { new PacketGuid(uint64Value), new PacketGuid(0xDDEEFF1199AABBCC), new PacketGuid(0xAA1199BBCCDDEEFF) };
         protected static readonly byte[] byteArrayValue = new byte[] { 1, 2, 3, 4 };
     }
 }

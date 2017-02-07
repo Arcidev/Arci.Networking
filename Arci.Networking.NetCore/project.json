@@ -6,12 +6,8 @@
   },
 
   "frameworks": {
-    "netstandard1.6": {
-      "imports": "dnxcore50"
-    },
-    "netcoreapp1.0": {
-      "imports": "dnxcore50"
-    }
+    "netstandard1.6": {},
+    "netcoreapp1.0": {}
   },
 
   "buildOptions": {
@@ -19,7 +15,7 @@
       "includeFiles": [
         "../Arci.Networking/Data/ByteBuffer.cs",
         "../Arci.Networking/Data/ByteBufferGenericTemplate.cs",
-        "../Arci.Networking/Data/Guid.cs",
+        "../Arci.Networking/Data/PacketGuid.cs",
         "../Arci.Networking/Data/Packet.cs",
         "../Arci.Networking/Security/AesEncryptor.cs",
         "../Arci.Networking/Security/RsaEncryptor.cs",

@@ -117,11 +117,11 @@
     <Compile Include="..\Arci.Networking\Data\ByteBufferGenericTemplate.cs">
       <Link>Data\ByteBufferGenericTemplate.cs</Link>
     </Compile>
-    <Compile Include="..\Arci.Networking\Data\Guid.cs">
-      <Link>Data\Guid.cs</Link>
-    </Compile>
     <Compile Include="..\Arci.Networking\Data\Packet.cs">
       <Link>Data\Packet.cs</Link>
+    </Compile>
+    <Compile Include="..\Arci.Networking\Data\PacketGuid.cs">
+      <Link>Data\PacketGuid.cs</Link>
     </Compile>
     <Compile Include="..\Arci.Networking\Security\AesEncryptor.cs">
       <Link>Security\AesEncryptor.cs</Link>

@@ -43,7 +43,7 @@ namespace ClientSample
             // Sending fully encrypted packet with AES
             // Reinicialize data inside of packet (Dispose is called also)
             packet.Initialize(ClientPacketTypes.CMSG_INIT_ENCRYPTED_AES);
-            packet.Write("And Once More Hello to You from Fully Encrypted Packet!");
+            packet.Write("Hello Server from fully encrypted packet!");
             client.SendPacket(packet);
             packet.Dispose();
 
