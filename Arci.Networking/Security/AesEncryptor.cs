@@ -11,20 +11,39 @@ namespace Arci.Networking.Security
     public class AesEncryptor : IDisposable
     {
         private Aes aes;
-        private byte[] iVec = new byte[16];
-        private byte[] key = new byte[16];
+        private byte[] iVec;
+        private byte[] key;
 
         /// <summary>
-        /// Current encryptors. First 16 bytes represent key, the rest 16 bytes represent iVec
+        /// Current length of the key in bytes
+        /// </summary>
+        public int CurrentKeyByteLength { get; private set; }
+
+        /// <summary>
+        /// Current encryptors. First bytes represent key, last 16 bytes represent iVec
         /// </summary>
         public byte[] Encryptors { get { return key.Concat(iVec).ToArray(); } }
 
         /// <summary>
+        /// Aes padding mode to be used
+        /// </summary>
+        public PaddingMode PaddingMode
+        {
+            get { return aes.Padding; }
+            set{ aes.Padding = value; }
+        }
+
+        /// <summary>
         /// Creates AES instance
         /// </summary>
-        public AesEncryptor()
+        /// <param name="keyByteLength">Valid length (16, 24, 32) of AES key in bytes</param>
+        public AesEncryptor(int keyByteLength = 16)
         {
             aes = Aes.Create();
+            iVec = new byte[16];
+            key = new byte[keyByteLength];
+            CurrentKeyByteLength = keyByteLength;
+
             using (var rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(key);
@@ -45,6 +64,7 @@ namespace Arci.Networking.Security
         {
             this.key = key;
             this.iVec = iVec;
+            CurrentKeyByteLength = key?.Length ?? 0;
 
             aes = Aes.Create();
             aes.IV = iVec;
@@ -122,15 +142,6 @@ namespace Arci.Networking.Security
             }
 
             return decodedText;
-        }
-
-        /// <summary>
-        /// Sets aes padding mode
-        /// </summary>
-        /// <param name="mode">Padding mode to be used</param>
-        public void SetPaddingMode(PaddingMode mode)
-        {
-            aes.Padding = mode;
         }
 
         /// <summary>
