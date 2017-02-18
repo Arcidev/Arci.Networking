@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace Shared
+namespace Arci.Networking.Tests.NetCore
 {
     public static class RSAKey
     {

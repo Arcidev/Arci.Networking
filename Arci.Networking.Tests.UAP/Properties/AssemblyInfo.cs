@@ -5,14 +5,15 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Arci.Networking.UAP")]
+[assembly: AssemblyTitle("Arci.Networking.Tests.UAP")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Arci.Networking.UAP")]
+[assembly: AssemblyProduct("Arci.Networking.Tests.UAP")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: AssemblyMetadata("TargetPlatform","UAP")]
 
 // Version information for an assembly consists of the following four values:
 //

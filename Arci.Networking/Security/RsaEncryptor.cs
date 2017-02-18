@@ -20,15 +20,7 @@ namespace Arci.Networking.Security
         /// </summary>
         /// <param name="modulus">Modulus to be set</param>
         /// <param name="publicExponent">Exponent to be set</param>
-        public RsaEncryptor(byte[] modulus, byte[] publicExponent)
-        {
-            rsa = RSA.Create();
-
-            RSAParameters rsaParams = new RSAParameters();
-            rsaParams.Exponent = publicExponent;
-            rsaParams.Modulus = modulus;
-            rsa.ImportParameters(rsaParams);
-        }
+        public RsaEncryptor(byte[] modulus, byte[] publicExponent) : this(new RSAParameters { Exponent = publicExponent, Modulus = modulus }) { }
 
         /// <summary>
         /// Creates RSA instance

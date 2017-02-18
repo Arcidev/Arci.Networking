@@ -1,6 +1,6 @@
 ﻿using Arci.Networking.Security;
 using Arci.Networking.Security.AesOptions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -38,18 +38,6 @@ namespace Arci.Networking.Tests.EncryptionTests
         public void TestPKCS7Padding()
         {
             TestEncryption(PaddingMode.PKCS7);
-        }
-
-        [TestMethod]
-        public void TestANSIX923Padding()
-        {
-            TestEncryption(PaddingMode.ANSIX923);
-        }
-
-        [TestMethod]
-        public void TestISO10126Padding()
-        {
-            TestEncryption(PaddingMode.ISO10126);
         }
 
         [TestMethod]

@@ -1,0 +1,20 @@
+{
+  "version": "1.4.0-*",
+  "testRunner": "xunit",
+
+  "dependencies": {
+    "xunit": "2.2.0-rc4-build3536",
+    "dotnet-test-xunit": "2.2.0-preview2-build1029",
+    "Arci.Networking.NetCore": "1.4.0-*"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+    }
+  },
+
+  "runtimes": {
+    "win10-x64": {},
+    "win81-x64": {}
+  }
+}

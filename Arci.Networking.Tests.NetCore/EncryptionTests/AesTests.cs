@@ -1,58 +1,45 @@
 ﻿using Arci.Networking.Security;
 using Arci.Networking.Security.AesOptions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using Xunit;
 
-namespace Arci.Networking.Tests.EncryptionTests
+namespace Arci.Networking.Tests.NetCore.EncryptionTests
 {
-    [TestClass]
     public class AesTests
     {
-        [TestMethod]
+        [Fact]
         public void Test128AesEncryptor()
         {
             TestAesEncryptorCreation(AesEncryptionType.Aes128Bits);
         }
 
-        [TestMethod]
+        [Fact]
         public void Test192AesEncryptor()
         {
             TestAesEncryptorCreation(AesEncryptionType.Aes192Bits);
         }
 
-        [TestMethod]
+        [Fact]
         public void Test256AesEncryptor()
         {
             TestAesEncryptorCreation(AesEncryptionType.Aes256Bits);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestZeroesPadding()
         {
             TestEncryption(PaddingMode.Zeros);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestPKCS7Padding()
         {
             TestEncryption(PaddingMode.PKCS7);
         }
 
-        [TestMethod]
-        public void TestANSIX923Padding()
-        {
-            TestEncryption(PaddingMode.ANSIX923);
-        }
-
-        [TestMethod]
-        public void TestISO10126Padding()
-        {
-            TestEncryption(PaddingMode.ISO10126);
-        }
-
-        [TestMethod]
+        [Fact]
         public void TestNonePadding()
         {
             using (var aes = new AesEncryptor() { PaddingMode = PaddingMode.None })
@@ -63,15 +50,15 @@ namespace Arci.Networking.Tests.EncryptionTests
 
                 var value = sb.ToString();
                 var encryptedVal = aes.Encrypt(value);
-                Assert.AreNotEqual(Encoding.ASCII.GetBytes(value), encryptedVal, "Value is not encrypted");
+                Assert.NotEqual(Encoding.ASCII.GetBytes(value), encryptedVal);
 
                 // No trim
                 var decryptedVal = Encoding.ASCII.GetString(aes.Decrypt(encryptedVal));
-                Assert.AreEqual(value, decryptedVal, "Value is not the same as before encryption");
+                Assert.Equal(value, decryptedVal);
 
                 // Trim added zeroes
                 decryptedVal = Encoding.ASCII.GetString(aes.Decrypt(encryptedVal)).TrimEnd('\0');
-                Assert.AreEqual(value.TrimEnd('\0'), decryptedVal, "Value is not the same as before encryption");
+                Assert.Equal(value.TrimEnd('\0'), decryptedVal);
             }
         }
 
@@ -81,11 +68,11 @@ namespace Arci.Networking.Tests.EncryptionTests
             {
                 var value = "Hello from unecrypted world";
                 var encryptedVal = aes.Encrypt(value);
-                Assert.AreNotEqual(Encoding.ASCII.GetBytes(value), encryptedVal, "Value is not encrypted");
+                Assert.NotEqual(Encoding.ASCII.GetBytes(value), encryptedVal);
 
                 // We need to trim \0 char from string as Aes ZeroesPadding is adding zeroes but not removing them
                 var decryptedVal = Encoding.ASCII.GetString(aes.Decrypt(encryptedVal)).TrimEnd('\0');
-                Assert.AreEqual(value, decryptedVal, "Value is not the same as before encryption");
+                Assert.Equal(value, decryptedVal);
             }
         }
 
@@ -102,11 +89,11 @@ namespace Arci.Networking.Tests.EncryptionTests
 
             using (AesEncryptor aes = new AesEncryptor(type), aes2 = new AesEncryptor(aesKey, iVec))
             {
-                Assert.AreNotEqual(null, aes.Encryptors, "Encryptors not created");
-                Assert.AreEqual(aes.Encryptors.Length, (int)type + iVec.Length, "Invalid length of encryptors");
+                Assert.NotEqual(null, aes.Encryptors);
+                Assert.Equal(aes.Encryptors.Length, (int)type + iVec.Length);
 
-                Assert.AreNotEqual(null, aes2.Encryptors, "Encryptors not created");
-                Assert.IsTrue(aesKey.Concat(iVec).SequenceEqual(aes2.Encryptors), "Encryptors not created correctly");
+                Assert.NotEqual(null, aes2.Encryptors);
+                Assert.True(aesKey.Concat(iVec).SequenceEqual(aes2.Encryptors), "Encryptors not created correctly");
             }
         }
     }
