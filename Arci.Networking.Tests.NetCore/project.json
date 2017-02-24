@@ -1,11 +1,11 @@
 {
-  "version": "1.4.0-*",
+  "version": "1.4.2-*",
   "testRunner": "xunit",
 
   "dependencies": {
     "xunit": "2.2.0-rc4-build3536",
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
-    "Arci.Networking.NetCore": "1.4.0-*"
+    "Arci.Networking.NetCore": "1.4.2-*"
   },
 
   "frameworks": {
