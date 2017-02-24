@@ -13,7 +13,7 @@ namespace Arci.Networking
     /// </summary>
     public class Client : IDisposable
     {
-        private TcpClient tcpClnt;
+        private TcpClient tcpClient;
         private NetworkStream stream;
 
         /// <summary>
@@ -22,8 +22,8 @@ namespace Arci.Networking
         /// <param name="client">TcpClient to be used</param>
         public Client(TcpClient client)
         {
-            tcpClnt = client;
-            stream = tcpClnt.GetStream();
+            tcpClient = client;
+            stream = tcpClient.GetStream();
         }
 
         /// <summary>
@@ -64,13 +64,82 @@ namespace Arci.Networking
         }
 
         /// <summary>
-        /// Receive data from server
+        /// Receive data as a list of packets from server
         /// </summary>
         /// <param name="decrypt">Decrypt data with Aes key if set</param>
-        /// <returns>List of packets received from server</returns>
+        /// <returns>List of packets received from server. If there are no data to receive null is returned</returns>
         public IEnumerable<Packet> ReceiveData(bool decrypt)
         {
-            var data = ReceiveData();
+            return transformStreamToPackets(ReceiveData(), decrypt);
+        }
+
+        /// <summary>
+        /// Receive data as a list of packets from server
+        /// </summary>
+        /// <param name="decrypt">Decrypt data with Aes key if set</param>
+        /// <returns>List of packets received from server. Blocks thread until data become available.</returns>
+        public async Task<IEnumerable<Packet>> ReceiveDataAsync(bool decrypt)
+        {
+            return transformStreamToPackets(await ReceiveDataAsync(), decrypt);
+        }
+
+        /// <summary>
+        /// Receives data as byte stream
+        /// </summary>
+        /// <returns>Byte stream of received data. If there are no data to receive null is returned</returns>
+        public byte[] ReceiveData()
+        {
+            if (stream.DataAvailable)
+                return readData();
+
+            return null;
+        }
+
+        /// <summary>
+        /// Receives data as byte stream asynchronously
+        /// </summary>
+        /// <returns>Byte stream of received data. Blocks thread until data become available.</returns>
+        public async Task<byte[]> ReceiveDataAsync()
+        {
+            return await readDataAsync();
+        }
+
+        /// <summary>
+        /// Aes encryptor
+        /// </summary>
+        public AesEncryptor AesEncryptor { get; set; }
+
+        /// <summary>
+        /// Free all resources
+        /// </summary>
+        public void Dispose()
+        {
+            stream.Dispose();
+            tcpClient.Dispose();
+        }
+
+        private byte[] readData()
+        {
+            var data = new byte[Packet.MaxPacketSize];
+            int length = stream.Read(data, 0, Packet.MaxPacketSize);
+            if (length == 0)
+                return null;
+
+            return data.Take(length).ToArray();
+        }
+
+        private async Task<byte[]> readDataAsync()
+        {
+            var data = new byte[Packet.MaxPacketSize];
+            int length = await stream.ReadAsync(data, 0, Packet.MaxPacketSize);
+            if (length == 0)
+                return null;
+
+            return data.Take(length).ToArray();
+        }
+
+        private IEnumerable<Packet> transformStreamToPackets(byte[] data, bool decrypt)
+        {
             if (data == null)
                 return null;
 
@@ -86,46 +155,6 @@ namespace Arci.Networking
             }
 
             return packets;
-        }
-
-        /// <summary>
-        /// Receives data as byte stream
-        /// </summary>
-        /// <returns>Byte stream of received data</returns>
-        public byte[] ReceiveData()
-        {
-            if (stream.DataAvailable)
-                return readData();
-
-            return null;
-        }
-
-        /// <summary>
-        /// Aes encryptor
-        /// </summary>
-        public AesEncryptor AesEncryptor { get; set; }
-
-        /// <summary>
-        /// Free all resources
-        /// </summary>
-        public void Dispose()
-        {
-            stream.Dispose();
-            tcpClnt.Dispose();
-        }
-
-        /// <summary>
-        /// Reads data from server
-        /// </summary>
-        /// <returns>Byte array of data received</returns>
-        private byte[] readData()
-        {
-            var data = new byte[Packet.MaxPacketSize];
-            int length = stream.Read(data, 0, Packet.MaxPacketSize);
-            if (length == 0)
-                return null;
-
-            return data.Take(length).ToArray();
         }
     }
 }
