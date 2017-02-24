@@ -5,6 +5,7 @@ using Arci.Networking.Data;
 using Arci.Networking.Security;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Arci.Networking
 {
@@ -77,10 +78,11 @@ namespace Arci.Networking
         /// Receive data as a list of packets from server
         /// </summary>
         /// <param name="decrypt">Decrypt data with Aes key if set</param>
+        /// <param name="token">Token to cancel awaited reading</param>
         /// <returns>List of packets received from server. Blocks thread until data become available.</returns>
-        public async Task<IEnumerable<Packet>> ReceiveDataAsync(bool decrypt)
+        public async Task<IEnumerable<Packet>> ReceiveDataAsync(bool decrypt, CancellationToken? token = null)
         {
-            return transformStreamToPackets(await ReceiveDataAsync(), decrypt);
+            return transformStreamToPackets(await ReceiveDataAsync(token), decrypt);
         }
 
         /// <summary>
@@ -98,10 +100,11 @@ namespace Arci.Networking
         /// <summary>
         /// Receives data as byte stream asynchronously
         /// </summary>
+        /// <param name="token">Token to cancel awaited reading</param>
         /// <returns>Byte stream of received data. Blocks thread until data become available.</returns>
-        public async Task<byte[]> ReceiveDataAsync()
+        public async Task<byte[]> ReceiveDataAsync(CancellationToken? token = null)
         {
-            return await readDataAsync();
+            return await readDataAsync(token);
         }
 
         /// <summary>
@@ -128,10 +131,10 @@ namespace Arci.Networking
             return data.Take(length).ToArray();
         }
 
-        private async Task<byte[]> readDataAsync()
+        private async Task<byte[]> readDataAsync(CancellationToken? token)
         {
             var data = new byte[Packet.MaxPacketSize];
-            int length = await stream.ReadAsync(data, 0, Packet.MaxPacketSize);
+            int length = token.HasValue ? await stream.ReadAsync(data, 0, Packet.MaxPacketSize, token.Value) : await stream.ReadAsync(data, 0, Packet.MaxPacketSize);
             if (length == 0)
                 return null;
 
