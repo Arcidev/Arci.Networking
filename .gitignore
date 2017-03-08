@@ -4,4 +4,6 @@
 [Oo]bj*/
 
 *lock.json
-*xproj.user
+
+*.nuget.props
+*.nuget.targets
