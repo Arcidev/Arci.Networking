@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <VersionPrefix>1.4.2</VersionPrefix>
+    <TargetFrameworks>netstandard1.6;netcoreapp1.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>Arci.Networking.NetCore</AssemblyName>
+    <PackageId>Arci.Networking.NetCore</PackageId>
+    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Arci.Networking\Data\ByteBuffer.cs;..\Arci.Networking\Data\ByteBufferGenericTemplate.cs;..\Arci.Networking\Data\PacketGuid.cs;..\Arci.Networking\Data\Packet.cs;..\Arci.Networking\Security\AesOptions\AesEncryptionType.cs;..\Arci.Networking\Security\AesEncryptor.cs;..\Arci.Networking\Security\RsaEncryptor.cs;..\Arci.Networking\Client.cs;..\Arci.Networking\Server.cs" />
+  </ItemGroup>
+
+</Project>

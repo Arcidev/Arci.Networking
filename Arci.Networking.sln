@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arci.Networking", "Arci.Networking\Arci.Networking.csproj", "{ED123DC2-0A2C-4B87-B723-23AAD065D518}"
 EndProject
@@ -13,11 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arci.Networking.Tests", "Arci.Networking.Tests\Arci.Networking.Tests.csproj", "{D62482C6-AF88-4BD9-97CB-CC22BDF1EA12}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Arci.Networking.NetCore", "Arci.Networking.NetCore\Arci.Networking.NetCore.xproj", "{7B311FDF-F482-4E76-8C3F-1C99B2DCCB13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arci.Networking.NetCore", "Arci.Networking.NetCore\Arci.Networking.NetCore.csproj", "{7B311FDF-F482-4E76-8C3F-1C99B2DCCB13}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arci.Networking.UAP", "Arci.Networking.UAP\Arci.Networking.UAP.csproj", "{7CC530C7-A1E3-4F09-B782-75849FF52B72}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Arci.Networking.Tests.NetCore", "Arci.Networking.Tests.NetCore\Arci.Networking.Tests.NetCore.xproj", "{8D88C09F-D395-4B7D-9ED1-CA3C8235FDA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arci.Networking.Tests.NetCore", "Arci.Networking.Tests.NetCore\Arci.Networking.Tests.NetCore.csproj", "{8D88C09F-D395-4B7D-9ED1-CA3C8235FDA4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arci.Networking.Tests.UAP", "Arci.Networking.Tests.UAP\Arci.Networking.Tests.UAP.csproj", "{A12A315E-5108-4B08-AA79-82BEBE9832AD}"
 EndProject
