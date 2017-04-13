@@ -71,7 +71,7 @@ namespace Arci.Networking
         /// <returns>List of packets received from server. If there are no data to receive null is returned</returns>
         public IEnumerable<Packet> ReceiveData(bool decrypt)
         {
-            return transformStreamToPackets(ReceiveData(), decrypt);
+            return TransformStreamToPackets(ReceiveData(), decrypt);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Arci.Networking
         /// <returns>List of packets received from server. Blocks thread until data become available.</returns>
         public async Task<IEnumerable<Packet>> ReceiveDataAsync(bool decrypt, CancellationToken? token = null)
         {
-            return transformStreamToPackets(await ReceiveDataAsync(token), decrypt);
+            return TransformStreamToPackets(await ReceiveDataAsync(token), decrypt);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Arci.Networking
         public byte[] ReceiveData()
         {
             if (stream.DataAvailable)
-                return readData();
+                return ReadData();
 
             return null;
         }
@@ -104,7 +104,7 @@ namespace Arci.Networking
         /// <returns>Byte stream of received data. Blocks thread until data become available.</returns>
         public async Task<byte[]> ReceiveDataAsync(CancellationToken? token = null)
         {
-            return await readDataAsync(token);
+            return await ReadDataAsync(token);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Arci.Networking
             tcpClient.Dispose();
         }
 
-        private byte[] readData()
+        private byte[] ReadData()
         {
             var data = new byte[Packet.MaxPacketSize];
             int length = stream.Read(data, 0, Packet.MaxPacketSize);
@@ -131,7 +131,7 @@ namespace Arci.Networking
             return data.Take(length).ToArray();
         }
 
-        private async Task<byte[]> readDataAsync(CancellationToken? token)
+        private async Task<byte[]> ReadDataAsync(CancellationToken? token)
         {
             var data = new byte[Packet.MaxPacketSize];
             int length = token.HasValue ? await stream.ReadAsync(data, 0, Packet.MaxPacketSize, token.Value) : await stream.ReadAsync(data, 0, Packet.MaxPacketSize);
@@ -141,7 +141,7 @@ namespace Arci.Networking
             return data.Take(length).ToArray();
         }
 
-        private IEnumerable<Packet> transformStreamToPackets(byte[] data, bool decrypt)
+        private IEnumerable<Packet> TransformStreamToPackets(byte[] data, bool decrypt)
         {
             if (data == null)
                 return null;

@@ -21,7 +21,7 @@ namespace Arci.Networking.Data
         /// <param name="data">Data to form ByteBuffer from</param>
         protected ByteBuffer(byte[] data)
         {
-            inicialize();
+            InitBitData();
             readData = new BinaryReader(new MemoryStream(data));
         }
 
@@ -177,7 +177,7 @@ namespace Arci.Networking.Data
         /// </summary>
         protected void Initialize()
         {
-            inicialize();
+            InitBitData();
             Dispose();
 
             memoryStream = new MemoryStream();
@@ -187,7 +187,7 @@ namespace Arci.Networking.Data
         /// <summary>
         /// Inicializes inner data
         /// </summary>
-        private void inicialize()
+        private void InitBitData()
         {
             bitPos = 8;
             curBitVal = 0;

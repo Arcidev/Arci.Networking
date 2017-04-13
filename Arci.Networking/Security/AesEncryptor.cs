@@ -16,18 +16,15 @@ namespace Arci.Networking.Security
         /// <summary>
         /// Returns copy of the current aes key
         /// </summary>
-        public byte[] Key { get { return aes.Key.ToArray(); } }
-
+        public byte[] Key => aes.Key.ToArray();
         /// <summary>
         /// Returns copy of the current aes iVec
         /// </summary>
-        public byte[] IVec { get { return aes.IV.ToArray(); } }
-
+        public byte[] IVec => aes.IV.ToArray();
         /// <summary>
         /// Current encryptors. First bytes represent key, last 16 bytes represent iVec
         /// </summary>
-        public byte[] Encryptors { get { return aes.Key.Concat(aes.IV).ToArray(); } }
-
+        public byte[] Encryptors => aes.Key.Concat(aes.IV).ToArray();
         /// <summary>
         /// Aes padding mode to be used
         /// </summary>
