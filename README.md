@@ -8,9 +8,7 @@ C# network library. Samples included. Library is available at https://www.nuget.
 [![Build status](https://ci.appveyor.com/api/projects/status/via5fr2n5bf5qbuj?svg=true)](https://ci.appveyor.com/project/Arcidev/arci-networking) (MSVC15)
 
 ## Copyright
-<b>License:</b> Apache 2.0
-
-Read file [LICENSE](LICENSE.md)
+[![license](https://img.shields.io/github/license/Arcidev/Arci.Networking.svg?maxAge=2592000?style=plastic)](LICENSE.md)
 
 ## Changes
 See [Wiki](https://github.com/Arcidev/Arci.Networking/wiki) for a list of changes between versions
