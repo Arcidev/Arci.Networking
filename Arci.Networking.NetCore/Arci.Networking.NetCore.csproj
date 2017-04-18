@@ -14,7 +14,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\Arci.Networking\Data\ByteBuffer.cs;..\Arci.Networking\Data\ByteBufferGenericTemplate.cs;..\Arci.Networking\Data\PacketGuid.cs;..\Arci.Networking\Data\Packet.cs;..\Arci.Networking\Security\AesOptions\AesEncryptionType.cs;..\Arci.Networking\Security\AesEncryptor.cs;..\Arci.Networking\Security\RsaEncryptor.cs;..\Arci.Networking\Client.cs;..\Arci.Networking\Server.cs" />
+    <Compile Include="..\Arci.Networking\Builder\PacketBuilder.cs" Link="Builder\PacketBuilder.cs" />
+    <Compile Include="..\Arci.Networking\Builder\PacketBuilderTemplate.cs" Link="Builder\PacketBuilderTemplate.cs" />
+    <Compile Include="..\Arci.Networking\Client.cs" Link="Client.cs" />
+    <Compile Include="..\Arci.Networking\Data\ByteBuffer.cs" Link="Data\ByteBuffer.cs" />
+    <Compile Include="..\Arci.Networking\Data\ByteBufferGenericTemplate.cs" Link="Data\ByteBufferGenericTemplate.cs" />
+    <Compile Include="..\Arci.Networking\Data\Packet.cs" Link="Data\Packet.cs" />
+    <Compile Include="..\Arci.Networking\Data\PacketGuid.cs" Link="Data\PacketGuid.cs" />
+    <Compile Include="..\Arci.Networking\Security\AesEncryptor.cs" Link="Security\AesEncryptor.cs" />
+    <Compile Include="..\Arci.Networking\Security\AesOptions\AesEncryptionType.cs" Link="Security\AesOptions\AesEncryptionType.cs" />
+    <Compile Include="..\Arci.Networking\Security\RsaEncryptor.cs" Link="Security\RsaEncryptor.cs" />
+    <Compile Include="..\Arci.Networking\Server.cs" Link="Server.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Builder\" />
+    <Folder Include="Security\AesOptions\" />
   </ItemGroup>
 
 </Project>

@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BuilderTests\PacketBuilderTests.cs" />
     <Compile Include="DataTests\BaseTestClass.cs" />
     <Compile Include="DataTests\ByteBufferTests.cs" />
     <Compile Include="DataTests\GuidTests.cs" />

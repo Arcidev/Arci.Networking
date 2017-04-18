@@ -45,11 +45,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="Builder\PacketBuilderTemplate.cs">
+      <DependentUpon>PacketBuilderTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Data\ByteBufferGenericTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ByteBufferGenericTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Builder\PacketBuilder.cs" />
     <Compile Include="Data\PacketGuid.cs" />
     <Compile Include="Data\ByteBuffer.cs" />
     <Compile Include="Data\Packet.cs" />
@@ -60,6 +66,10 @@
     <Compile Include="Server.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Builder\PacketBuilderTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PacketBuilderTemplate.cs</LastGenOutput>
+    </Content>
     <Content Include="Data\ByteBufferGenericTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ByteBufferGenericTemplate.cs</LastGenOutput>

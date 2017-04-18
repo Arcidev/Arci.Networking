@@ -1,4 +1,5 @@
-﻿using Arci.Networking.Security;
+﻿using Arci.Networking.Data;
+using Arci.Networking.Security;
 using Arci.Networking.Security.AesOptions;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using System.Linq;
@@ -38,6 +39,17 @@ namespace Arci.Networking.Tests.EncryptionTests
         public void TestPKCS7Padding()
         {
             TestEncryption(PaddingMode.PKCS7);
+        }
+
+        [TestMethod]
+        public void TestPacketEncryption()
+        {
+            var packet = new Packet(0).Builder().WriteBit(true).WriteBit(2).FlushBits().Write(new byte[] { 1, 2, 3 }).Build();
+            using (var aes = new AesEncryptor() { PaddingMode = PaddingMode.PKCS7 })
+            {
+                var decrypted = aes.Decrypt(aes.Encrypt(packet.Data));
+                Assert.IsTrue(packet.Data.SequenceEqual(decrypted), "Decrypted value is not the same as before enryption");
+            }
         }
 
         [TestMethod]

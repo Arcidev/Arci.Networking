@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Arci.Networking.Builder;
+using System;
 
 namespace Arci.Networking.Data
 {
@@ -52,11 +53,20 @@ namespace Arci.Networking.Data
             Write(opcodeNumber);
             OpcodeNumber = opcodeNumber;
         }
-
+        
         /// <summary>
         /// Inicializes data in packet
         /// </summary>
         /// <param name="opcode">Value to be set as new opcode number of current packet</param>
         public void Initialize(Enum opcode) { Initialize(Convert.ToUInt16(opcode)); }
+
+        /// <summary>
+        /// Starts building this packet
+        /// </summary>
+        /// <returns>Packet builder</returns>
+        public PacketBuilder Builder()
+        {
+            return new PacketBuilder(this);
+        }
     }
 }

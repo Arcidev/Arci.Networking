@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.IO;
 using System;
 using Arci.Networking.Security.AesOptions;
+using System.Text;
 
 namespace Arci.Networking.Security
 {
@@ -72,10 +73,14 @@ namespace Arci.Networking.Security
         /// Encrypts data with current encryptor
         /// </summary>
         /// <param name="toEncrypt">Data to encrypt</param>
+        /// <param name="encoding">Encoding type of string. If null provided then ASCII will be used</param>
         /// <returns>Encrypted data</returns>
-        public byte[] Encrypt(string toEncrypt)
+        public byte[] Encrypt(string toEncrypt, Encoding encoding = null)
         {
-            return Encrypt(System.Text.Encoding.ASCII.GetBytes(toEncrypt));
+            if (encoding == null)
+                encoding = Encoding.ASCII;
+
+            return Encrypt(encoding.GetBytes(toEncrypt));
         }
 
         /// <summary>
@@ -110,9 +115,24 @@ namespace Arci.Networking.Security
         /// </summary>
         /// <param name="toDecrypt">Data to decrypt</param>
         /// <returns>Decrypted data</returns>
+        [Obsolete("Encrypted data are not suited to be in string form. Use Decrypt(byte[]) or Decrypt(byte[], Encoding) instead.")]
         public byte[] Decrypt(string toDecrypt)
         {
-            return Decrypt(System.Text.Encoding.ASCII.GetBytes(toDecrypt));
+            return Decrypt(Encoding.ASCII.GetBytes(toDecrypt));
+        }
+
+        /// <summary>
+        /// Decrypts data
+        /// </summary>
+        /// <param name="toDecode">Data to decrypt</param>
+        /// <param name="encoding">Encoding type of string. If null provided then ASCII will be used</param>
+        /// <returns>Decrypted data</returns>
+        public string Decrypt(byte[] toDecode, Encoding encoding)
+        {
+            if (encoding == null)
+                encoding = Encoding.ASCII;
+
+            return encoding.GetString(Decrypt(toDecode));
         }
 
         /// <summary>

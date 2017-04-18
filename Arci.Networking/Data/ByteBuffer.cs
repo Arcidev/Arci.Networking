@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace Arci.Networking.Data
 {
@@ -87,10 +88,14 @@ namespace Arci.Networking.Data
         /// Writes string value
         /// </summary>
         /// <param name="val">Value to be written</param>
-        public void Write(string val)
+        /// <param name="encoding">Encoding type of string. If null provided then ASCII will be used</param>
+        public void Write(string val, Encoding encoding = null)
 		{
-			writeData.Write((UInt16)val.Length);
-            writeData.Write(System.Text.Encoding.ASCII.GetBytes(val));
+            if (encoding == null)
+                encoding = Encoding.ASCII;
+
+            writeData.Write((UInt16)val.Length);
+            writeData.Write(encoding.GetBytes(val));
 		}
 
         /// <summary>
@@ -125,10 +130,14 @@ namespace Arci.Networking.Data
         /// <summary>
         /// Reads string
         /// </summary>
+        /// <param name="encoding">Encoding type of string. If null provided then ASCII will be used</param>
         /// <returns>String in ASCII format</returns>
-        public string ReadString()
+        public string ReadString(Encoding encoding = null)
         {
-            return System.Text.Encoding.ASCII.GetString(ReadBytes());
+            if (encoding == null)
+                encoding = Encoding.ASCII;
+
+            return encoding.GetString(ReadBytes());
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using Arci.Networking.Security;
+﻿using Arci.Networking.Data;
+using Arci.Networking.Security;
 using Arci.Networking.Security.AesOptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
@@ -53,6 +54,17 @@ namespace Arci.Networking.Tests.EncryptionTests
         }
 
         [TestMethod]
+        public void TestPacketEncryption()
+        {
+            var packet = new Packet(0).Builder().WriteBit(true).WriteBit(2).FlushBits().Write(new byte[] { 1, 2, 3 }).Build();
+            using (var aes = new AesEncryptor() { PaddingMode = PaddingMode.PKCS7 })
+            {
+                var decrypted = aes.Decrypt(aes.Encrypt(packet.Data));
+                Assert.IsTrue(packet.Data.SequenceEqual(decrypted), "Decrypted value is not the same as before enryption");
+            }
+        }
+
+        [TestMethod]
         public void TestNonePadding()
         {
             using (var aes = new AesEncryptor() { PaddingMode = PaddingMode.None })
@@ -63,14 +75,14 @@ namespace Arci.Networking.Tests.EncryptionTests
 
                 var value = sb.ToString();
                 var encryptedVal = aes.Encrypt(value);
-                Assert.AreNotEqual(Encoding.ASCII.GetBytes(value), encryptedVal, "Value is not encrypted");
+                Assert.IsFalse(Encoding.ASCII.GetBytes(value).SequenceEqual(encryptedVal), "Value is not encrypted");
 
                 // No trim
-                var decryptedVal = Encoding.ASCII.GetString(aes.Decrypt(encryptedVal));
+                var decryptedVal = aes.Decrypt(encryptedVal, Encoding.ASCII);
                 Assert.AreEqual(value, decryptedVal, "Value is not the same as before encryption");
 
                 // Trim added zeroes
-                decryptedVal = Encoding.ASCII.GetString(aes.Decrypt(encryptedVal)).TrimEnd('\0');
+                decryptedVal = aes.Decrypt(encryptedVal, Encoding.ASCII).TrimEnd('\0');
                 Assert.AreEqual(value.TrimEnd('\0'), decryptedVal, "Value is not the same as before encryption");
             }
         }
@@ -84,7 +96,7 @@ namespace Arci.Networking.Tests.EncryptionTests
                 Assert.AreNotEqual(Encoding.ASCII.GetBytes(value), encryptedVal, "Value is not encrypted");
 
                 // We need to trim \0 char from string as Aes ZeroesPadding is adding zeroes but not removing them
-                var decryptedVal = Encoding.ASCII.GetString(aes.Decrypt(encryptedVal)).TrimEnd('\0');
+                var decryptedVal = aes.Decrypt(encryptedVal, Encoding.ASCII).TrimEnd('\0');
                 Assert.AreEqual(value, decryptedVal, "Value is not the same as before encryption");
             }
         }
