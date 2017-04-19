@@ -62,14 +62,14 @@ namespace Arci.Networking.Tests.NetCore.EncryptionTests
 
                 var value = sb.ToString();
                 var encryptedVal = aes.Encrypt(value);
-                Assert.NotEqual(Encoding.ASCII.GetBytes(value), encryptedVal);
+                Assert.False(Encoding.ASCII.GetBytes(value).SequenceEqual(encryptedVal));
 
                 // No trim
-                var decryptedVal = Encoding.ASCII.GetString(aes.Decrypt(encryptedVal));
+                var decryptedVal = aes.Decrypt(encryptedVal, Encoding.ASCII);
                 Assert.Equal(value, decryptedVal);
 
                 // Trim added zeroes
-                decryptedVal = Encoding.ASCII.GetString(aes.Decrypt(encryptedVal)).TrimEnd('\0');
+                decryptedVal = aes.Decrypt(encryptedVal, Encoding.ASCII).TrimEnd('\0');
                 Assert.Equal(value.TrimEnd('\0'), decryptedVal);
             }
         }
@@ -80,10 +80,10 @@ namespace Arci.Networking.Tests.NetCore.EncryptionTests
             {
                 var value = "Hello from unecrypted world";
                 var encryptedVal = aes.Encrypt(value);
-                Assert.NotEqual(Encoding.ASCII.GetBytes(value), encryptedVal);
+                Assert.False(Encoding.ASCII.GetBytes(value).SequenceEqual(encryptedVal));
 
                 // We need to trim \0 char from string as Aes ZeroesPadding is adding zeroes but not removing them
-                var decryptedVal = Encoding.ASCII.GetString(aes.Decrypt(encryptedVal)).TrimEnd('\0');
+                var decryptedVal = aes.Decrypt(encryptedVal, Encoding.ASCII).TrimEnd('\0');
                 Assert.Equal(value, decryptedVal);
             }
         }

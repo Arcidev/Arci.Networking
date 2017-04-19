@@ -93,7 +93,7 @@ namespace Arci.Networking.Tests.EncryptionTests
             {
                 var value = "Hello from unecrypted world";
                 var encryptedVal = aes.Encrypt(value);
-                Assert.AreNotEqual(Encoding.ASCII.GetBytes(value), encryptedVal, "Value is not encrypted");
+                Assert.IsFalse(Encoding.ASCII.GetBytes(value).SequenceEqual(encryptedVal), "Value is not encrypted");
 
                 // We need to trim \0 char from string as Aes ZeroesPadding is adding zeroes but not removing them
                 var decryptedVal = aes.Decrypt(encryptedVal, Encoding.ASCII).TrimEnd('\0');

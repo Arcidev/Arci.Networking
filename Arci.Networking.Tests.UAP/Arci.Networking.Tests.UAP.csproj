@@ -95,6 +95,9 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Arci.Networking.Tests\BuilderTests\PacketBuilderTests.cs">
+      <Link>BuilderTests\PacketBuilderTests.cs</Link>
+    </Compile>
     <Compile Include="EncryptionTests\AesTests.cs" />
     <Compile Include="EncryptionTests\RsaTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
