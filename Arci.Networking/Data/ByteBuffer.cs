@@ -90,13 +90,13 @@ namespace Arci.Networking.Data
         /// <param name="val">Value to be written</param>
         /// <param name="encoding">Encoding type of string. If null provided then ASCII will be used</param>
         public void Write(string val, Encoding encoding = null)
-		{
+        {
             if (encoding == null)
                 encoding = Encoding.ASCII;
 
             writeData.Write((UInt16)val.Length);
             writeData.Write(encoding.GetBytes(val));
-		}
+        }
 
         /// <summary>
         /// Appends the whole storage of bytebuffer to this one
