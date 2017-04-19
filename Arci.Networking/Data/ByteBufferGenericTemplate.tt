@@ -51,6 +51,17 @@ namespace Arci.Networking.Data
             if (bitPos == 0)
                 WriteCurBitVal();
         }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        public void WriteBits(<#= type.Name #> value, byte bitsCount)
+        {
+            for (int i = bitsCount - 1; i >= 0; i--)
+                WriteBit(((<#= type.Name #>)1 << i) & value);
+        }
         <# 
         } #>
 

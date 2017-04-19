@@ -37,5 +37,35 @@ namespace Arci.Networking.Tests.DataTests
                 }
             }
         }
+
+        [TestMethod]
+        public void TestWriteBits()
+        {
+            byte val = 0x1 + 0x4 + 0x10;
+            var packet1 = new Packet(packetOpcode);
+            packet1.WriteBits(val, 5);
+            packet1.FlushBits();
+
+            var packet2 = new Packet(packet1.Data);
+            Assert.AreEqual(val, packet2.ReadBits(5));
+
+            packet1.Dispose();
+            packet1.Dispose();
+        }
+
+        [TestMethod]
+        public void TestWriteBits2()
+        {
+            var val = uint.MaxValue;
+            var packet1 = new Packet(packetOpcode);
+            packet1.WriteBits(val, 16);
+            packet1.FlushBits();
+
+            var packet2 = new Packet(packet1.Data);
+            Assert.AreEqual(ushort.MaxValue, packet2.ReadBits(16));
+
+            packet1.Dispose();
+            packet1.Dispose();
+        }
     }
 }

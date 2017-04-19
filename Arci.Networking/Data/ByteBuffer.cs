@@ -85,6 +85,22 @@ namespace Arci.Networking.Data
         }
 
         /// <summary>
+        /// Reads exact number of bits and return result as a value
+        /// </summary>
+        /// <param name="bitsCount">Bits to be read</param>
+        /// <returns>Value represented by bits that have been read</returns>
+        public UInt32 ReadBits(byte bitsCount)
+        {
+            UInt32 value = 0;
+            for (int i = bitsCount - 1; i >= 0; i--)
+            {
+                if (ReadBit())
+                    value |= (UInt32)1 << i;
+            }
+            return value;
+        }
+
+        /// <summary>
         /// Writes string value
         /// </summary>
         /// <param name="val">Value to be written</param>

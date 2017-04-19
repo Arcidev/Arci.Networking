@@ -27,6 +27,18 @@ namespace Arci.Networking.Builder
             packet.WriteBit(bit);
             return this;
         }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder WriteBits(Int16 value, byte bitsCount)
+        {
+            packet.WriteBits(value, bitsCount);
+            return this;
+        }
         
         /// <summary>
         /// Writes Int32 value to packet
@@ -47,6 +59,18 @@ namespace Arci.Networking.Builder
         public PacketBuilder WriteBit(Int32 bit)
         {
             packet.WriteBit(bit);
+            return this;
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder WriteBits(Int32 value, byte bitsCount)
+        {
+            packet.WriteBits(value, bitsCount);
             return this;
         }
         
@@ -71,6 +95,18 @@ namespace Arci.Networking.Builder
             packet.WriteBit(bit);
             return this;
         }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder WriteBits(SByte value, byte bitsCount)
+        {
+            packet.WriteBits(value, bitsCount);
+            return this;
+        }
         
         /// <summary>
         /// Writes UInt16 value to packet
@@ -91,6 +127,18 @@ namespace Arci.Networking.Builder
         public PacketBuilder WriteBit(UInt16 bit)
         {
             packet.WriteBit(bit);
+            return this;
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder WriteBits(UInt16 value, byte bitsCount)
+        {
+            packet.WriteBits(value, bitsCount);
             return this;
         }
         
@@ -115,6 +163,18 @@ namespace Arci.Networking.Builder
             packet.WriteBit(bit);
             return this;
         }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder WriteBits(UInt32 value, byte bitsCount)
+        {
+            packet.WriteBits(value, bitsCount);
+            return this;
+        }
         
         /// <summary>
         /// Writes Byte value to packet
@@ -135,6 +195,18 @@ namespace Arci.Networking.Builder
         public PacketBuilder WriteBit(Byte bit)
         {
             packet.WriteBit(bit);
+            return this;
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder WriteBits(Byte value, byte bitsCount)
+        {
+            packet.WriteBits(value, bitsCount);
             return this;
         }
         
