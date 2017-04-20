@@ -5,6 +5,7 @@ using Shared;
 using System;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ServerSample
@@ -29,16 +30,13 @@ namespace ServerSample
             var tcpClient = await server.AcceptClientAsync();
             // Creates client instance
             var client = new Client(tcpClient);
-            byte[] data = null;
             do
             {
-                // Gets received data (everything that is in network pipe)
-                data = client.ReceiveData();
-                if (data == null)
-                    continue;
-
+                var data = await client.ReceiveDataAsync();
+                var end = false;
                 do
                 {
+                    data = data.Any() ? data : await client.ReceiveDataAsync();
                     var length = BitConverter.ToUInt16(data, 0);
                     data = data.Skip(sizeof(UInt16)).ToArray();
                     var packetData = data.Take(length).ToArray();
@@ -59,6 +57,7 @@ namespace ServerSample
                             Console.WriteLine(packet.ReadString());
                             response = new Packet(ServerPacketTypes.SMSG_INIT_RESPONSE_ENCRYPTED_AES);
                             response.Write("Hello Client, We are now fully encrypted!");
+                            end = true;
                             break;
                     }
 
@@ -69,11 +68,12 @@ namespace ServerSample
                     }
 
                     data = data.Skip(length).ToArray();
-                } while (data.Any());
+                } while (!end);
 
                 break;
             } while (true);
 
+            Thread.Sleep(1000);
             aes.Dispose();
             client.Dispose();
             server.Dispose();

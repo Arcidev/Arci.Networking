@@ -48,15 +48,11 @@ namespace ClientSample
             packet.Write("Hello Server from fully encrypted packet!");
             client.SendPacket(packet);
             packet.Dispose();
-
-            Thread.Sleep(3000);
-            IEnumerable<Packet> packets = null;
-            do
+            
+            bool end = false;
+            while (!end)
             {
-                packets = client.ReceiveData(true);
-                if (packets == null)
-                    break;
-
+                var packets = await client.ReceiveDataAsync(true);
                 foreach (var pck in packets)
                 {
                     switch (pck.OpcodeNumber)
@@ -66,12 +62,13 @@ namespace ClientSample
                             break;
                         case (UInt16)ServerPacketTypes.SMSG_INIT_RESPONSE_ENCRYPTED_AES:
                             Console.WriteLine(pck.ReadString());
+                            end = true;
                             break;
                     }
 
                     pck.Dispose();
                 }
-            } while (true);
+            }
 
             // CleanUP at the end
             aes.Dispose();
