@@ -59,9 +59,26 @@ namespace Arci.Networking
         public void SendPacket(Packet packet, bool encrypt = true)
         {
             var data = encrypt && AesEncryptor != null ? AesEncryptor.Encrypt(packet.Data) : packet.Data;
-            var toSend = BitConverter.GetBytes((UInt16)data.Length).Concat(data).ToArray();
+            if (data == null || !data.Any())
+                return;
 
+            var toSend = BitConverter.GetBytes((UInt16)data.Length).Concat(data).ToArray();
             stream.Write(toSend, 0, data.Length + sizeof(UInt16));
+        }
+
+        /// <summary>
+        /// Sends packet to server asynchronously
+        /// </summary>
+        /// <param name="packet">Packet to send</param>
+        /// <param name="encrypt">Encrypts data with Aes key if set</param>
+        public async Task SendPacketAsync(Packet packet, bool encrypt = true)
+        {
+            var data = encrypt && AesEncryptor != null ? AesEncryptor.Encrypt(packet.Data) : packet.Data;
+            if (data == null || !data.Any())
+                return;
+
+            var toSend = BitConverter.GetBytes((UInt16)data.Length).Concat(data).ToArray();
+            await stream.WriteAsync(toSend, 0, data.Length + sizeof(UInt16));
         }
 
         /// <summary>
