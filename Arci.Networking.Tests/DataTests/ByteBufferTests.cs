@@ -50,7 +50,7 @@ namespace Arci.Networking.Tests.DataTests
             Assert.AreEqual(val, packet2.ReadBits(5));
 
             packet1.Dispose();
-            packet1.Dispose();
+            packet2.Dispose();
         }
 
         [TestMethod]
@@ -65,7 +65,7 @@ namespace Arci.Networking.Tests.DataTests
             Assert.AreEqual(ushort.MaxValue, packet2.ReadBits(16));
 
             packet1.Dispose();
-            packet1.Dispose();
+            packet2.Dispose();
         }
     }
 }
