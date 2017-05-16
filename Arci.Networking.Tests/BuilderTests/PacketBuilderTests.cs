@@ -35,6 +35,8 @@ namespace Arci.Networking.Tests.BuilderTests
             packet.WriteGuidByteStreamInOrder(123456, 1, 2, 3, 4, 5, 6, 7, 0);
 
             Assert.IsTrue(buildedPacket.Data.SequenceEqual(packet.Data));
+            buildedPacket.Dispose();
+            packet.Dispose();
         }
     }
 }
