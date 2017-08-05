@@ -58,7 +58,7 @@ namespace Arci.Networking
         /// <param name="encrypt">Encrypts data with Aes key if set</param>
         public void SendPacket(Packet packet, bool encrypt = true)
         {
-            var data = encrypt && AesEncryptor != null ? AesEncryptor.Encrypt(packet.Data) : packet.Data;
+            var data = encrypt && Encryptor != null ? Encryptor.Encrypt(packet.Data) : packet.Data;
             if (data == null || !data.Any())
                 return;
 
@@ -73,7 +73,7 @@ namespace Arci.Networking
         /// <param name="encrypt">Encrypts data with Aes key if set</param>
         public async Task SendPacketAsync(Packet packet, bool encrypt = true)
         {
-            var data = encrypt && AesEncryptor != null ? AesEncryptor.Encrypt(packet.Data) : packet.Data;
+            var data = encrypt && Encryptor != null ? Encryptor.Encrypt(packet.Data) : packet.Data;
             if (data == null || !data.Any())
                 return;
 
@@ -125,9 +125,9 @@ namespace Arci.Networking
         }
 
         /// <summary>
-        /// Aes encryptor
+        /// Symmetric encryptor
         /// </summary>
-        public AesEncryptor AesEncryptor { get; set; }
+        public ISymmetricEncryptor Encryptor { get; set; }
 
         /// <summary>
         /// Free all resources
@@ -169,7 +169,7 @@ namespace Arci.Networking
                 var length = BitConverter.ToUInt16(data, 0);
                 data = data.Skip(sizeof(UInt16)).ToArray();
                 var packetData = data.Take(length).ToArray();
-                Packet packet = new Packet(decrypt && AesEncryptor != null ? AesEncryptor.Decrypt(packetData) : packetData);
+                Packet packet = new Packet(decrypt && Encryptor != null ? Encryptor.Decrypt(packetData) : packetData);
                 packets.Add(packet);
                 data = data.Skip(length).ToArray();
             }

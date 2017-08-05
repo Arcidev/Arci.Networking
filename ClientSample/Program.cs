@@ -33,7 +33,7 @@ namespace ClientSample
             // Rsa (sets server public key)
             RsaEncryptor rsa = new RsaEncryptor(RSAKey.Modulus, RSAKey.PublicExponent) { UseOAEPPadding = true };
             // Sets AES key for our client, key will be used for SendPacket function and ReceiveData function
-            client.AesEncryptor = aes;
+            client.Encryptor = aes;
 
             // Creating new packet instance
             Packet packet = new Packet(ClientPacketTypes.CMSG_INIT_ENCRYPTED_RSA);

@@ -135,6 +135,9 @@
     <Compile Include="..\Arci.Networking\Security\AesOptions\AesEncryptionType.cs">
       <Link>Security\AesOptions\AesEncryptionType.cs</Link>
     </Compile>
+    <Compile Include="..\Arci.Networking\Security\ISymmetricEncryptor.cs">
+      <Link>Security\ISymmetricEncryptor.cs</Link>
+    </Compile>
     <Compile Include="..\Arci.Networking\Security\RsaEncryptor.cs">
       <Link>Security\RsaEncryptor.cs</Link>
     </Compile>

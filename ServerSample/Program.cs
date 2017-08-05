@@ -49,7 +49,7 @@ namespace ServerSample
                         case ClientPacketTypes.CMSG_INIT_ENCRYPTED_RSA:
                             var keys = rsa.Decrypt(packet.ReadBytes());
                             aes = new AesEncryptor(keys.Take(32).ToArray(), keys.Skip(32).ToArray()) { PaddingMode = PaddingMode.PKCS7 };
-                            client.AesEncryptor = aes;
+                            client.Encryptor = aes;
                             response = new Packet(ServerPacketTypes.SMSG_INIT_RESPONSE_ENCRYPTED_RSA);
                             response.Write("Hello Client!");
                             break;

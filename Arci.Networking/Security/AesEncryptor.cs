@@ -10,7 +10,7 @@ namespace Arci.Networking.Security
     /// <summary>
     /// Aes encryptor
     /// </summary>
-    public class AesEncryptor : IDisposable
+    public class AesEncryptor : ISymmetricEncryptor, IDisposable
     {
         private Aes aes;
 
@@ -18,14 +18,17 @@ namespace Arci.Networking.Security
         /// Returns copy of the current aes key
         /// </summary>
         public byte[] Key => aes.Key.ToArray();
+
         /// <summary>
         /// Returns copy of the current aes iVec
         /// </summary>
         public byte[] IVec => aes.IV.ToArray();
+
         /// <summary>
         /// Current encryptors. First bytes represent key, last 16 bytes represent iVec
         /// </summary>
         public byte[] Encryptors => aes.Key.Concat(aes.IV).ToArray();
+
         /// <summary>
         /// Aes padding mode to be used
         /// </summary>
