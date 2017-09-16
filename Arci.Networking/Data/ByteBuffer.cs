@@ -69,6 +69,14 @@ namespace Arci.Networking.Data
         }
 
         /// <summary>
+        /// Clears unflushed bits
+        /// </summary>
+        public void ClearUnflushedBits()
+        {
+            InitBitData();
+        }
+
+        /// <summary>
         /// Reads 1 bit
         /// </summary>
         /// <returns>1 bit from stream</returns>
