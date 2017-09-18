@@ -25,7 +25,7 @@ buffer.Write(stringValue);
 buffer.Write(byteArrayValue);
 ```
 #### Writing bit based values
-Network stream can only work with byte values therefore we need to inform buffer that he needs to write values into stream as a whole byte when we're finished with bit writes (this is only necessary when bits does not form byte already e.g. number_of_bits_written % 8 != 0
+Network stream can only work with byte values therefore we need to inform buffer that he needs to write values into stream as a whole byte when we're finished with bit writes (this is only necessary when bits does not form byte already e.g. number_of_bits_written % 8 != 0)
 ```csharp
 var buffer = new ByteBuffer()
 buffer.WriteBit(byteValue & 0x1);
