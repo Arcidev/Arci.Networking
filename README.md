@@ -25,23 +25,40 @@ buffer.Write(stringValue);
 buffer.Write(byteArrayValue);
 ```
 #### Writing bit based values
+Network stream can only work with byte values therefore we need to inform buffer that he needs to write values into stream as a whole byte when we're finished with bit writes (this is only necessary when bits does not form byte already e.g. number_of_bits_written % 8 != 0
 ```csharp
 var buffer = new ByteBuffer()
 buffer.WriteBit(byteValue & 0x1);
 buffer.WriteBit(byteValue & 0x10);
 buffer.WriteBit(byteValue & 0x80);
 buffer.WriteBit(true);
-buffer.FlushBits(); // Writes bits into stream if they do not already form byte (8 bit writes)
+// Write bits into stream if they do not already form byte
+buffer.FlushBits();
+```
+#### Writing values with specified number of bits
+```csharp
+var buffer = new ByteBuffer();
+// Same as buffer.Write((UInt16)value)
+// Flush not required because 16 % 8 == 0
+buffer.WriteBits(uint32value, 16);
+
+buffer.WriteBits(uint32Value, 2);
+buffer.WriteBits(uint32Value, 4);
+// Flush required because we did 2 + 4 bit writes and 6 % 8 != 0
+buffer.FlushBits();
 ```
 #### PacketGuid
 UInt64 value represented as 8 byte values. Only bytes that are not 0 will be written to stream. In byte stream before writing guid first you should write bit values to be able to determine which bytes are not 0.
 ```csharp
 var guid = new PacketGuid(uint64value);
-buffer.WriteGuidBitStreamInOrder(guid, 0, 1, 2, 3, 4); // Order is up to you
-buffer.WriteBit(false); // Value can be add in between
+// Order is up to you
+buffer.WriteGuidBitStreamInOrder(guid, 0, 1, 2, 3, 4);
+// Value can be added in between
+buffer.WriteBit(false);
 buffer.WriteGuidBitStreamInOrder(guid, 7, 6, 5);
-buffer.FlushBits(); // Required because we wrote 9 bits instead of 8
-buffer.WriteGuidByteStreamInOrder(guid, 0, 1, 2, 3, 4, 5, 6, 7); // Order is up to you
+// Flush required because we wrote 9 bits instead of 8
+buffer.FlushBits();
+buffer.WriteGuidByteStreamInOrder(guid, 0, 1, 2, 3, 4, 5, 6, 7);
 ```
 #### Encapsulating with Packet
 Extends ByteBuffer by adding an identifier to a stream
@@ -67,7 +84,7 @@ var packet = new Packet(identifier).Builder()
 ```
 #### Reading data
 ```csharp
-var packet = new Packet(byteStream); // or new ByteBuffer(byteStream) if you do not want to use Packet
+var packet = new Packet(byteStream);
 var uint32value = packet.ReadUInt32();
 var guid = new PacketGuid();
 packet.ReadGuidBitStreamInOrder(guid, 0, 1, 2, 3, 4, 7, 6, 5);
@@ -78,26 +95,32 @@ var boolean = packet.ReadBit();
 #### Using Client
 ```csharp
 var client = await Client.CreateAsync("localhost", 10751);
-client.SendPacket(packet); // Send data to server
-var packets = await tcpClient.ReceiveDataAsync(false); // Await collection of packets from server
+// Send data to server
+client.SendPacket(packet);
+// Await collection of packets from server
+var packets = await tcpClient.ReceiveDataAsync(false);
 ```
 #### Using Server
 ```csharp
 var server = new Server(10751);
-var tcpClient = await server.AcceptClientAsync(); // Await new connection
-var packets = tcpClient.ReceiveData(false); // Await collection of packets from this client
-tcpClient.SendPacket(packet); // Send data back to client
+// Await new connection
+var tcpClient = await server.AcceptClientAsync();
+// Await collection of packets from this client
+var packets = tcpClient.ReceiveData(false);
+// Send data back to client
+tcpClient.SendPacket(packet); 
 ```
 #### Aes
 ```csharp
 var aes = new AesEncryptor() { PaddingMode = PaddingMode.PKCS7 };
 var encryptedData = aes.Encrypt(packet.Data);
 var decryptedData = aes.Decrypt(encryptedData);
-client.Encryptor = aes; // you can pass aes encryptor to client and it will handle encryption by itself
+// client can handle encryption if you set an encryptor
+client.Encryptor = aes;
 ```
 #### RSA
 ```csharp
-var rsa = new RsaEncryptor(RSAKey.RsaParams) { UseOAEPPadding = useOaepPadding };
+var rsa = new RsaEncryptor(RSAKey.RsaParams);
 var rsaEncryptedValue = rsa.Encrypt(packet.Data);
 var rsaDecryptedValue = rsa.Decrypt(rsaEncryptedValue);
 ```
