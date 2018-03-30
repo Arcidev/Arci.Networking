@@ -18,6 +18,11 @@ namespace Arci.Networking
         private NetworkStream stream;
 
         /// <summary>
+        /// Symmetric encryptor
+        /// </summary>
+        public ISymmetricEncryptor Encryptor { get; set; }
+
+        /// <summary>
         /// Creates new instance
         /// </summary>
         /// <param name="client">TcpClient to be used</param>
@@ -108,10 +113,7 @@ namespace Arci.Networking
         /// <returns>Byte stream of received data. If there are no data to receive null is returned</returns>
         public byte[] ReceiveData()
         {
-            if (stream.DataAvailable)
-                return ReadData();
-
-            return null;
+            return stream.DataAvailable ? ReadData() : null;
         }
 
         /// <summary>
@@ -123,11 +125,6 @@ namespace Arci.Networking
         {
             return await ReadDataAsync(token);
         }
-
-        /// <summary>
-        /// Symmetric encryptor
-        /// </summary>
-        public ISymmetricEncryptor Encryptor { get; set; }
 
         /// <summary>
         /// Free all resources
@@ -163,13 +160,13 @@ namespace Arci.Networking
             if (data == null)
                 return null;
 
-            List<Packet> packets = new List<Packet>();
+            var packets = new List<Packet>();
             while (data.Any())
             {
                 var length = BitConverter.ToUInt16(data, 0);
                 data = data.Skip(sizeof(UInt16)).ToArray();
                 var packetData = data.Take(length).ToArray();
-                Packet packet = new Packet(decrypt && Encryptor != null ? Encryptor.Decrypt(packetData) : packetData);
+                var packet = new Packet(decrypt && Encryptor != null ? Encryptor.Decrypt(packetData) : packetData);
                 packets.Add(packet);
                 data = data.Skip(length).ToArray();
             }

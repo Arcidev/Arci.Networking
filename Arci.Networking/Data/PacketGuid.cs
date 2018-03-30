@@ -12,10 +12,7 @@ namespace Arci.Networking.Data
         /// <summary>
         /// Creates new Guid instance
         /// </summary>
-        public PacketGuid()
-        {
-            byteVal = new byte[8];
-        }
+        public PacketGuid() => byteVal = new byte[8];
 
         /// <summary>
         /// Creates new Guid instance from UInt64 value
@@ -42,8 +39,8 @@ namespace Arci.Networking.Data
         /// <returns>Value at index</returns>
         public byte this[int index]
         {
-            get { return byteVal[index]; }
-            set { byteVal[index] = value; }
+            get => byteVal[index];
+            set => byteVal[index] = value;
         }
 
         /// <summary>
@@ -63,10 +60,7 @@ namespace Arci.Networking.Data
         /// <returns>true if values represents same UIn64 value, otherwise false</returns>
         public static bool operator ==(PacketGuid guid1, PacketGuid guid2)
         {
-            if (object.ReferenceEquals(guid1, null))
-                return object.ReferenceEquals(guid2, null);
-
-            return guid1.Equals(guid2);
+            return Equals(guid1, guid2);
         }
 
         /// <summary>
@@ -77,10 +71,7 @@ namespace Arci.Networking.Data
         /// <returns>false if values represents same UIn64 value, otherwise true</returns>
         public static bool operator !=(PacketGuid guid1, PacketGuid guid2)
         {
-            if (object.ReferenceEquals(guid1, null))
-                return !object.ReferenceEquals(guid2, null);
-
-            return !guid1.Equals(guid2);
+            return !Equals(guid1, guid2);
         }
 
         /// <summary>

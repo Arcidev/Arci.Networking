@@ -18,7 +18,7 @@ namespace Arci.Networking
         /// <param name="port">Port where it should be atached</param>
         public Server(int port)
         {
-            IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+            var localAddr = IPAddress.Parse("127.0.0.1");
             server = new TcpListener(localAddr, port);
             server.Start();
         }
@@ -29,10 +29,7 @@ namespace Arci.Networking
         /// <returns>New Tcp client if pending. Otherwise null</returns>
         public async Task<TcpClient> AcceptClient()
         {
-            if (server.Pending())
-                return await server.AcceptTcpClientAsync();
-
-            return null;
+            return server.Pending() ? await server.AcceptTcpClientAsync() : null;
         }
 
         /// <summary>

@@ -17,6 +17,11 @@ namespace Arci.Networking.Data
         private byte curBitVal;
 
         /// <summary>
+        /// Data in packet
+        /// </summary>
+        public byte[] Data => memoryStream.ToArray();
+
+        /// <summary>
         /// Creates new instance of readable ByteBuffer
         /// </summary>
         /// <param name="data">Data to form ByteBuffer from</param>
@@ -115,11 +120,8 @@ namespace Arci.Networking.Data
         /// <param name="encoding">Encoding type of string. If null provided then ASCII will be used</param>
         public void Write(string val, Encoding encoding = null)
         {
-            if (encoding == null)
-                encoding = Encoding.ASCII;
-
             writeData.Write((UInt16)val.Length);
-            writeData.Write(encoding.GetBytes(val));
+            writeData.Write((encoding ?? Encoding.ASCII).GetBytes(val));
         }
 
         /// <summary>
@@ -158,10 +160,7 @@ namespace Arci.Networking.Data
         /// <returns>String in ASCII format</returns>
         public string ReadString(Encoding encoding = null)
         {
-            if (encoding == null)
-                encoding = Encoding.ASCII;
-
-            return encoding.GetString(ReadBytes());
+            return (encoding ?? Encoding.ASCII).GetString(ReadBytes());
         }
 
         /// <summary>
@@ -186,11 +185,6 @@ namespace Arci.Networking.Data
             foreach (var index in indexes)
                 guid[index] = (byte) (ReadBit() ? 1 : 0);
         }
-
-        /// <summary>
-        /// Data in packet
-        /// </summary>
-        public byte[] Data { get { return memoryStream.ToArray(); } }
 
         /// <summary>
         /// Disposes object

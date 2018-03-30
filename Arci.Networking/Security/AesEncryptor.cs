@@ -34,8 +34,8 @@ namespace Arci.Networking.Security
         /// </summary>
         public PaddingMode PaddingMode
         {
-            get { return aes.Padding; }
-            set{ aes.Padding = value; }
+            get => aes.Padding;
+            set => aes.Padding = value;
         }
 
         /// <summary>
@@ -80,10 +80,7 @@ namespace Arci.Networking.Security
         /// <returns>Encrypted data</returns>
         public byte[] Encrypt(string toEncrypt, Encoding encoding = null)
         {
-            if (encoding == null)
-                encoding = Encoding.ASCII;
-
-            return Encrypt(encoding.GetBytes(toEncrypt));
+            return Encrypt((encoding ?? Encoding.ASCII).GetBytes(toEncrypt));
         }
 
         /// <summary>
@@ -93,35 +90,19 @@ namespace Arci.Networking.Security
         /// <returns>Encrypted data</returns>
         public byte[] Encrypt(byte[] toEncrypt)
         {
-            ICryptoTransform encryptor = aes.CreateEncryptor();
-            byte[] encodedText = null;
-
-            using (MemoryStream msEncrypt = new MemoryStream())
+            using (var msEncrypt = new MemoryStream())
             {
-                using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                using (var csEncrypt = new CryptoStream(msEncrypt, aes.CreateEncryptor(), CryptoStreamMode.Write))
                 {
-                    using (BinaryWriter swEncrypt = new BinaryWriter(csEncrypt))
+                    using (var swEncrypt = new BinaryWriter(csEncrypt))
                     {
                         // Write all data to the stream.
                         swEncrypt.Write(toEncrypt);
                     }
 
-                    encodedText = msEncrypt.ToArray();
+                    return msEncrypt.ToArray();
                 }
             }
-
-            return encodedText;
-        }
-
-        /// <summary>
-        /// Decrypts data
-        /// </summary>
-        /// <param name="toDecrypt">Data to decrypt</param>
-        /// <returns>Decrypted data</returns>
-        [Obsolete("Encrypted data are not suited to be in string form. Use Decrypt(byte[]) or Decrypt(byte[], Encoding) instead.")]
-        public byte[] Decrypt(string toDecrypt)
-        {
-            return Decrypt(Encoding.ASCII.GetBytes(toDecrypt));
         }
 
         /// <summary>
@@ -132,10 +113,7 @@ namespace Arci.Networking.Security
         /// <returns>Decrypted data</returns>
         public string Decrypt(byte[] toDecode, Encoding encoding)
         {
-            if (encoding == null)
-                encoding = Encoding.ASCII;
-
-            return encoding.GetString(Decrypt(toDecode));
+            return (encoding ?? Encoding.ASCII).GetString(Decrypt(toDecode));
         }
 
         /// <summary>
@@ -145,22 +123,17 @@ namespace Arci.Networking.Security
         /// <returns>Decrypted data</returns>
         public byte[] Decrypt(byte[] toDecode)
         {
-            ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-            byte[] decodedText = null;
-
             using (MemoryStream msDecrypt = new MemoryStream(toDecode.ToArray()))
             {
-                using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, aes.CreateDecryptor(aes.Key, aes.IV), CryptoStreamMode.Read))
                 {
                     using (BinaryReader srDecrypt = new BinaryReader(csDecrypt))
                     {
                         // Read the decrypted bytes from the decrypting stream
-                        decodedText = srDecrypt.ReadBytes(toDecode.Length);
+                        return srDecrypt.ReadBytes(toDecode.Length);
                     }
                 }
             }
-
-            return decodedText;
         }
 
         /// <summary>
