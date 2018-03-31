@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Arci.Networking.Tests.UAP")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyMetadata("TargetPlatform","UAP")]
@@ -25,6 +25,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.4.5.0")]
-[assembly: AssemblyFileVersion("1.4.5.0")]
+[assembly: AssemblyVersion("1.5.0.0")]
+[assembly: AssemblyFileVersion("1.5.0.0")]
 [assembly: ComVisible(false)]
