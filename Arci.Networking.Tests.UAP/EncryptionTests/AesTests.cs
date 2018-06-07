@@ -1,12 +1,12 @@
 ﻿using Arci.Networking.Data;
 using Arci.Networking.Security;
 using Arci.Networking.Security.AesOptions;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Arci.Networking.Tests.EncryptionTests
+namespace Arci.Networking.Tests.UAP.EncryptionTests
 {
     [TestClass]
     public class AesTests

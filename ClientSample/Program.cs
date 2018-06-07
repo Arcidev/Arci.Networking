@@ -4,9 +4,7 @@ using Arci.Networking.Security;
 using Arci.Networking.Security.AesOptions;
 using Shared;
 using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace ClientSample

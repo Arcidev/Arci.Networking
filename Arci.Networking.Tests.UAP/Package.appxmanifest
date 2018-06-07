@@ -5,18 +5,18 @@
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   IgnorableNamespaces="uap mp">
 
-  <Identity Name="39469f35-5924-46a4-9268-b6b12bd54c62"
+  <Identity Name="1899f8dc-e4f5-45b6-9cbe-b9923616707d"
             Publisher="CN=Andrej"
             Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="39469f35-5924-46a4-9268-b6b12bd54c62" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="1899f8dc-e4f5-45b6-9cbe-b9923616707d" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Arci.Networking.Tests.UAP</DisplayName>
     <PublisherDisplayName>Andrej</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
-  
+
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
   </Dependencies>
@@ -25,7 +25,7 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="vstest.executionengine.universal.App" 
+    <Application Id="vstest.executionengine.universal.App"
         Executable="$targetnametoken$.exe"
         EntryPoint="Arci.Networking.Tests.UAP.App">
       <uap:VisualElements
@@ -40,6 +40,7 @@
     </Application>
   </Applications>
   <Capabilities>
-    <Capability Name="internetClient" />
-  </Capabilities> 
+    <Capability Name="internetClientServer" />
+    <Capability Name="privateNetworkClientServer" />
+  </Capabilities>
 </Package>

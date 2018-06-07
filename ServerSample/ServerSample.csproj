@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Arci.Networking\Arci.Networking.csproj">
-      <Project>{ed123dc2-0a2c-4b87-b723-23aad065d518}</Project>
+      <Project>{1f9c6f0f-358b-4487-83d8-40677d6fc3ab}</Project>
       <Name>Arci.Networking</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">

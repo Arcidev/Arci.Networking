@@ -1,10 +1,10 @@
 ﻿using Arci.Networking.Security;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shared;
 using System.Linq;
 using System.Text;
 
-namespace Arci.Networking.Tests.EncryptionTests
+namespace Arci.Networking.Tests.UAP.EncryptionTests
 {
     [TestClass]
     public class RsaTests
