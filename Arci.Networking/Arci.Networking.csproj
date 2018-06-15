@@ -23,6 +23,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ByteBufferGenericTemplate.cs</LastGenOutput>
     </None>
+    <None Update="Object\PacketObjectTemplate.tt">
+      <LastGenOutput>PacketObjectTemplate.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +43,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ByteBufferGenericTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Object\PacketObjectTemplate.cs">
+      <DependentUpon>PacketObjectTemplate.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
   </ItemGroup>
 

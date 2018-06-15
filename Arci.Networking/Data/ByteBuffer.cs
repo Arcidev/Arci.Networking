@@ -28,7 +28,8 @@ namespace Arci.Networking.Data
         protected ByteBuffer(byte[] data)
         {
             InitBitData();
-            readData = new BinaryReader(new MemoryStream(data));
+            memoryStream = new MemoryStream(data);
+            readData = new BinaryReader(memoryStream);
         }
 
         /// <summary>

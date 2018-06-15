@@ -98,6 +98,9 @@
     <Compile Include="BuilderTests\PacketBuilderTests.cs" />
     <Compile Include="EncryptionTests\AesTests.cs" />
     <Compile Include="EncryptionTests\RsaTests.cs" />
+    <Compile Include="ObjectTests\Objects\TestObject1.cs" />
+    <Compile Include="ObjectTests\Objects\TestObject2.cs" />
+    <Compile Include="ObjectTests\PacketObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RSAKey.cs" />
     <Compile Include="UnitTestApp.xaml.cs">

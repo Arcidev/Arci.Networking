@@ -2,8 +2,8 @@
 <#@ output extension=".cs" #>
 <#@ assembly name="System.Core" #>
 <# Type[] types = new[] {
-    typeof(Int16), typeof(Int32), typeof(SByte),
-    typeof(UInt16), typeof(UInt32), typeof(Byte)
+    typeof(SByte), typeof(Int16), typeof(Int32), typeof(Int64),
+    typeof(Byte), typeof(UInt16), typeof(UInt32), typeof(UInt64)
     };
 #>
 <# Type[] sizeTypes = new[] {

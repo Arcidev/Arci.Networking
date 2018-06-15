@@ -7,6 +7,49 @@ namespace Arci.Networking.Data
     {
         
         /// <summary>
+        /// Reads SByte value from stream
+        /// </summary>
+        /// <returns>SByte value from stream</returns>
+        public SByte ReadSByte()
+        {
+            return readData.ReadSByte();
+        }
+
+        /// <summary>
+        /// Writes SByte value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        public void Write(SByte val)
+        {
+            writeData.Write(val);
+        }
+
+        /// <summary>
+        /// Writes 1 if SByte value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
+        public void WriteBit(SByte bit)
+        {
+            --bitPos;
+            if (bit != 0)
+                curBitVal |= (byte)(1 << bitPos);
+
+            if (bitPos == 0)
+                WriteCurBitVal();
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        public void WriteBits(SByte value, byte bitsCount)
+        {
+            for (int i = bitsCount - 1; i >= 0; i--)
+                WriteBit(((SByte)1 << i) & value);
+        }
+        
+        /// <summary>
         /// Reads Int16 value from stream
         /// </summary>
         /// <returns>Int16 value from stream</returns>
@@ -93,28 +136,28 @@ namespace Arci.Networking.Data
         }
         
         /// <summary>
-        /// Reads SByte value from stream
+        /// Reads Int64 value from stream
         /// </summary>
-        /// <returns>SByte value from stream</returns>
-        public SByte ReadSByte()
+        /// <returns>Int64 value from stream</returns>
+        public Int64 ReadInt64()
         {
-            return readData.ReadSByte();
+            return readData.ReadInt64();
         }
 
         /// <summary>
-        /// Writes SByte value to stream
+        /// Writes Int64 value to stream
         /// </summary>
         /// <param name="val">Value to be written</param>
-        public void Write(SByte val)
+        public void Write(Int64 val)
         {
             writeData.Write(val);
         }
 
         /// <summary>
-        /// Writes 1 if SByte value is different from 0, otherwise writes 0
+        /// Writes 1 if Int64 value is different from 0, otherwise writes 0
         /// </summary>
         /// <param name="bit">Value to be written</param>
-        public void WriteBit(SByte bit)
+        public void WriteBit(Int64 bit)
         {
             --bitPos;
             if (bit != 0)
@@ -129,10 +172,53 @@ namespace Arci.Networking.Data
         /// </summary>
         /// <param name="value">Value to be written</param>
         /// <param name="bitsCount">Number of bits that value should written with</param>
-        public void WriteBits(SByte value, byte bitsCount)
+        public void WriteBits(Int64 value, byte bitsCount)
         {
             for (int i = bitsCount - 1; i >= 0; i--)
-                WriteBit(((SByte)1 << i) & value);
+                WriteBit(((Int64)1 << i) & value);
+        }
+        
+        /// <summary>
+        /// Reads Byte value from stream
+        /// </summary>
+        /// <returns>Byte value from stream</returns>
+        public Byte ReadByte()
+        {
+            return readData.ReadByte();
+        }
+
+        /// <summary>
+        /// Writes Byte value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        public void Write(Byte val)
+        {
+            writeData.Write(val);
+        }
+
+        /// <summary>
+        /// Writes 1 if Byte value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
+        public void WriteBit(Byte bit)
+        {
+            --bitPos;
+            if (bit != 0)
+                curBitVal |= (byte)(1 << bitPos);
+
+            if (bitPos == 0)
+                WriteCurBitVal();
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        public void WriteBits(Byte value, byte bitsCount)
+        {
+            for (int i = bitsCount - 1; i >= 0; i--)
+                WriteBit(((Byte)1 << i) & value);
         }
         
         /// <summary>
@@ -222,28 +308,28 @@ namespace Arci.Networking.Data
         }
         
         /// <summary>
-        /// Reads Byte value from stream
+        /// Reads UInt64 value from stream
         /// </summary>
-        /// <returns>Byte value from stream</returns>
-        public Byte ReadByte()
+        /// <returns>UInt64 value from stream</returns>
+        public UInt64 ReadUInt64()
         {
-            return readData.ReadByte();
+            return readData.ReadUInt64();
         }
 
         /// <summary>
-        /// Writes Byte value to stream
+        /// Writes UInt64 value to stream
         /// </summary>
         /// <param name="val">Value to be written</param>
-        public void Write(Byte val)
+        public void Write(UInt64 val)
         {
             writeData.Write(val);
         }
 
         /// <summary>
-        /// Writes 1 if Byte value is different from 0, otherwise writes 0
+        /// Writes 1 if UInt64 value is different from 0, otherwise writes 0
         /// </summary>
         /// <param name="bit">Value to be written</param>
-        public void WriteBit(Byte bit)
+        public void WriteBit(UInt64 bit)
         {
             --bitPos;
             if (bit != 0)
@@ -258,10 +344,10 @@ namespace Arci.Networking.Data
         /// </summary>
         /// <param name="value">Value to be written</param>
         /// <param name="bitsCount">Number of bits that value should written with</param>
-        public void WriteBits(Byte value, byte bitsCount)
+        public void WriteBits(UInt64 value, byte bitsCount)
         {
             for (int i = bitsCount - 1; i >= 0; i--)
-                WriteBit(((Byte)1 << i) & value);
+                WriteBit(((UInt64)1 << i) & value);
         }
         
         /// <summary>

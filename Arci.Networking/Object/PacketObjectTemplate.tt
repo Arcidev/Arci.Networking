@@ -1,0 +1,62 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core" #>
+<# Type[] types = new[] {
+    typeof(Int16), typeof(Int32), typeof(SByte), typeof(Int64),
+    typeof(UInt16), typeof(UInt32), typeof(Byte), typeof(UInt64),
+    typeof(String)
+    };
+#>
+<# Type[] sizeTypes = new[] {
+    typeof(byte[])
+    };
+#>
+
+using Arci.Networking.Data;
+using System;
+
+namespace Arci.Networking.Object
+{
+    public abstract partial class PacketObject
+    {
+        private static object ReadPacketProperty(Packet packet, Type type)
+        {
+            switch(type)
+            {
+                <# foreach (var type in types)
+                { #>
+
+                case Type propertyType when propertyType == typeof(<#= type.Name #>):
+                    return packet.Read<#= type.Name #>();
+                <# 
+                } #>
+
+                case Type propertyType when propertyType == typeof(PacketGuid):
+                    return new PacketGuid(packet.ReadUInt64());
+                default:
+                    return null;
+            }
+        }
+
+        private static void WritePacketProperty(Packet packet, object value, Type type)
+        {
+            switch(type)
+            {
+                <# foreach (var type in types)
+                { #>
+
+                case Type propertyType when propertyType == typeof(<#= type.Name #>):
+                    packet.Write(Convert.To<#= type.Name #>(value));
+                    break;
+                <# 
+                } #>
+
+                case Type propertyType when propertyType == typeof(PacketGuid):
+                    packet.Write((PacketGuid)value);
+                    break;
+                default:
+                    return;
+            }
+        }
+    }
+}
