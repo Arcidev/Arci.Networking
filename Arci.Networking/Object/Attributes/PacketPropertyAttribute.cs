@@ -14,7 +14,8 @@ namespace Arci.Networking.Object.Attributes
         public UInt32 Order { get; }
 
         /// <summary>
-        /// Desired type for the property to be parsed as (used for different than property type)
+        /// Desired type for the property to be parsed as (used for different than property type).
+        /// Type provided must be convertible with PropertyType
         /// </summary>
         public Type Type { get; }
 

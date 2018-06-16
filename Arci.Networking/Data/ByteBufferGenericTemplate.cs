@@ -350,6 +350,64 @@ namespace Arci.Networking.Data
                 WriteBit(((UInt64)1 << i) & value);
         }
         
+        
+        /// <summary>
+        /// Reads Single value from stream
+        /// </summary>
+        /// <returns>Single value from stream</returns>
+        public Single ReadSingle()
+        {
+            return readData.ReadSingle();
+        }
+
+        /// <summary>
+        /// Writes Single value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        public void Write(Single val)
+        {
+            writeData.Write(val);
+        }
+
+        
+        /// <summary>
+        /// Reads Double value from stream
+        /// </summary>
+        /// <returns>Double value from stream</returns>
+        public Double ReadDouble()
+        {
+            return readData.ReadDouble();
+        }
+
+        /// <summary>
+        /// Writes Double value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        public void Write(Double val)
+        {
+            writeData.Write(val);
+        }
+
+        
+        /// <summary>
+        /// Reads Decimal value from stream
+        /// </summary>
+        /// <returns>Decimal value from stream</returns>
+        public Decimal ReadDecimal()
+        {
+            return readData.ReadDecimal();
+        }
+
+        /// <summary>
+        /// Writes Decimal value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        public void Write(Decimal val)
+        {
+            writeData.Write(val);
+        }
+
+        
         /// <summary>
         /// Writes bit value to stream
         /// </summary>

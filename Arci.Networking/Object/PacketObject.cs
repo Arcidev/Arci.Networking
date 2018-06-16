@@ -54,8 +54,7 @@ namespace Arci.Networking.Object
         /// <returns>Packet object</returns>
         public static object FromPacket(Packet packet)
         {
-            var type = Types[packet.OpcodeNumber];
-            if (type == null)
+            if (!Types.TryGetValue(packet.OpcodeNumber, out var type))
                 return null;
 
             var instance = Activator.CreateInstance(type);

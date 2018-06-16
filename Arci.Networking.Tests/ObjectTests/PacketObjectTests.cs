@@ -32,7 +32,7 @@ namespace Arci.Networking.Tests.ObjectTests
             Assert.AreEqual(obj.UInt64, readPacket.ReadUInt64());
             Assert.AreEqual(obj.UInt16As32, readPacket.ReadUInt32());
             Assert.AreEqual(obj.String, readPacket.ReadString());
-            Assert.AreEqual(obj.Guid, readPacket.ReadUInt64());
+            Assert.AreEqual(obj.Guid, readPacket.ReadPacketGuid());
             readPacket.Dispose();
 
             readPacket = new Packet(packet.Data);
@@ -68,7 +68,7 @@ namespace Arci.Networking.Tests.ObjectTests
             Assert.AreEqual(2, packet.OpcodeNumber);
 
             var readPacket = new Packet(packet.Data);
-            Assert.AreEqual(obj.Guid, readPacket.ReadUInt64());
+            Assert.AreEqual(obj.Guid, readPacket.ReadPacketGuid());
             Assert.AreEqual(obj.String, readPacket.ReadString());
             Assert.AreEqual(obj.UInt16As32, readPacket.ReadUInt32());
             Assert.AreEqual(obj.UInt64, readPacket.ReadUInt64());
@@ -90,6 +90,16 @@ namespace Arci.Networking.Tests.ObjectTests
 
             readPacket.Dispose();
             packet.Dispose();
+        }
+
+        [TestMethod]
+        public void TestUnserializableObject()
+        {
+            var packet = PacketObject.ToPacket(new object());
+            Assert.IsNull(packet);
+
+            var obj = PacketObject.FromPacket(new Packet(0));
+            Assert.IsNull(obj);
         }
     }
 }

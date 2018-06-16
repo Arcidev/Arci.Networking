@@ -4,7 +4,7 @@
 <# Type[] types = new[] {
     typeof(Int16), typeof(Int32), typeof(SByte), typeof(Int64),
     typeof(UInt16), typeof(UInt32), typeof(Byte), typeof(UInt64),
-    typeof(String)
+    typeof(String), typeof(Single), typeof(Double), typeof(Decimal)
     };
 #>
 <# Type[] sizeTypes = new[] {
@@ -31,8 +31,10 @@ namespace Arci.Networking.Object
                 <# 
                 } #>
 
+                case Type propertyType when propertyType == typeof(Guid):
+                    return packet.ReadGuid();
                 case Type propertyType when propertyType == typeof(PacketGuid):
-                    return new PacketGuid(packet.ReadUInt64());
+                    return packet.ReadPacketGuid();
                 default:
                     return null;
             }
@@ -51,6 +53,9 @@ namespace Arci.Networking.Object
                 <# 
                 } #>
 
+                case Type propertyType when propertyType == typeof(Guid):
+                    packet.Write((Guid)value);
+                    break;
                 case Type propertyType when propertyType == typeof(PacketGuid):
                     packet.Write((PacketGuid)value);
                     break;

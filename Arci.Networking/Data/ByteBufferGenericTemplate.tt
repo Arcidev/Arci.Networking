@@ -10,6 +10,10 @@
     typeof(byte[])
     };
 #>
+<# Type[] byteOnlyTypes = new[] {
+    typeof(Single), typeof(Double), typeof(Decimal)
+    };
+#>
 
 using System;
 
@@ -62,6 +66,30 @@ namespace Arci.Networking.Data
             for (int i = bitsCount - 1; i >= 0; i--)
                 WriteBit(((<#= type.Name #>)1 << i) & value);
         }
+        <# 
+        } #>
+
+        <# foreach (var type in byteOnlyTypes)
+        { #>
+
+        /// <summary>
+        /// Reads <#= type.Name #> value from stream
+        /// </summary>
+        /// <returns><#= type.Name #> value from stream</returns>
+        public <#= type.Name #> Read<#= type.Name #>()
+        {
+            return readData.Read<#= type.Name #>();
+        }
+
+        /// <summary>
+        /// Writes <#= type.Name #> value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        public void Write(<#= type.Name #> val)
+        {
+            writeData.Write(val);
+        }
+
         <# 
         } #>
 

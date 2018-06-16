@@ -41,7 +41,7 @@ namespace Arci.Networking.Data
         }
 
         /// <summary>
-        /// Writes guid byte stream in specified order
+        /// Writes packet guid byte stream in specified order
         /// </summary>
         /// <param name="guid">Guid to be written</param>
         /// <param name="indexes">Order</param>
@@ -53,7 +53,7 @@ namespace Arci.Networking.Data
         }
 
         /// <summary>
-        /// Writes guid bit stream in specified order
+        /// Writes packet guid bit stream in specified order
         /// </summary>
         /// <param name="guid">Guid to be written</param>
         /// <param name="indexes">Order</param>
@@ -61,6 +61,26 @@ namespace Arci.Networking.Data
         {
             foreach (var index in indexes)
                 WriteBit(guid[index]);
+        }
+
+        /// <summary>
+        /// Writes packet guid into data stream
+        /// </summary>
+        /// <param name="guid">Guid to be written</param>
+        public void Write(PacketGuid guid)
+        {
+            WriteGuidBitStreamInOrder(guid, 0, 1, 2, 3, 4, 5, 6, 7);
+            WriteGuidByteStreamInOrder(guid, 0, 1, 2, 3, 4, 5, 6, 7);
+        }
+
+        /// <summary>
+        /// Writes guid into data stream
+        /// </summary>
+        /// <param name="guid">Guid to be written</param>
+        /// <param name="format">Guid format</param>
+        public void Write(Guid guid, string format = null)
+        {
+            Write(guid.ToString(format ?? "D"));
         }
 
         /// <summary>
@@ -185,6 +205,29 @@ namespace Arci.Networking.Data
         {
             foreach (var index in indexes)
                 guid[index] = (byte) (ReadBit() ? 1 : 0);
+        }
+
+        /// <summary>
+        /// Reads packet guid from data stream
+        /// </summary>
+        /// <returns>Packet guid</returns>
+        public PacketGuid ReadPacketGuid()
+        {
+            var guid = new PacketGuid();
+            ReadGuidBitStreamInOrder(guid, 0, 1, 2, 3, 4, 5, 6, 7);
+            ReadGuidByteStreamInOrder(guid, 0, 1, 2, 3, 4, 5, 6, 7);
+
+            return guid;
+        }
+
+        /// <summary>
+        /// Reads guid from data stream
+        /// </summary>
+        /// <param name="format">Guid format</param>
+        /// <returns>Guid object</returns>
+        public Guid ReadGuid(string format = null)
+        {
+            return Guid.TryParseExact(ReadString(), format ?? "D", out var guid) ? guid : Guid.Empty;
         }
 
         /// <summary>

@@ -1,7 +1,6 @@
 ﻿using Arci.Networking.Data;
 using Arci.Networking.Object;
 using Arci.Networking.Tests.NetCore.ObjectTests.Objects;
-using System;
 using Xunit;
 
 namespace Arci.Networking.Tests.NetCore.ObjectTests
@@ -32,7 +31,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             Assert.Equal(obj.UInt64, readPacket.ReadUInt64());
             Assert.Equal(obj.UInt16As32, readPacket.ReadUInt32());
             Assert.Equal(obj.String, readPacket.ReadString());
-            Assert.Equal<UInt64>(obj.Guid, readPacket.ReadUInt64());
+            Assert.Equal(obj.Guid, readPacket.ReadPacketGuid());
             readPacket.Dispose();
 
             readPacket = new Packet(packet.Data);
@@ -68,7 +67,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             Assert.Equal(2, packet.OpcodeNumber);
 
             var readPacket = new Packet(packet.Data);
-            Assert.Equal<UInt64>(obj.Guid, readPacket.ReadUInt64());
+            Assert.Equal(obj.Guid, readPacket.ReadPacketGuid());
             Assert.Equal(obj.String, readPacket.ReadString());
             Assert.Equal(obj.UInt16As32, readPacket.ReadUInt32());
             Assert.Equal(obj.UInt64, readPacket.ReadUInt64());
@@ -90,6 +89,16 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
 
             readPacket.Dispose();
             packet.Dispose();
+        }
+
+        [Fact]
+        public void TestUnserializableObject()
+        {
+            var packet = PacketObject.ToPacket(new object());
+            Assert.Null(packet);
+
+            var obj = PacketObject.FromPacket(new Packet(0));
+            Assert.Null(obj);
         }
     }
 }

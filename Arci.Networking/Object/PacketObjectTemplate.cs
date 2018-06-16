@@ -38,8 +38,19 @@ namespace Arci.Networking.Object
                 case Type propertyType when propertyType == typeof(String):
                     return packet.ReadString();
                 
+                case Type propertyType when propertyType == typeof(Single):
+                    return packet.ReadSingle();
+                
+                case Type propertyType when propertyType == typeof(Double):
+                    return packet.ReadDouble();
+                
+                case Type propertyType when propertyType == typeof(Decimal):
+                    return packet.ReadDecimal();
+                
+                case Type propertyType when propertyType == typeof(Guid):
+                    return packet.ReadGuid();
                 case Type propertyType when propertyType == typeof(PacketGuid):
-                    return new PacketGuid(packet.ReadUInt64());
+                    return packet.ReadPacketGuid();
                 default:
                     return null;
             }
@@ -86,6 +97,21 @@ namespace Arci.Networking.Object
                     packet.Write(Convert.ToString(value));
                     break;
                 
+                case Type propertyType when propertyType == typeof(Single):
+                    packet.Write(Convert.ToSingle(value));
+                    break;
+                
+                case Type propertyType when propertyType == typeof(Double):
+                    packet.Write(Convert.ToDouble(value));
+                    break;
+                
+                case Type propertyType when propertyType == typeof(Decimal):
+                    packet.Write(Convert.ToDecimal(value));
+                    break;
+                
+                case Type propertyType when propertyType == typeof(Guid):
+                    packet.Write((Guid)value);
+                    break;
                 case Type propertyType when propertyType == typeof(PacketGuid):
                     packet.Write((PacketGuid)value);
                     break;
