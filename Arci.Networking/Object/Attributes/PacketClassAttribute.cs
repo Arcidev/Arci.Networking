@@ -21,5 +21,14 @@ namespace Arci.Networking.Object.Attributes
         {
             PacketOpcode = packetOpcode;
         }
+
+        /// <summary>
+        /// Create new instance of packet object attribute
+        /// </summary>
+        /// <param name="packetOpcode">Order of the property</param>
+        public PacketClassAttribute(Enum packetOpcode)
+        {
+            PacketOpcode = Convert.ToUInt16(packetOpcode);
+        }
     }
 }

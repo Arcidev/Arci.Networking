@@ -35,14 +35,12 @@ namespace Arci.Networking.Object
             if (packetObject == null)
                 return null;
 
-            var type = packetObject.GetType();
-            var attribute = GetPacketClassAttribute(type);
+            var attribute = GetPacketClassAttribute(packetObject.GetType());
             if (attribute == null)
                 return null;
 
             var packet = new Packet(attribute.PacketOpcode);
-            foreach(var property in GetSortedProperties(type))
-                WritePacketProperty(packet, property.Item1.GetValue(packetObject), property.Item2.Type ?? property.Item1.PropertyType);
+            WritePacketProperties(packet, packetObject);
 
             return packet;
         }
@@ -57,6 +55,17 @@ namespace Arci.Networking.Object
             if (!Types.TryGetValue(packet.OpcodeNumber, out var type))
                 return null;
 
+            return ReadPacketProperties(packet, type);
+        }
+
+        private static void WritePacketProperties(Packet packet, object instance)
+        {
+            foreach (var property in GetSortedProperties(instance.GetType()))
+                WritePacketProperty(packet, property.Item1.GetValue(instance), property.Item2.Type ?? property.Item1.PropertyType);
+        }
+
+        private static object ReadPacketProperties(Packet packet, Type type)
+        {
             var instance = Activator.CreateInstance(type);
             foreach (var property in GetSortedProperties(type))
             {

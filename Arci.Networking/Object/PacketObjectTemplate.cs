@@ -52,6 +52,8 @@ namespace Arci.Networking.Object
                 case Type propertyType when propertyType == typeof(PacketGuid):
                     return packet.ReadPacketGuid();
                 default:
+                    if (type.IsClass)
+                        return ReadPacketProperties(packet, type);
                     return null;
             }
         }
@@ -116,7 +118,9 @@ namespace Arci.Networking.Object
                     packet.Write((PacketGuid)value);
                     break;
                 default:
-                    return;
+                    if (type.IsClass)
+                        WritePacketProperties(packet, value);
+                    break;
             }
         }
     }
