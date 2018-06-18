@@ -19,13 +19,10 @@ namespace Arci.Networking.Tests.ObjectTests.Objects
         [PacketProperty(4)]
         public UInt64 UInt64 { get; set; }
 
-        [PacketProperty(5, typeof(UInt32))]
-        public UInt16 UInt16As32 { get; set; }
-
-        [PacketProperty(6)]
+        [PacketProperty(5)]
         public string String { get; set; }
 
-        [PacketProperty(7)]
+        [PacketProperty(6)]
         public PacketGuid Guid { get; set; }
     }
 }

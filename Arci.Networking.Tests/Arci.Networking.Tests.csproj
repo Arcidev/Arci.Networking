@@ -58,6 +58,7 @@
     <Compile Include="DataTests\PacketTests.cs" />
     <Compile Include="EncryptionTests\AesTests.cs" />
     <Compile Include="EncryptionTests\RsaTests.cs" />
+    <Compile Include="ObjectTests\Objects\TestObject4.cs" />
     <Compile Include="ObjectTests\Objects\TestObject3.cs" />
     <Compile Include="ObjectTests\Objects\TestObject2.cs" />
     <Compile Include="ObjectTests\Objects\TestObject1.cs" />

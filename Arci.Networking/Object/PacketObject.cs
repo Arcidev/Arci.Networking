@@ -58,22 +58,58 @@ namespace Arci.Networking.Object
             return ReadPacketProperties(packet, type);
         }
 
-        private static void WritePacketProperties(Packet packet, object instance)
+        private static void WritePacketProperties(ByteBuffer packet, object instance)
         {
+            var byteBuffer = new ByteBuffer();
             foreach (var property in GetSortedProperties(instance.GetType()))
-                WritePacketProperty(packet, property.Item1.GetValue(instance), property.Item2.Type ?? property.Item1.PropertyType);
+            {
+                // Write information about nullability only for nullable types
+                if (!property.PropertyType.IsValueType || Nullable.GetUnderlyingType(property.PropertyType) != null)
+                {
+                    var value = property.GetValue(instance);
+                    if (value == null)
+                    {
+                        packet.WriteBit(false);
+                        continue;
+                    }
+
+                    packet.WriteBit(true);
+                }
+               
+                WritePacketProperty(byteBuffer, property.GetValue(instance), Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType);
+            }
+
+            packet.FlushBits();
+            packet.Write(byteBuffer);
         }
 
-        private static object ReadPacketProperties(Packet packet, Type type)
+        private static object ReadPacketProperties(ByteBuffer packet, Type type)
         {
             var instance = Activator.CreateInstance(type);
-            foreach (var property in GetSortedProperties(type))
+            var properties = GetSortedProperties(type);
+            var packedProperties = new List<bool>();
+
+            foreach (var property in properties)
             {
-                var value = ReadPacketProperty(packet, property.Item2.Type ?? property.Item1.PropertyType);
+                // Read information about nullability only for nullable types
+                if (!property.PropertyType.IsValueType || Nullable.GetUnderlyingType(property.PropertyType) != null)
+                    packedProperties.Add(packet.ReadBit());
+            }
+
+            packet.ClearUnflushedBits();
+            var index = 0;
+
+            foreach (var property in properties)
+            {
+                // Check if property is nullable and if so, check if property is present or should be skipped
+                if ((!property.PropertyType.IsValueType || Nullable.GetUnderlyingType(property.PropertyType) != null) && !packedProperties[index++])
+                    continue;
+
+                var value = ReadPacketProperty(packet, Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType);
                 if (value == null)
                     continue;
 
-                property.Item1.SetValue(instance, Convert.ChangeType(value, property.Item1.PropertyType));
+                property.SetValue(instance, value);
             }
 
             return instance;
@@ -102,12 +138,11 @@ namespace Arci.Networking.Object
             return dictionary;
         }
 
-        private static IOrderedEnumerable<Tuple<PropertyInfo, PacketPropertyAttribute>> GetSortedProperties(Type type)
+        private static IOrderedEnumerable<PropertyInfo> GetSortedProperties(Type type)
         {
             return type.GetProperties()
               .Where(x => x.GetCustomAttributes(typeof(PacketPropertyAttribute), true).Length > 0)
-              .Select(x => Tuple.Create(x, (PacketPropertyAttribute)x.GetCustomAttributes(typeof(PacketPropertyAttribute), false)[0]))
-              .OrderBy(x => x.Item2.Order);
+              .OrderBy(x => ((PacketPropertyAttribute)x.GetCustomAttributes(typeof(PacketPropertyAttribute), false)[0]).Order);
         }
     }
 }

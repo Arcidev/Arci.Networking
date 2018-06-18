@@ -19,7 +19,7 @@ namespace Arci.Networking.Object
 {
     public abstract partial class PacketObject
     {
-        private static object ReadPacketProperty(Packet packet, Type type)
+        private static object ReadPacketProperty(ByteBuffer byteBuffer, Type type)
         {
             switch(type)
             {
@@ -27,22 +27,22 @@ namespace Arci.Networking.Object
                 { #>
 
                 case Type propertyType when propertyType == typeof(<#= type.Name #>):
-                    return packet.Read<#= type.Name #>();
+                    return byteBuffer.Read<#= type.Name #>();
                 <# 
                 } #>
 
                 case Type propertyType when propertyType == typeof(Guid):
-                    return packet.ReadGuid();
+                    return byteBuffer.ReadGuid();
                 case Type propertyType when propertyType == typeof(PacketGuid):
-                    return packet.ReadPacketGuid();
+                    return byteBuffer.ReadPacketGuid();
                 default:
                     if (type.IsClass)
-                        return ReadPacketProperties(packet, type);
+                        return ReadPacketProperties(byteBuffer, type);
                     return null;
             }
         }
 
-        private static void WritePacketProperty(Packet packet, object value, Type type)
+        private static void WritePacketProperty(ByteBuffer byteBuffer, object value, Type type)
         {
             switch(type)
             {
@@ -50,20 +50,20 @@ namespace Arci.Networking.Object
                 { #>
 
                 case Type propertyType when propertyType == typeof(<#= type.Name #>):
-                    packet.Write(Convert.To<#= type.Name #>(value));
+                    byteBuffer.Write(Convert.To<#= type.Name #>(value));
                     break;
                 <# 
                 } #>
 
                 case Type propertyType when propertyType == typeof(Guid):
-                    packet.Write((Guid)value);
+                    byteBuffer.Write((Guid)value);
                     break;
                 case Type propertyType when propertyType == typeof(PacketGuid):
-                    packet.Write((PacketGuid)value);
+                    byteBuffer.Write((PacketGuid)value);
                     break;
                 default:
                     if (type.IsClass)
-                        WritePacketProperties(packet, value);
+                        WritePacketProperties(byteBuffer, value);
                     break;
             }
         }
