@@ -12,19 +12,6 @@ namespace Arci.Networking.Object
     /// </summary>
     public abstract partial class PacketObject
     {
-        private static IDictionary<UInt16, Type> types;
-
-        private static IDictionary<UInt16, Type> Types
-        {
-            get
-            {
-                if (types == null)
-                    types = LoadTypes();
-
-                return types;
-            }
-        }
-
         /// <summary>
         /// Converts packet object (class with PacketClass attribute) to Packet
         /// </summary>
@@ -50,12 +37,12 @@ namespace Arci.Networking.Object
         /// </summary>
         /// <param name="packet">Packet to be converted</param>
         /// <returns>Packet object</returns>
-        public static object FromPacket(Packet packet)
+        public static T FromPacket<T>(Packet packet) where T : class, new()
         {
-            if (!Types.TryGetValue(packet.OpcodeNumber, out var type))
-                return null;
+            var instance = new T();
+            ReadPacketProperties(packet, instance);
 
-            return ReadPacketProperties(packet, type);
+            return instance;
         }
 
         private static void WritePacketProperties(ByteBuffer packet, object instance)
@@ -83,10 +70,9 @@ namespace Arci.Networking.Object
             packet.Write(byteBuffer);
         }
 
-        private static object ReadPacketProperties(ByteBuffer packet, Type type)
+        private static void ReadPacketProperties(ByteBuffer packet, object instance)
         {
-            var instance = Activator.CreateInstance(type);
-            var properties = GetSortedProperties(type);
+            var properties = GetSortedProperties(instance.GetType());
             var packedProperties = new List<bool>();
 
             foreach (var property in properties)
@@ -111,31 +97,11 @@ namespace Arci.Networking.Object
 
                 property.SetValue(instance, value);
             }
-
-            return instance;
         }
 
         private static PacketClassAttribute GetPacketClassAttribute(Type type)
         {
             return type.GetCustomAttributes(typeof(PacketClassAttribute), true).FirstOrDefault() as PacketClassAttribute;
-        }
-
-        private static IDictionary<UInt16, Type> LoadTypes()
-        {
-            var dictionary = new Dictionary<UInt16, Type>();
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                foreach (Type type in assembly.GetTypes())
-                {
-                    var attribute = GetPacketClassAttribute(type);
-                    if (attribute == null)
-                        continue;
-
-                    dictionary.Add(attribute.PacketOpcode, type);
-                }
-            }
-
-            return dictionary;
         }
 
         private static IOrderedEnumerable<PropertyInfo> GetSortedProperties(Type type)

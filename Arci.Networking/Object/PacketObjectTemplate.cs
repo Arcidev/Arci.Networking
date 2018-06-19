@@ -53,7 +53,11 @@ namespace Arci.Networking.Object
                     return byteBuffer.ReadPacketGuid();
                 default:
                     if (type.IsClass)
-                        return ReadPacketProperties(byteBuffer, type);
+                    {
+                        var instance = Activator.CreateInstance(type);
+                        ReadPacketProperties(byteBuffer, instance);
+                        return instance;
+                    }
                     return null;
             }
         }

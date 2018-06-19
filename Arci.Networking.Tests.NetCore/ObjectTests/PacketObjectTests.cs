@@ -36,7 +36,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             readPacket.Dispose();
 
             readPacket = new Packet(packet.Data);
-            var deserializedObject = (TestObject1)PacketObject.FromPacket(readPacket);
+            var deserializedObject = PacketObject.FromPacket<TestObject1>(readPacket);
             Assert.Equal(obj.SByte, deserializedObject.SByte);
             Assert.Equal(obj.UInt16, deserializedObject.UInt16);
             Assert.Equal(obj.Int32, deserializedObject.Int32);
@@ -79,7 +79,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             readPacket.Dispose();
 
             readPacket = new Packet(packet.Data);
-            var deserializedObject = (TestObject2)PacketObject.FromPacket(readPacket);
+            var deserializedObject = PacketObject.FromPacket<TestObject2>(readPacket);
             Assert.Equal(obj.SByte, deserializedObject.SByte);
             Assert.Equal(obj.UInt16, deserializedObject.UInt16);
             Assert.Equal(obj.Int32, deserializedObject.Int32);
@@ -97,9 +97,6 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
         {
             var packet = PacketObject.ToPacket(new object());
             Assert.Null(packet);
-
-            var obj = PacketObject.FromPacket(new Packet(0));
-            Assert.Null(obj);
         }
 
         [Fact]
@@ -158,7 +155,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             readPacket.Dispose();
 
             readPacket = new Packet(packet.Data);
-            var deserializedObject = (TestObject3)PacketObject.FromPacket(readPacket);
+            var deserializedObject = PacketObject.FromPacket<TestObject3>(readPacket);
             Assert.Equal(obj.Object1.SByte, deserializedObject.Object1.SByte);
             Assert.Equal(obj.Object1.UInt16, deserializedObject.Object1.UInt16);
             Assert.Equal(obj.Object1.Int32, deserializedObject.Object1.Int32);
@@ -201,7 +198,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
 
             var packet = PacketObject.ToPacket(obj);
             var readPacket = new Packet(packet.Data);
-            var deserializedObject = (TestObject4)PacketObject.FromPacket(readPacket);
+            var deserializedObject = PacketObject.FromPacket<TestObject4>(readPacket);
             packet.Dispose();
             readPacket.Dispose();
 
