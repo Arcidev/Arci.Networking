@@ -15,6 +15,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\Arci.Networking.Tests\ObjectTests\Objects\TestObject1.cs" Link="ObjectTests\Objects\TestObject1.cs" />
+    <Compile Include="..\Arci.Networking.Tests\ObjectTests\Objects\TestObject2.cs" Link="ObjectTests\Objects\TestObject2.cs" />
+    <Compile Include="..\Arci.Networking.Tests\ObjectTests\Objects\TestObject3.cs" Link="ObjectTests\Objects\TestObject3.cs" />
+    <Compile Include="..\Arci.Networking.Tests\ObjectTests\Objects\TestObject4.cs" Link="ObjectTests\Objects\TestObject4.cs" />
+    <Compile Include="..\Arci.Networking.Tests\ObjectTests\Objects\TestObject5.cs" Link="ObjectTests\Objects\TestObject5.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
     <PackageReference Include="xunit" Version="2.2.0" />
@@ -26,6 +34,10 @@
 
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ObjectTests\Objects\" />
   </ItemGroup>
 
 </Project>

@@ -95,14 +95,31 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuilderTests\PacketBuilderTests.cs" />
+    <Compile Include="..\Arci.Networking.Tests\BuilderTests\PacketBuilderTests.cs">
+      <Link>BuilderTests\PacketBuilderTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Arci.Networking.Tests\EncryptionTests\RsaTests.cs">
+      <Link>EncryptionTests\RsaTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Arci.Networking.Tests\ObjectTests\Objects\TestObject1.cs">
+      <Link>ObjectTests\Objects\TestObject1.cs</Link>
+    </Compile>
+    <Compile Include="..\Arci.Networking.Tests\ObjectTests\Objects\TestObject2.cs">
+      <Link>ObjectTests\Objects\TestObject2.cs</Link>
+    </Compile>
+    <Compile Include="..\Arci.Networking.Tests\ObjectTests\Objects\TestObject3.cs">
+      <Link>ObjectTests\Objects\TestObject3.cs</Link>
+    </Compile>
+    <Compile Include="..\Arci.Networking.Tests\ObjectTests\Objects\TestObject4.cs">
+      <Link>ObjectTests\Objects\TestObject4.cs</Link>
+    </Compile>
+    <Compile Include="..\Arci.Networking.Tests\ObjectTests\Objects\TestObject5.cs">
+      <Link>ObjectTests\Objects\TestObject5.cs</Link>
+    </Compile>
+    <Compile Include="..\Arci.Networking.Tests\ObjectTests\PacketObjectTests.cs">
+      <Link>ObjectTests\PacketObjectTests.cs</Link>
+    </Compile>
     <Compile Include="EncryptionTests\AesTests.cs" />
-    <Compile Include="EncryptionTests\RsaTests.cs" />
-    <Compile Include="ObjectTests\Objects\TestObject1.cs" />
-    <Compile Include="ObjectTests\Objects\TestObject2.cs" />
-    <Compile Include="ObjectTests\Objects\TestObject3.cs" />
-    <Compile Include="ObjectTests\Objects\TestObject4.cs" />
-    <Compile Include="ObjectTests\PacketObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RSAKey.cs" />
     <Compile Include="UnitTestApp.xaml.cs">

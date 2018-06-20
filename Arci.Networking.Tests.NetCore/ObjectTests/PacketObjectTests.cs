@@ -1,6 +1,8 @@
 ﻿using Arci.Networking.Data;
 using Arci.Networking.Object;
-using Arci.Networking.Tests.NetCore.ObjectTests.Objects;
+using Arci.Networking.Tests.ObjectTests.Objects;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Arci.Networking.Tests.NetCore.ObjectTests
@@ -216,6 +218,29 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             Assert.Equal(obj.NullableInt2, deserializedObject.NullableInt2);
             Assert.Null(deserializedObject.NotSerializedString);
             Assert.Equal(obj.String, deserializedObject.String);
+        }
+
+        [Fact]
+        public void TestCollectionSerialization()
+        {
+            var obj = new TestObject5()
+            {
+                ArrayOfString = new string[] { "123", "456", "789" },
+                ListOfInt = new List<int>() { 1, 2, 3 },
+                ListOfObject = new List<TestObject3>() { new TestObject3(), new TestObject3(), new TestObject3() }
+            };
+
+            var packet = PacketObject.ToPacket(obj);
+            var readPacket = new Packet(packet.Data);
+            var deserializedObject = PacketObject.FromPacket<TestObject5>(readPacket);
+            packet.Dispose();
+            readPacket.Dispose();
+
+            Assert.Equal(obj.ArrayOfString.Length, deserializedObject.ArrayOfString.Length);
+            Assert.Equal(obj.ListOfInt.Count, deserializedObject.ListOfInt.Count);
+            Assert.Equal(obj.ListOfObject.Count, deserializedObject.ListOfObject.Count);
+            Assert.True(deserializedObject.ArrayOfString.SequenceEqual(obj.ArrayOfString));
+            Assert.True(deserializedObject.ListOfInt.SequenceEqual(obj.ListOfInt));
         }
     }
 }

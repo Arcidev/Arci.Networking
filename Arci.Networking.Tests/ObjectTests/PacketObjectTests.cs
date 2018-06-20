@@ -2,6 +2,8 @@
 using Arci.Networking.Object;
 using Arci.Networking.Tests.ObjectTests.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Arci.Networking.Tests.ObjectTests
 {
@@ -217,6 +219,29 @@ namespace Arci.Networking.Tests.ObjectTests
             Assert.AreEqual(obj.NullableInt2, deserializedObject.NullableInt2);
             Assert.IsNull(deserializedObject.NotSerializedString);
             Assert.AreEqual(obj.String, deserializedObject.String);
+        }
+
+        [TestMethod]
+        public void TestCollectionSerialization()
+        {
+            var obj = new TestObject5()
+            {
+                ArrayOfString = new string[] { "123", "456", "789" },
+                ListOfInt = new List<int>() { 1, 2, 3 },
+                ListOfObject = new List<TestObject3>() { new TestObject3(), new TestObject3(), new TestObject3() }
+            };
+
+            var packet = PacketObject.ToPacket(obj);
+            var readPacket = new Packet(packet.Data);
+            var deserializedObject = PacketObject.FromPacket<TestObject5>(readPacket);
+            packet.Dispose();
+            readPacket.Dispose();
+
+            Assert.AreEqual(obj.ArrayOfString.Length, deserializedObject.ArrayOfString.Length);
+            Assert.AreEqual(obj.ListOfInt.Count, deserializedObject.ListOfInt.Count);
+            Assert.AreEqual(obj.ListOfObject.Count, deserializedObject.ListOfObject.Count);
+            Assert.IsTrue(deserializedObject.ArrayOfString.SequenceEqual(obj.ArrayOfString));
+            Assert.IsTrue(deserializedObject.ListOfInt.SequenceEqual(obj.ListOfInt));
         }
     }
 }
