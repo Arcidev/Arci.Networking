@@ -50,6 +50,9 @@ namespace Arci.Networking.Object
                 case TypeCode.Decimal:
                     return byteBuffer.ReadDecimal();
                 
+                case TypeCode.DateTime:
+                    return byteBuffer.ReadDateTime();
+                
                 default:
                     if (type == typeof(Guid))
                     {
@@ -135,6 +138,10 @@ namespace Arci.Networking.Object
                 
                 case TypeCode.Decimal:
                     byteBuffer.Write(Convert.ToDecimal(value));
+                    break;
+                
+                case TypeCode.DateTime:
+                    byteBuffer.Write(Convert.ToDateTime(value));
                     break;
                 
                 default:

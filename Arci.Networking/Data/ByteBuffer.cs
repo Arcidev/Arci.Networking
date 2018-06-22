@@ -80,7 +80,16 @@ namespace Arci.Networking.Data
         /// <param name="format">Guid format</param>
         public void Write(Guid guid, string format = null)
         {
-            Write(guid.ToString(format ?? "D"));
+            Write(guid.ToString(format ?? "N"));
+        }
+
+        /// <summary>
+        /// Writes datetime data into stream
+        /// </summary>
+        /// <param name="dateTime">DateTime to be written</param>
+        public void Write(DateTime dateTime)
+        {
+            Write(dateTime.ToBinary());
         }
 
         /// <summary>
@@ -227,7 +236,16 @@ namespace Arci.Networking.Data
         /// <returns>Guid object</returns>
         public Guid ReadGuid(string format = null)
         {
-            return Guid.TryParseExact(ReadString(), format ?? "D", out var guid) ? guid : Guid.Empty;
+            return Guid.TryParseExact(ReadString(), format ?? "N", out var guid) ? guid : Guid.Empty;
+        }
+
+        /// <summary>
+        /// Reads datetime from data stream
+        /// </summary>
+        /// <returns>DateTime object</returns>
+        public DateTime ReadDateTime()
+        {
+            return DateTime.FromBinary(ReadInt64());
         }
 
         /// <summary>

@@ -4,7 +4,8 @@
 <# Type[] types = new[] {
     typeof(Int16), typeof(Int32), typeof(SByte), typeof(Int64),
     typeof(UInt16), typeof(UInt32), typeof(Byte), typeof(UInt64),
-    typeof(String), typeof(Single), typeof(Double), typeof(Decimal)
+    typeof(String), typeof(Single), typeof(Double), typeof(Decimal),
+    typeof(DateTime)
     };
 #>
 <# Type[] sizeTypes = new[] {
@@ -92,11 +93,11 @@ namespace Arci.Networking.Object
                     {
                         if (!(value is IEnumerable collection))
                         {
-                            byteBuffer.Write(0);
+                            byteBuffer.Write((UInt16)0);
                             return;
                         }
 
-                        var count = 0;
+                        UInt16 count = 0;
                         var itemsBuffer = new ByteBuffer();
                         foreach (var item in collection)
                         {

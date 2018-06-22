@@ -24,5 +24,8 @@ namespace Arci.Networking.Tests.ObjectTests.Objects
 
         [PacketProperty(6)]
         public PacketGuid Guid { get; set; }
+
+        [PacketProperty(7)]
+        public DateTime DateTime { get; set; }
     }
 }

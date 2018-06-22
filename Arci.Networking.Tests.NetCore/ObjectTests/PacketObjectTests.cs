@@ -1,6 +1,7 @@
 ﻿using Arci.Networking.Data;
 using Arci.Networking.Object;
 using Arci.Networking.Tests.ObjectTests.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -19,7 +20,8 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
                 Int32 = 3,
                 UInt64 = 4,
                 String = "1234",
-                Guid = new PacketGuid(9999)
+                Guid = new PacketGuid(9999),
+                DateTime = DateTime.Now
             };
 
             var packet = PacketObject.ToPacket(obj);
@@ -35,6 +37,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             Assert.Equal(obj.UInt64, readPacket.ReadUInt64());
             Assert.Equal(obj.String, readPacket.ReadString());
             Assert.Equal(obj.Guid, readPacket.ReadPacketGuid());
+            Assert.Equal(obj.DateTime, readPacket.ReadDateTime());
             readPacket.Dispose();
 
             readPacket = new Packet(packet.Data);
@@ -45,6 +48,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             Assert.Equal(obj.UInt64, deserializedObject.UInt64);
             Assert.Equal(obj.String, deserializedObject.String);
             Assert.Equal(obj.Guid, deserializedObject.Guid);
+            Assert.Equal(obj.DateTime, deserializedObject.DateTime);
 
             readPacket.Dispose();
             packet.Dispose();
@@ -113,7 +117,8 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
                     Int32 = 3,
                     UInt64 = 4,
                     String = "1234",
-                    Guid = new PacketGuid(9999)
+                    Guid = new PacketGuid(9999),
+                    DateTime = DateTime.Now
                 },
                 Object2 = new TestObject2()
                 {
@@ -144,6 +149,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             Assert.Equal(obj.Object1.UInt64, readPacket.ReadUInt64());
             Assert.Equal(obj.Object1.String, readPacket.ReadString());
             Assert.Equal(obj.Object1.Guid, readPacket.ReadPacketGuid());
+            Assert.Equal(obj.Object1.DateTime, readPacket.ReadDateTime());
 
             Assert.True(readPacket.ReadBit()); // Guid value present
             Assert.True(readPacket.ReadBit()); // String value present
@@ -164,6 +170,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             Assert.Equal(obj.Object1.UInt64, deserializedObject.Object1.UInt64);
             Assert.Equal(obj.Object1.String, deserializedObject.Object1.String);
             Assert.Equal(obj.Object1.Guid, deserializedObject.Object1.Guid);
+            Assert.Equal(obj.Object1.DateTime, deserializedObject.Object1.DateTime);
             Assert.Equal(obj.Object2.SByte, deserializedObject.Object2.SByte);
             Assert.Equal(obj.Object2.UInt16, deserializedObject.Object2.UInt16);
             Assert.Equal(obj.Object2.Int32, deserializedObject.Object2.Int32);
