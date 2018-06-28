@@ -74,6 +74,31 @@ namespace Arci.Networking.Tests.NetCore.EncryptionTests
             }
         }
 
+        [Fact]
+        public void TestKeyImmutability()
+        {
+            using (var aes = new AesEncryptor(AesEncryptionType.Aes128Bits))
+            {
+                var key = aes.Key;
+                var iv = aes.IVec;
+
+                var keyList = key.ToList();
+                var ivList = iv.ToList();
+
+                for (var i = 0; i < (int)AesEncryptionType.Aes128Bits; i++)
+                {
+                    key[i] = (byte)((key[i] + 1) % byte.MaxValue);
+                    iv[i] = (byte)((iv[i] + 1) % byte.MaxValue);
+
+                    Assert.NotEqual(keyList[i], key[i]);
+                    Assert.Equal(keyList[i], aes.Key[i]);
+
+                    Assert.NotEqual(ivList[i], iv[i]);
+                    Assert.Equal(ivList[i], aes.IVec[i]);
+                }
+            }
+        }
+
         private void TestEncryption(PaddingMode padding)
         {
             using (var aes = new AesEncryptor(AesEncryptionType.Aes256Bits) { PaddingMode = padding })

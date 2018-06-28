@@ -7,6 +7,40 @@ namespace Arci.Networking.Builder
     {
         
         /// <summary>
+        /// Writes SByte value to packet
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder Write(SByte val)
+        {
+            packet.Write(val);
+            return this;
+        }
+
+        /// <summary>
+        /// Writes 1 if SByte value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder WriteBit(SByte bit)
+        {
+            packet.WriteBit(bit);
+            return this;
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder WriteBits(SByte value, byte bitsCount)
+        {
+            packet.WriteBits(value, bitsCount);
+            return this;
+        }
+        
+        /// <summary>
         /// Writes Int16 value to packet
         /// </summary>
         /// <param name="val">Value to be written</param>
@@ -75,22 +109,22 @@ namespace Arci.Networking.Builder
         }
         
         /// <summary>
-        /// Writes SByte value to packet
+        /// Writes Int64 value to packet
         /// </summary>
         /// <param name="val">Value to be written</param>
         /// <returns>This PacketBuilder</returns>
-        public PacketBuilder Write(SByte val)
+        public PacketBuilder Write(Int64 val)
         {
             packet.Write(val);
             return this;
         }
 
         /// <summary>
-        /// Writes 1 if SByte value is different from 0, otherwise writes 0
+        /// Writes 1 if Int64 value is different from 0, otherwise writes 0
         /// </summary>
         /// <param name="bit">Value to be written</param>
         /// <returns>This PacketBuilder</returns>
-        public PacketBuilder WriteBit(SByte bit)
+        public PacketBuilder WriteBit(Int64 bit)
         {
             packet.WriteBit(bit);
             return this;
@@ -102,7 +136,41 @@ namespace Arci.Networking.Builder
         /// <param name="value">Value to be written</param>
         /// <param name="bitsCount">Number of bits that value should written with</param>
         /// <returns>This PacketBuilder</returns>
-        public PacketBuilder WriteBits(SByte value, byte bitsCount)
+        public PacketBuilder WriteBits(Int64 value, byte bitsCount)
+        {
+            packet.WriteBits(value, bitsCount);
+            return this;
+        }
+        
+        /// <summary>
+        /// Writes Byte value to packet
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder Write(Byte val)
+        {
+            packet.Write(val);
+            return this;
+        }
+
+        /// <summary>
+        /// Writes 1 if Byte value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder WriteBit(Byte bit)
+        {
+            packet.WriteBit(bit);
+            return this;
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder WriteBits(Byte value, byte bitsCount)
         {
             packet.WriteBits(value, bitsCount);
             return this;
@@ -177,22 +245,22 @@ namespace Arci.Networking.Builder
         }
         
         /// <summary>
-        /// Writes Byte value to packet
+        /// Writes UInt64 value to packet
         /// </summary>
         /// <param name="val">Value to be written</param>
         /// <returns>This PacketBuilder</returns>
-        public PacketBuilder Write(Byte val)
+        public PacketBuilder Write(UInt64 val)
         {
             packet.Write(val);
             return this;
         }
 
         /// <summary>
-        /// Writes 1 if Byte value is different from 0, otherwise writes 0
+        /// Writes 1 if UInt64 value is different from 0, otherwise writes 0
         /// </summary>
         /// <param name="bit">Value to be written</param>
         /// <returns>This PacketBuilder</returns>
-        public PacketBuilder WriteBit(Byte bit)
+        public PacketBuilder WriteBit(UInt64 bit)
         {
             packet.WriteBit(bit);
             return this;
@@ -204,23 +272,45 @@ namespace Arci.Networking.Builder
         /// <param name="value">Value to be written</param>
         /// <param name="bitsCount">Number of bits that value should written with</param>
         /// <returns>This PacketBuilder</returns>
-        public PacketBuilder WriteBits(Byte value, byte bitsCount)
+        public PacketBuilder WriteBits(UInt64 value, byte bitsCount)
         {
             packet.WriteBits(value, bitsCount);
             return this;
         }
-        
+                
         /// <summary>
-        /// Writes bit value to stream
+        /// Writes Single value to packet
         /// </summary>
-        /// <param name="bit">Value to be written</param>
+        /// <param name="val">Value to be written</param>
         /// <returns>This PacketBuilder</returns>
-        public PacketBuilder WriteBit(bool bit)
+        public PacketBuilder Write(Single val)
         {
-            packet.WriteBit(bit);
+            packet.Write(val);
             return this;
         }
         
+        /// <summary>
+        /// Writes Double value to packet
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder Write(Double val)
+        {
+            packet.Write(val);
+            return this;
+        }
+        
+        /// <summary>
+        /// Writes Decimal value to packet
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder Write(Decimal val)
+        {
+            packet.Write(val);
+            return this;
+        }
+                
         /// <summary>
         /// Writes Byte[] value to stream
         /// </summary>

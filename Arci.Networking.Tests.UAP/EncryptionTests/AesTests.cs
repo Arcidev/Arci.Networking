@@ -75,6 +75,31 @@ namespace Arci.Networking.Tests.UAP.EncryptionTests
             }
         }
 
+        [TestMethod]
+        public void TestKeyImmutability()
+        {
+            using (var aes = new AesEncryptor(AesEncryptionType.Aes128Bits))
+            {
+                var key = aes.Key;
+                var iv = aes.IVec;
+
+                var keyList = key.ToList();
+                var ivList = iv.ToList();
+
+                for (var i = 0; i < (int)AesEncryptionType.Aes128Bits; i++)
+                {
+                    key[i] = (byte)((key[i] + 1) % byte.MaxValue);
+                    iv[i] = (byte)((iv[i] + 1) % byte.MaxValue);
+
+                    Assert.AreNotEqual(keyList[i], key[i]);
+                    Assert.AreEqual(keyList[i], aes.Key[i]);
+
+                    Assert.AreNotEqual(ivList[i], iv[i]);
+                    Assert.AreEqual(ivList[i], aes.IVec[i]);
+                }
+            }
+        }
+
         private void TestEncryption(PaddingMode padding)
         {
             using (var aes = new AesEncryptor(AesEncryptionType.Aes256Bits) { PaddingMode = padding })

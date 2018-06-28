@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace Arci.Networking.Security
 {
     /// <summary>

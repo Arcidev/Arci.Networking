@@ -93,6 +93,30 @@ namespace Arci.Networking.Data
         }
 
         /// <summary>
+        /// Writes bit value to stream
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
+        public void WriteBit(bool bit)
+        {
+            --bitPos;
+            if (bit)
+                curBitVal |= (byte)(1 << bitPos);
+
+            if (bitPos == 0)
+                WriteCurBitVal();
+        }
+
+        /// <summary>
+        /// Writes current bit values to stream
+        /// </summary>
+        private void WriteCurBitVal()
+        {
+            Write(curBitVal);
+            bitPos = 8;
+            curBitVal = 0;
+        }
+
+        /// <summary>
         /// Flushes bits from memory to stream
         /// </summary>
         public void FlushBits()

@@ -93,55 +93,55 @@ namespace Arci.Networking.Object
             {
                 
                 case TypeCode.Int16:
-                    byteBuffer.Write(Convert.ToInt16(value));
+                    byteBuffer.Write((Int16)value);
                     break;
                 
                 case TypeCode.Int32:
-                    byteBuffer.Write(Convert.ToInt32(value));
+                    byteBuffer.Write((Int32)value);
                     break;
                 
                 case TypeCode.SByte:
-                    byteBuffer.Write(Convert.ToSByte(value));
+                    byteBuffer.Write((SByte)value);
                     break;
                 
                 case TypeCode.Int64:
-                    byteBuffer.Write(Convert.ToInt64(value));
+                    byteBuffer.Write((Int64)value);
                     break;
                 
                 case TypeCode.UInt16:
-                    byteBuffer.Write(Convert.ToUInt16(value));
+                    byteBuffer.Write((UInt16)value);
                     break;
                 
                 case TypeCode.UInt32:
-                    byteBuffer.Write(Convert.ToUInt32(value));
+                    byteBuffer.Write((UInt32)value);
                     break;
                 
                 case TypeCode.Byte:
-                    byteBuffer.Write(Convert.ToByte(value));
+                    byteBuffer.Write((Byte)value);
                     break;
                 
                 case TypeCode.UInt64:
-                    byteBuffer.Write(Convert.ToUInt64(value));
+                    byteBuffer.Write((UInt64)value);
                     break;
                 
                 case TypeCode.String:
-                    byteBuffer.Write(Convert.ToString(value));
+                    byteBuffer.Write((String)value);
                     break;
                 
                 case TypeCode.Single:
-                    byteBuffer.Write(Convert.ToSingle(value));
+                    byteBuffer.Write((Single)value);
                     break;
                 
                 case TypeCode.Double:
-                    byteBuffer.Write(Convert.ToDouble(value));
+                    byteBuffer.Write((Double)value);
                     break;
                 
                 case TypeCode.Decimal:
-                    byteBuffer.Write(Convert.ToDecimal(value));
+                    byteBuffer.Write((Decimal)value);
                     break;
                 
                 case TypeCode.DateTime:
-                    byteBuffer.Write(Convert.ToDateTime(value));
+                    byteBuffer.Write((DateTime)value);
                     break;
                 
                 default:
@@ -153,15 +153,9 @@ namespace Arci.Networking.Object
                         byteBuffer.Write((PacketGuid)value);
                     } else if (type.IsArray || (type.IsGenericType && type.GetInterfaces().Any(x => x.GetGenericTypeDefinition() == typeof(ICollection<>))))
                     {
-                        if (!(value is IEnumerable collection))
-                        {
-                            byteBuffer.Write((UInt16)0);
-                            return;
-                        }
-
                         UInt16 count = 0;
                         var itemsBuffer = new ByteBuffer();
-                        foreach (var item in collection)
+                        foreach (var item in (IEnumerable)value)
                         {
                             WritePacketProperty(itemsBuffer, item, type.GetElementType() ?? type.GetGenericArguments()[0]);
                             count++;

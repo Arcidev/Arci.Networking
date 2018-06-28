@@ -77,7 +77,7 @@ namespace Arci.Networking.Object
                 { #>
 
                 case TypeCode.<#= type.Name #>:
-                    byteBuffer.Write(Convert.To<#= type.Name #>(value));
+                    byteBuffer.Write((<#= type.Name #>)value);
                     break;
                 <# 
                 } #>
@@ -91,15 +91,9 @@ namespace Arci.Networking.Object
                         byteBuffer.Write((PacketGuid)value);
                     } else if (type.IsArray || (type.IsGenericType && type.GetInterfaces().Any(x => x.GetGenericTypeDefinition() == typeof(ICollection<>))))
                     {
-                        if (!(value is IEnumerable collection))
-                        {
-                            byteBuffer.Write((UInt16)0);
-                            return;
-                        }
-
                         UInt16 count = 0;
                         var itemsBuffer = new ByteBuffer();
-                        foreach (var item in collection)
+                        foreach (var item in (IEnumerable)value)
                         {
                             WritePacketProperty(itemsBuffer, item, type.GetElementType() ?? type.GetGenericArguments()[0]);
                             count++;

@@ -2,12 +2,16 @@
 <#@ output extension=".cs" #>
 <#@ assembly name="System.Core" #>
 <# Type[] types = new[] {
-    typeof(Int16), typeof(Int32), typeof(SByte),
-    typeof(UInt16), typeof(UInt32), typeof(Byte)
+    typeof(SByte), typeof(Int16), typeof(Int32), typeof(Int64),
+    typeof(Byte), typeof(UInt16), typeof(UInt32), typeof(UInt64)
     };
 #>
 <# Type[] sizeTypes = new[] {
     typeof(byte[])
+    };
+#>
+<# Type[] byteOnlyTypes = new[] {
+    typeof(Single), typeof(Double), typeof(Decimal)
     };
 #>
 
@@ -55,17 +59,21 @@ namespace Arci.Networking.Builder
         }
         <# 
         } #>
+        <# foreach (var type in byteOnlyTypes)
+        { #>
 
         /// <summary>
-        /// Writes bit value to stream
+        /// Writes <#= type.Name #> value to packet
         /// </summary>
-        /// <param name="bit">Value to be written</param>
+        /// <param name="val">Value to be written</param>
         /// <returns>This PacketBuilder</returns>
-        public PacketBuilder WriteBit(bool bit)
+        public PacketBuilder Write(<#= type.Name #> val)
         {
-            packet.WriteBit(bit);
+            packet.Write(val);
             return this;
         }
+        <# 
+        } #>
         <# foreach (var type in sizeTypes)
         { #>
 

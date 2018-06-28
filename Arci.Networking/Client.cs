@@ -40,20 +40,19 @@ namespace Arci.Networking
         /// <returns>New instance of client</returns>
         public static async Task<Client> CreateAsync(string server, int port)
         {
-            TcpClient client = null;
+            var client = new TcpClient();
 
             // check connection
             try
             {
-                client = new TcpClient();
                 await client.ConnectAsync(server, port);
+                return new Client(client);
             }
             catch (SocketException)
             {
+                client.Dispose();
                 return null;
             }
-
-            return new Client(client);
         }
 
         /// <summary>
@@ -68,7 +67,7 @@ namespace Arci.Networking
                 return;
 
             var toSend = BitConverter.GetBytes((UInt16)data.Length).Concat(data).ToArray();
-            stream.Write(toSend, 0, data.Length + sizeof(UInt16));
+            stream.Write(toSend, 0, toSend.Length);
         }
 
         /// <summary>
@@ -83,7 +82,7 @@ namespace Arci.Networking
                 return;
 
             var toSend = BitConverter.GetBytes((UInt16)data.Length).Concat(data).ToArray();
-            await stream.WriteAsync(toSend, 0, data.Length + sizeof(UInt16));
+            await stream.WriteAsync(toSend, 0, toSend.Length);
         }
 
         /// <summary>
@@ -148,7 +147,7 @@ namespace Arci.Networking
         private async Task<byte[]> ReadDataAsync(CancellationToken? token)
         {
             var data = new byte[Packet.MaxPacketSize];
-            int length = token.HasValue ? await stream.ReadAsync(data, 0, Packet.MaxPacketSize, token.Value) : await stream.ReadAsync(data, 0, Packet.MaxPacketSize);
+            int length = await stream.ReadAsync(data, 0, Packet.MaxPacketSize, token ?? CancellationToken.None);
             if (length == 0)
                 return null;
 

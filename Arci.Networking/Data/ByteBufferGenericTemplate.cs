@@ -349,8 +349,7 @@ namespace Arci.Networking.Data
             for (int i = bitsCount - 1; i >= 0; i--)
                 WriteBit(((UInt64)1 << i) & value);
         }
-        
-        
+                
         /// <summary>
         /// Reads Single value from stream
         /// </summary>
@@ -368,7 +367,6 @@ namespace Arci.Networking.Data
         {
             writeData.Write(val);
         }
-
         
         /// <summary>
         /// Reads Double value from stream
@@ -387,7 +385,6 @@ namespace Arci.Networking.Data
         {
             writeData.Write(val);
         }
-
         
         /// <summary>
         /// Reads Decimal value from stream
@@ -406,22 +403,7 @@ namespace Arci.Networking.Data
         {
             writeData.Write(val);
         }
-
-        
-        /// <summary>
-        /// Writes bit value to stream
-        /// </summary>
-        /// <param name="bit">Value to be written</param>
-        public void WriteBit(bool bit)
-        {
-            --bitPos;
-            if (bit)
-                curBitVal |= (byte)(1 << bitPos);
-
-            if (bitPos == 0)
-                WriteCurBitVal();
-        }
-        
+                
         /// <summary>
         /// Writes Byte[] value to stream
         /// </summary>
@@ -432,14 +414,5 @@ namespace Arci.Networking.Data
             writeData.Write(val);
         }
         
-        /// <summary>
-        /// Writes current bit values to stream
-        /// </summary>
-        private void WriteCurBitVal()
-        {
-            Write(curBitVal);
-            bitPos = 8;
-            curBitVal = 0;
-        }
     }
 }

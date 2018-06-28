@@ -79,6 +79,17 @@ namespace Arci.Networking.Builder
         }
 
         /// <summary>
+        /// Writes bit value to stream
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder WriteBit(bool bit)
+        {
+            packet.WriteBit(bit);
+            return this;
+        }
+
+        /// <summary>
         /// Builds packet
         /// </summary>
         /// <returns>Builded packet</returns>
