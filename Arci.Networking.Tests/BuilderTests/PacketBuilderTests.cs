@@ -1,7 +1,6 @@
 ﻿using Arci.Networking.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Linq;
 
 namespace Arci.Networking.Tests.BuilderTests
 {
@@ -34,7 +33,7 @@ namespace Arci.Networking.Tests.BuilderTests
             packet.Write(new byte[] { 7, 8, 9 });
             packet.WriteGuidByteStreamInOrder(123456, 1, 2, 3, 4, 5, 6, 7, 0);
 
-            Assert.IsTrue(buildedPacket.Data.SequenceEqual(packet.Data));
+            CollectionAssert.AreEqual(packet.Data, buildedPacket.Data);
             buildedPacket.Dispose();
             packet.Dispose();
         }

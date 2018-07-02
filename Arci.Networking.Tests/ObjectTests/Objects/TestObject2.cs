@@ -1,5 +1,5 @@
 ﻿using Arci.Networking.Data;
-using Arci.Networking.Object.Attributes;
+using Arci.Networking.Serialization.Attributes;
 using System;
 
 namespace Arci.Networking.Tests.ObjectTests.Objects

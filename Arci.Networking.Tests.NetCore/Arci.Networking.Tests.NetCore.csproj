@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Arci.Networking\Arci.Networking.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

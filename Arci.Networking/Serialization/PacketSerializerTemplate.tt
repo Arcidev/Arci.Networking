@@ -1,58 +1,40 @@
-﻿
+﻿<#@ template language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core" #>
+<# Type[] types = new[] {
+    typeof(Int16), typeof(Int32), typeof(SByte), typeof(Int64),
+    typeof(UInt16), typeof(UInt32), typeof(Byte), typeof(UInt64),
+    typeof(String), typeof(Single), typeof(Double), typeof(Decimal),
+    typeof(DateTime)
+    };
+#>
+<# Type[] sizeTypes = new[] {
+    typeof(byte[])
+    };
+#>
+
 using Arci.Networking.Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Arci.Networking.Object
+namespace Arci.Networking.Serialization
 {
-    public abstract partial class PacketObject
+    public abstract partial class PacketSerializer
     {
         private static object ReadPacketProperty(ByteBuffer byteBuffer, Type type)
         {
             switch(Type.GetTypeCode(type))
             {
-                
-                case TypeCode.Int16:
-                    return byteBuffer.ReadInt16();
-                
-                case TypeCode.Int32:
-                    return byteBuffer.ReadInt32();
-                
-                case TypeCode.SByte:
-                    return byteBuffer.ReadSByte();
-                
-                case TypeCode.Int64:
-                    return byteBuffer.ReadInt64();
-                
-                case TypeCode.UInt16:
-                    return byteBuffer.ReadUInt16();
-                
-                case TypeCode.UInt32:
-                    return byteBuffer.ReadUInt32();
-                
-                case TypeCode.Byte:
-                    return byteBuffer.ReadByte();
-                
-                case TypeCode.UInt64:
-                    return byteBuffer.ReadUInt64();
-                
-                case TypeCode.String:
-                    return byteBuffer.ReadString();
-                
-                case TypeCode.Single:
-                    return byteBuffer.ReadSingle();
-                
-                case TypeCode.Double:
-                    return byteBuffer.ReadDouble();
-                
-                case TypeCode.Decimal:
-                    return byteBuffer.ReadDecimal();
-                
-                case TypeCode.DateTime:
-                    return byteBuffer.ReadDateTime();
-                
+                <# foreach (var type in types)
+                { #>
+
+                case TypeCode.<#= type.Name #>:
+                    return byteBuffer.Read<#= type.Name #>();
+                <# 
+                } #>
+
                 default:
                     if (type == typeof(Guid))
                     {
@@ -91,59 +73,15 @@ namespace Arci.Networking.Object
         {
             switch(Type.GetTypeCode(type))
             {
-                
-                case TypeCode.Int16:
-                    byteBuffer.Write((Int16)value);
+                <# foreach (var type in types)
+                { #>
+
+                case TypeCode.<#= type.Name #>:
+                    byteBuffer.Write((<#= type.Name #>)value);
                     break;
-                
-                case TypeCode.Int32:
-                    byteBuffer.Write((Int32)value);
-                    break;
-                
-                case TypeCode.SByte:
-                    byteBuffer.Write((SByte)value);
-                    break;
-                
-                case TypeCode.Int64:
-                    byteBuffer.Write((Int64)value);
-                    break;
-                
-                case TypeCode.UInt16:
-                    byteBuffer.Write((UInt16)value);
-                    break;
-                
-                case TypeCode.UInt32:
-                    byteBuffer.Write((UInt32)value);
-                    break;
-                
-                case TypeCode.Byte:
-                    byteBuffer.Write((Byte)value);
-                    break;
-                
-                case TypeCode.UInt64:
-                    byteBuffer.Write((UInt64)value);
-                    break;
-                
-                case TypeCode.String:
-                    byteBuffer.Write((String)value);
-                    break;
-                
-                case TypeCode.Single:
-                    byteBuffer.Write((Single)value);
-                    break;
-                
-                case TypeCode.Double:
-                    byteBuffer.Write((Double)value);
-                    break;
-                
-                case TypeCode.Decimal:
-                    byteBuffer.Write((Decimal)value);
-                    break;
-                
-                case TypeCode.DateTime:
-                    byteBuffer.Write((DateTime)value);
-                    break;
-                
+                <# 
+                } #>
+
                 default:
                     if (type == typeof(Guid))
                     {

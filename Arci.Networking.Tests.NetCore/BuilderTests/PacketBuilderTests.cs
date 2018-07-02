@@ -1,6 +1,5 @@
 ﻿using Arci.Networking.Data;
 using System;
-using System.Linq;
 using Xunit;
 
 namespace Arci.Networking.Tests.BuilderTests
@@ -33,7 +32,7 @@ namespace Arci.Networking.Tests.BuilderTests
             packet.Write(new byte[] { 7, 8, 9 });
             packet.WriteGuidByteStreamInOrder(123456, 1, 2, 3, 4, 5, 6, 7, 0);
 
-            Assert.True(buildedPacket.Data.SequenceEqual(packet.Data));
+            Assert.Equal<byte>(packet.Data, buildedPacket.Data);
             packet.Dispose();
             buildedPacket.Dispose();
         }

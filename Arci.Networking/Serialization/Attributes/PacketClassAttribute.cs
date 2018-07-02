@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Arci.Networking.Object.Attributes
+namespace Arci.Networking.Serialization.Attributes
 {
     /// <summary>
     /// Packet class attribute

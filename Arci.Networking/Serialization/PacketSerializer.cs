@@ -1,16 +1,16 @@
 ﻿using Arci.Networking.Data;
-using Arci.Networking.Object.Attributes;
+using Arci.Networking.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Arci.Networking.Object
+namespace Arci.Networking.Serialization
 {
     /// <summary>
     /// Packet object container for converting objects to/from Packet
     /// </summary>
-    public abstract partial class PacketObject
+    public abstract partial class PacketSerializer
     {
         /// <summary>
         /// Converts packet object (class with PacketClass attribute) to Packet

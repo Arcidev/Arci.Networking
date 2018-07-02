@@ -47,7 +47,7 @@ namespace Arci.Networking.Tests.NetCore.EncryptionTests
             using (var aes = new AesEncryptor() { PaddingMode = PaddingMode.PKCS7 })
             {
                 var decrypted = aes.Decrypt(aes.Encrypt(packet.Data));
-                Assert.True(packet.Data.SequenceEqual(decrypted), "Decrypted value is not the same as before enryption");
+                Assert.Equal<byte>(packet.Data, decrypted);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Arci.Networking.Tests.NetCore.EncryptionTests
 
                 var value = sb.ToString();
                 var encryptedVal = aes.Encrypt(value);
-                Assert.False(Encoding.ASCII.GetBytes(value).SequenceEqual(encryptedVal));
+                Assert.NotEqual<byte>(Encoding.ASCII.GetBytes(value), encryptedVal);
 
                 // No trim
                 var decryptedVal = aes.Decrypt(encryptedVal, Encoding.ASCII);
@@ -105,7 +105,7 @@ namespace Arci.Networking.Tests.NetCore.EncryptionTests
             {
                 var value = "Hello from unecrypted world";
                 var encryptedVal = aes.Encrypt(value);
-                Assert.False(Encoding.ASCII.GetBytes(value).SequenceEqual(encryptedVal));
+                Assert.NotEqual<byte>(Encoding.ASCII.GetBytes(value), encryptedVal);
 
                 // We need to trim \0 char from string as Aes ZeroesPadding is adding zeroes but not removing them
                 var decryptedVal = aes.Decrypt(encryptedVal, Encoding.ASCII).TrimEnd('\0');
@@ -130,7 +130,7 @@ namespace Arci.Networking.Tests.NetCore.EncryptionTests
                 Assert.Equal(aes.Encryptors.Length, (int)type + iVec.Length);
 
                 Assert.NotEqual(null, aes2.Encryptors);
-                Assert.True(aesKey.Concat(iVec).SequenceEqual(aes2.Encryptors), "Encryptors not created correctly");
+                Assert.Equal(aesKey.Concat(iVec), aes2.Encryptors);
             }
         }
     }

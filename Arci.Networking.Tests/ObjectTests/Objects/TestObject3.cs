@@ -1,4 +1,4 @@
-﻿using Arci.Networking.Object.Attributes;
+﻿using Arci.Networking.Serialization.Attributes;
 
 namespace Arci.Networking.Tests.ObjectTests.Objects
 {

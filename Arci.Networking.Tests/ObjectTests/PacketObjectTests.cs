@@ -1,10 +1,9 @@
 ﻿using Arci.Networking.Data;
-using Arci.Networking.Object;
+using Arci.Networking.Serialization;
 using Arci.Networking.Tests.ObjectTests.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Arci.Networking.Tests.ObjectTests
 {
@@ -25,7 +24,7 @@ namespace Arci.Networking.Tests.ObjectTests
                 DateTime = DateTime.Now
             };
 
-            var packet = PacketObject.ToPacket(obj);
+            var packet = PacketSerializer.ToPacket(obj);
             Assert.AreEqual(1, packet.OpcodeNumber);
 
             var readPacket = new Packet(packet.Data);
@@ -42,7 +41,7 @@ namespace Arci.Networking.Tests.ObjectTests
             readPacket.Dispose();
 
             readPacket = new Packet(packet.Data);
-            var deserializedObject = PacketObject.FromPacket<TestObject1>(readPacket);
+            var deserializedObject = PacketSerializer.FromPacket<TestObject1>(readPacket);
             Assert.AreEqual(obj.SByte, deserializedObject.SByte);
             Assert.AreEqual(obj.UInt16, deserializedObject.UInt16);
             Assert.AreEqual(obj.Int32, deserializedObject.Int32);
@@ -69,7 +68,7 @@ namespace Arci.Networking.Tests.ObjectTests
                 NotSerialized = 10
             };
 
-            var packet = PacketObject.ToPacket(obj);
+            var packet = PacketSerializer.ToPacket(obj);
             Assert.AreEqual(2, packet.OpcodeNumber);
 
             var readPacket = new Packet(packet.Data);
@@ -86,7 +85,7 @@ namespace Arci.Networking.Tests.ObjectTests
             readPacket.Dispose();
 
             readPacket = new Packet(packet.Data);
-            var deserializedObject = PacketObject.FromPacket<TestObject2>(readPacket);
+            var deserializedObject = PacketSerializer.FromPacket<TestObject2>(readPacket);
             Assert.AreEqual(obj.SByte, deserializedObject.SByte);
             Assert.AreEqual(obj.UInt16, deserializedObject.UInt16);
             Assert.AreEqual(obj.Int32, deserializedObject.Int32);
@@ -102,7 +101,7 @@ namespace Arci.Networking.Tests.ObjectTests
         [TestMethod]
         public void TestUnserializableObject()
         {
-            var packet = PacketObject.ToPacket(new object());
+            var packet = PacketSerializer.ToPacket(new object());
             Assert.IsNull(packet);
         }
 
@@ -133,7 +132,7 @@ namespace Arci.Networking.Tests.ObjectTests
                 }
             };
 
-            var packet = PacketObject.ToPacket(obj);
+            var packet = PacketSerializer.ToPacket(obj);
             Assert.AreEqual(3, packet.OpcodeNumber);
 
             var readPacket = new Packet(packet.Data);
@@ -164,7 +163,7 @@ namespace Arci.Networking.Tests.ObjectTests
             readPacket.Dispose();
 
             readPacket = new Packet(packet.Data);
-            var deserializedObject = PacketObject.FromPacket<TestObject3>(readPacket);
+            var deserializedObject = PacketSerializer.FromPacket<TestObject3>(readPacket);
             Assert.AreEqual(obj.Object1.SByte, deserializedObject.Object1.SByte);
             Assert.AreEqual(obj.Object1.UInt16, deserializedObject.Object1.UInt16);
             Assert.AreEqual(obj.Object1.Int32, deserializedObject.Object1.Int32);
@@ -206,9 +205,9 @@ namespace Arci.Networking.Tests.ObjectTests
                 String = "test_string1"
             };
 
-            var packet = PacketObject.ToPacket(obj);
+            var packet = PacketSerializer.ToPacket(obj);
             var readPacket = new Packet(packet.Data);
-            var deserializedObject = PacketObject.FromPacket<TestObject4>(readPacket);
+            var deserializedObject = PacketSerializer.FromPacket<TestObject4>(readPacket);
             packet.Dispose();
             readPacket.Dispose();
 
@@ -238,17 +237,17 @@ namespace Arci.Networking.Tests.ObjectTests
                 ListOfObject = new List<TestObject3>() { new TestObject3(), new TestObject3(), new TestObject3() }
             };
 
-            var packet = PacketObject.ToPacket(obj);
+            var packet = PacketSerializer.ToPacket(obj);
             var readPacket = new Packet(packet.Data);
-            var deserializedObject = PacketObject.FromPacket<TestObject5>(readPacket);
+            var deserializedObject = PacketSerializer.FromPacket<TestObject5>(readPacket);
             packet.Dispose();
             readPacket.Dispose();
 
             Assert.AreEqual(obj.ArrayOfString.Length, deserializedObject.ArrayOfString.Length);
             Assert.AreEqual(obj.ListOfInt.Count, deserializedObject.ListOfInt.Count);
             Assert.AreEqual(obj.ListOfObject.Count, deserializedObject.ListOfObject.Count);
-            Assert.IsTrue(deserializedObject.ArrayOfString.SequenceEqual(obj.ArrayOfString));
-            Assert.IsTrue(deserializedObject.ListOfInt.SequenceEqual(obj.ListOfInt));
+            CollectionAssert.AreEqual(obj.ArrayOfString, deserializedObject.ArrayOfString);
+            CollectionAssert.AreEqual(obj.ListOfInt, deserializedObject.ListOfInt);
         }
     }
 }

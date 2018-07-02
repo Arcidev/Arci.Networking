@@ -60,7 +60,7 @@ namespace Arci.Networking.Tests.EncryptionTests
             using (var aes = new AesEncryptor() { PaddingMode = PaddingMode.PKCS7 })
             {
                 var decrypted = aes.Decrypt(aes.Encrypt(packet.Data));
-                Assert.IsTrue(packet.Data.SequenceEqual(decrypted), "Decrypted value is not the same as before enryption");
+                CollectionAssert.AreEqual(packet.Data, decrypted);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Arci.Networking.Tests.EncryptionTests
 
                 var value = sb.ToString();
                 var encryptedVal = aes.Encrypt(value);
-                Assert.IsFalse(Encoding.ASCII.GetBytes(value).SequenceEqual(encryptedVal), "Value is not encrypted");
+                CollectionAssert.AreNotEqual(Encoding.ASCII.GetBytes(value), encryptedVal);
 
                 // No trim
                 var decryptedVal = aes.Decrypt(encryptedVal, Encoding.ASCII);
@@ -118,7 +118,7 @@ namespace Arci.Networking.Tests.EncryptionTests
             {
                 var value = "Hello from unecrypted world";
                 var encryptedVal = aes.Encrypt(value);
-                Assert.IsFalse(Encoding.ASCII.GetBytes(value).SequenceEqual(encryptedVal), "Value is not encrypted");
+                CollectionAssert.AreNotEqual(Encoding.ASCII.GetBytes(value), encryptedVal);
 
                 // We need to trim \0 char from string as Aes ZeroesPadding is adding zeroes but not removing them
                 var decryptedVal = aes.Decrypt(encryptedVal, Encoding.ASCII).TrimEnd('\0');
@@ -143,7 +143,7 @@ namespace Arci.Networking.Tests.EncryptionTests
                 Assert.AreEqual(aes.Encryptors.Length, (int)type + iVec.Length, "Invalid length of encryptors");
 
                 Assert.AreNotEqual(null, aes2.Encryptors, "Encryptors not created");
-                Assert.IsTrue(aesKey.Concat(iVec).SequenceEqual(aes2.Encryptors), "Encryptors not created correctly");
+                CollectionAssert.AreEqual(aesKey.Concat(iVec).ToList(), aes2.Encryptors);
             }
         }
     }

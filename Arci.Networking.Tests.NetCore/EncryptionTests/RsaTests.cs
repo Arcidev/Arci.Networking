@@ -1,5 +1,5 @@
 ﻿using Arci.Networking.Security;
-using System.Linq;
+using Shared;
 using System.Text;
 using Xunit;
 
@@ -33,8 +33,8 @@ namespace Arci.Networking.Tests.NetCore.EncryptionTests
                 var rsaDecryptedValue = rsa2.Decrypt(rsaEncryptedValue);
                 var rsa2DecryptedValue = rsa2.Decrypt(rsa2EncryptedValue);
 
-                Assert.True(rsaDecryptedValue.SequenceEqual(rsa2DecryptedValue), "Not decrypted same values");
-                Assert.True(rsaDecryptedValue.SequenceEqual(value), "Not decrypted same value as initial");
+                Assert.Equal<byte>(rsaDecryptedValue, rsa2DecryptedValue);
+                Assert.Equal<byte>(value, rsaDecryptedValue);
             }
         }
     }

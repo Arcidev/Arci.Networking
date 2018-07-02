@@ -33,9 +33,7 @@ namespace Arci.Networking.Tests.DataTests
                     Assert.AreEqual(int16Value, readPacket.ReadInt16());
                     Assert.AreEqual(sbyteValue, readPacket.ReadSByte());
                     Assert.AreEqual(stringValue, readPacket.ReadString());
-                    var packetBytes = readPacket.ReadBytes();
-                    for (int i = 0; i < byteArrayValue.Length; i++)
-                        Assert.AreEqual(byteArrayValue[i], packetBytes[i]);
+                    CollectionAssert.AreEqual(byteArrayValue, readPacket.ReadBytes());
                 }
             }
         }
