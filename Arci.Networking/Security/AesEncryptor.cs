@@ -123,11 +123,11 @@ namespace Arci.Networking.Security
         /// <returns>Decrypted data</returns>
         public byte[] Decrypt(byte[] toDecode)
         {
-            using (MemoryStream msDecrypt = new MemoryStream(toDecode.ToArray()))
+            using (var msDecrypt = new MemoryStream(toDecode, false))
             {
-                using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, aes.CreateDecryptor(aes.Key, aes.IV), CryptoStreamMode.Read))
+                using (var csDecrypt = new CryptoStream(msDecrypt, aes.CreateDecryptor(aes.Key, aes.IV), CryptoStreamMode.Read))
                 {
-                    using (BinaryReader srDecrypt = new BinaryReader(csDecrypt))
+                    using (var srDecrypt = new BinaryReader(csDecrypt))
                     {
                         // Read the decrypted bytes from the decrypting stream
                         return srDecrypt.ReadBytes(toDecode.Length);

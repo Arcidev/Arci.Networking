@@ -160,14 +160,16 @@ namespace Arci.Networking
                 return null;
 
             var packets = new List<Packet>();
-            while (data.Any())
+            var lengthRead = 0;
+            while (data.Length > lengthRead)
             {
-                var length = BitConverter.ToUInt16(data, 0);
-                data = data.Skip(sizeof(UInt16)).ToArray();
-                var packetData = data.Take(length).ToArray();
+                var length = BitConverter.ToUInt16(data, lengthRead);
+                var packetData = new byte[length];
+                Array.Copy(data, lengthRead + sizeof(UInt16), packetData, 0, length);
+
                 var packet = new Packet(decrypt && Encryptor != null ? Encryptor.Decrypt(packetData) : packetData);
                 packets.Add(packet);
-                data = data.Skip(length).ToArray();
+                lengthRead += sizeof(UInt16) + length;
             }
 
             return packets;
