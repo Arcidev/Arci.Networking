@@ -9,11 +9,6 @@ namespace Arci.Networking.Data
     public partial class Packet : ByteBuffer
     {
         /// <summary>
-        /// Maximum byte size of stored data
-        /// </summary>
-        public static readonly int MaxPacketSize = 10000;
-
-        /// <summary>
         /// Opcode number of this Packet
         /// </summary>
         public UInt16 OpcodeNumber { get; private set; }

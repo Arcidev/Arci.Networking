@@ -16,6 +16,7 @@ namespace Arci.Networking
     {
         private TcpClient tcpClient;
         private NetworkStream stream;
+        private const int maxBufferSize = 10000;
 
         /// <summary>
         /// Symmetric encryptor
@@ -25,7 +26,7 @@ namespace Arci.Networking
         /// <summary>
         /// Creates new instance
         /// </summary>
-        /// <param name="client">TcpClient to be used</param>
+        /// <param name="client">TcpClient connected to the server</param>
         public Client(TcpClient client)
         {
             tcpClient = client;
@@ -136,8 +137,8 @@ namespace Arci.Networking
 
         private byte[] ReadData()
         {
-            var data = new byte[Packet.MaxPacketSize];
-            int length = stream.Read(data, 0, Packet.MaxPacketSize);
+            var data = new byte[maxBufferSize];
+            int length = stream.Read(data, 0, maxBufferSize);
             if (length == 0)
                 return null;
 
@@ -146,8 +147,8 @@ namespace Arci.Networking
 
         private async Task<byte[]> ReadDataAsync(CancellationToken? token)
         {
-            var data = new byte[Packet.MaxPacketSize];
-            int length = await stream.ReadAsync(data, 0, Packet.MaxPacketSize, token ?? CancellationToken.None);
+            var data = new byte[maxBufferSize];
+            int length = await stream.ReadAsync(data, 0, maxBufferSize, token ?? CancellationToken.None);
             if (length == 0)
                 return null;
 
@@ -163,7 +164,16 @@ namespace Arci.Networking
             var lengthRead = 0;
             while (data.Length > lengthRead)
             {
+                // Fetch packet length and data if missing
+                if (data.Length - lengthRead < sizeof(UInt16) && !AddPendingData(ref data, ref lengthRead))
+                    return packets;
+
                 var length = BitConverter.ToUInt16(data, lengthRead);
+
+                // Fetch packet data if missing
+                if (data.Length - lengthRead < length && !AddPendingData(ref data, ref lengthRead))
+                    return packets;
+
                 var packetData = new byte[length];
                 Array.Copy(data, lengthRead + sizeof(UInt16), packetData, 0, length);
 
@@ -173,6 +183,24 @@ namespace Arci.Networking
             }
 
             return packets;
+        }
+
+        /// <summary>
+        /// Adds pending data to existing data while skipping already read data
+        /// </summary>
+        /// <param name="data">Current data where pending data will be added</param>
+        /// <param name="lengthRead">Length of current data that has already been read</param>
+        /// <returns>True if pending data were added otherwise false</returns>
+        private bool AddPendingData(ref byte[] data, ref int lengthRead)
+        {
+            var pendingData = ReceiveData();
+            if (pendingData == null)
+                return false;
+
+            data = data.Skip(lengthRead).Concat(pendingData).ToArray();
+            lengthRead = 0;
+
+            return true;
         }
     }
 }
