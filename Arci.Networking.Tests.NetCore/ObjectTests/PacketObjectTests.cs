@@ -40,7 +40,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             readPacket.Dispose();
 
             readPacket = new Packet(packet.Data);
-            var deserializedObject = PacketSerializer.FromPacket<TestObject1>(readPacket);
+            var deserializedObject = readPacket.FromPacket<TestObject1>();
             Assert.Equal(obj.SByte, deserializedObject.SByte);
             Assert.Equal(obj.UInt16, deserializedObject.UInt16);
             Assert.Equal(obj.Int32, deserializedObject.Int32);
@@ -84,7 +84,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             readPacket.Dispose();
 
             readPacket = new Packet(packet.Data);
-            var deserializedObject = PacketSerializer.FromPacket<TestObject2>(readPacket);
+            var deserializedObject = readPacket.FromPacket<TestObject2>();
             Assert.Equal(obj.SByte, deserializedObject.SByte);
             Assert.Equal(obj.UInt16, deserializedObject.UInt16);
             Assert.Equal(obj.Int32, deserializedObject.Int32);
@@ -162,7 +162,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             readPacket.Dispose();
 
             readPacket = new Packet(packet.Data);
-            var deserializedObject = PacketSerializer.FromPacket<TestObject3>(readPacket);
+            var deserializedObject = readPacket.FromPacket<TestObject3>();
             Assert.Equal(obj.Object1.SByte, deserializedObject.Object1.SByte);
             Assert.Equal(obj.Object1.UInt16, deserializedObject.Object1.UInt16);
             Assert.Equal(obj.Object1.Int32, deserializedObject.Object1.Int32);
@@ -206,7 +206,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
 
             var packet = PacketSerializer.ToPacket(obj);
             var readPacket = new Packet(packet.Data);
-            var deserializedObject = PacketSerializer.FromPacket<TestObject4>(readPacket);
+            var deserializedObject = readPacket.FromPacket<TestObject4>();
             packet.Dispose();
             readPacket.Dispose();
 
@@ -238,7 +238,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
 
             var packet = PacketSerializer.ToPacket(obj);
             var readPacket = new Packet(packet.Data);
-            var deserializedObject = PacketSerializer.FromPacket<TestObject5>(readPacket);
+            var deserializedObject = readPacket.FromPacket<TestObject5>();
             packet.Dispose();
             readPacket.Dispose();
 

@@ -10,7 +10,7 @@ namespace Arci.Networking.Serialization
     /// <summary>
     /// Packet object container for converting objects to/from Packet
     /// </summary>
-    public abstract partial class PacketSerializer
+    public static partial class PacketSerializer
     {
         /// <summary>
         /// Converts packet object (class with PacketClass attribute) to Packet
@@ -37,7 +37,7 @@ namespace Arci.Networking.Serialization
         /// </summary>
         /// <param name="packet">Packet to be converted</param>
         /// <returns>Packet object</returns>
-        public static T FromPacket<T>(Packet packet) where T : class, new()
+        public static T FromPacket<T>(this Packet packet) where T : class, new()
         {
             var instance = new T();
             ReadPacketProperties(packet, instance);

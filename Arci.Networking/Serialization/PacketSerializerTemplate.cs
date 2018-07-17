@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Arci.Networking.Serialization
 {
-    public abstract partial class PacketSerializer
+    public static partial class PacketSerializer
     {
         private static object ReadPacketProperty(ByteBuffer byteBuffer, Type type)
         {
