@@ -3,15 +3,16 @@ Simple library for client-server network communication with as less dependencies
 
 ## Nuget
 [![NuGet](https://img.shields.io/nuget/v/Arci.Networking.svg?style=flat-square)](https://www.nuget.org/packages/Arci.Networking)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/Arci.Networking.svg?style=flat-square)](https://www.nuget.org/packages/Arci.Networking)
+[![NuGet downloads](https://img.shields.io/nuget/dt/Arci.Networking.svg?style=flat-square)](https://www.nuget.org/packages/Arci.Networking)
 
 	PM> Install-Package Arci.Networking
   
 ## Build Status
-[![Build status](https://img.shields.io/appveyor/ci/Arcidev/arci-networking.svg?style=flat-square)](https://ci.appveyor.com/project/Arcidev/arci-networking) (MSVC15)
+[![Build status](https://img.shields.io/appveyor/ci/Arcidev/arci-networking.svg?style=flat-square)](https://ci.appveyor.com/project/Arcidev/arci-networking)
+[![Test status](https://img.shields.io/appveyor/tests/Arcidev/arci-networking.svg?style=flat-square)](https://ci.appveyor.com/project/Arcidev/arci-networking/build/tests)
 
 ## Copyright
-[![license](https://img.shields.io/github/license/Arcidev/Arci.Networking.svg?style=flat-square)](LICENSE.md)
+[![License](https://img.shields.io/github/license/Arcidev/Arci.Networking.svg?style=flat-square)](LICENSE.md)
 
 ## Usage
 Basic usage of the library. You can find some basic example of an [client](https://github.com/Arcidev/Arci.Networking/tree/master/ClientSample) and a [server](https://github.com/Arcidev/Arci.Networking/tree/master/ServerSample) in the solution. For more advanced example you can check my [other project](https://github.com/Arcidev/Card-Game).
