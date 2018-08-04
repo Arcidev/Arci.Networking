@@ -24,7 +24,7 @@ namespace Arci.Networking.Tests.ObjectTests
                 DateTime = DateTime.Now
             };
 
-            var packet = PacketSerializer.ToPacket(obj);
+            var packet = obj.ToPacket();
             Assert.AreEqual(1, packet.OpcodeNumber);
 
             var readPacket = new Packet(packet.Data);
@@ -68,7 +68,7 @@ namespace Arci.Networking.Tests.ObjectTests
                 NotSerialized = 10
             };
 
-            var packet = PacketSerializer.ToPacket(obj);
+            var packet = obj.ToPacket();
             Assert.AreEqual(2, packet.OpcodeNumber);
 
             var readPacket = new Packet(packet.Data);
@@ -101,8 +101,7 @@ namespace Arci.Networking.Tests.ObjectTests
         [TestMethod]
         public void TestUnserializableObject()
         {
-            var packet = PacketSerializer.ToPacket(new object());
-            Assert.IsNull(packet);
+            Assert.IsNull(new object().ToPacket());
         }
 
         [TestMethod]
@@ -132,7 +131,7 @@ namespace Arci.Networking.Tests.ObjectTests
                 }
             };
 
-            var packet = PacketSerializer.ToPacket(obj);
+            var packet = obj.ToPacket();
             Assert.AreEqual(3, packet.OpcodeNumber);
 
             var readPacket = new Packet(packet.Data);
@@ -205,7 +204,7 @@ namespace Arci.Networking.Tests.ObjectTests
                 String = "test_string1"
             };
 
-            var packet = PacketSerializer.ToPacket(obj);
+            var packet = obj.ToPacket();
             var readPacket = new Packet(packet.Data);
             var deserializedObject = readPacket.FromPacket<TestObject4>();
             packet.Dispose();
@@ -237,7 +236,7 @@ namespace Arci.Networking.Tests.ObjectTests
                 ListOfObject = new List<TestObject3>() { new TestObject3(), new TestObject3(), new TestObject3() }
             };
 
-            var packet = PacketSerializer.ToPacket(obj);
+            var packet = obj.ToPacket();
             var readPacket = new Packet(packet.Data);
             var deserializedObject = readPacket.FromPacket<TestObject5>();
             packet.Dispose();

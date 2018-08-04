@@ -17,7 +17,7 @@ namespace Arci.Networking.Serialization
         /// </summary>
         /// <param name="packetObject">Object to be converted</param>
         /// <returns>Packet</returns>
-        public static Packet ToPacket(object packetObject)
+        public static Packet ToPacket<T>(this T packetObject) where T : class, new()
         {
             if (packetObject == null)
                 return null;
