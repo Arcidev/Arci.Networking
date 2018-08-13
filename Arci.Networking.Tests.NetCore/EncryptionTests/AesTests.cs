@@ -126,10 +126,10 @@ namespace Arci.Networking.Tests.NetCore.EncryptionTests
 
             using (AesEncryptor aes = new AesEncryptor(type), aes2 = new AesEncryptor(aesKey, iVec))
             {
-                Assert.NotEqual(null, aes.Encryptors);
+                Assert.NotNull(aes.Encryptors);
                 Assert.Equal(aes.Encryptors.Length, (int)type + iVec.Length);
 
-                Assert.NotEqual(null, aes2.Encryptors);
+                Assert.NotNull(aes2.Encryptors);
                 Assert.Equal(aesKey.Concat(iVec), aes2.Encryptors);
             }
         }

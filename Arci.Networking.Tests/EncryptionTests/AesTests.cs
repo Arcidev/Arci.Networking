@@ -139,10 +139,10 @@ namespace Arci.Networking.Tests.EncryptionTests
 
             using (AesEncryptor aes = new AesEncryptor(type), aes2 = new AesEncryptor(aesKey, iVec))
             {
-                Assert.AreNotEqual(null, aes.Encryptors, "Encryptors not created");
+                Assert.IsNotNull(aes.Encryptors, "Encryptors not created");
                 Assert.AreEqual(aes.Encryptors.Length, (int)type + iVec.Length, "Invalid length of encryptors");
 
-                Assert.AreNotEqual(null, aes2.Encryptors, "Encryptors not created");
+                Assert.IsNotNull(aes2.Encryptors, "Encryptors not created");
                 CollectionAssert.AreEqual(aesKey.Concat(iVec).ToList(), aes2.Encryptors);
             }
         }
