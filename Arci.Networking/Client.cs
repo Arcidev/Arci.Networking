@@ -69,12 +69,9 @@ namespace Arci.Networking
         /// <param name="encrypt">Encrypts data with Aes key if set</param>
         public void SendPacket(Packet packet, bool encrypt)
         {
-            var data = encrypt && Encryptor != null ? Encryptor.Encrypt(packet.Data) : packet.Data;
-            if (data == null || !data.Any())
-                return;
-
-            var toSend = BitConverter.GetBytes((UInt16)data.Length).Concat(data).ToArray();
-            stream.Write(toSend, 0, toSend.Length);
+            var data = PrepareDataToSend(packet.Data, encrypt);
+            if (data != null)
+                stream.Write(data, 0, data.Length);
         }
 
         /// <summary>
@@ -90,12 +87,9 @@ namespace Arci.Networking
         /// <param name="encrypt">Encrypts data with Aes key if set</param>
         public async Task SendPacketAsync(Packet packet, bool encrypt)
         {
-            var data = encrypt && Encryptor != null ? Encryptor.Encrypt(packet.Data) : packet.Data;
-            if (data == null || !data.Any())
-                return;
-
-            var toSend = BitConverter.GetBytes((UInt16)data.Length).Concat(data).ToArray();
-            await stream.WriteAsync(toSend, 0, toSend.Length).ConfigureAwait(false);
+            var data = PrepareDataToSend(packet.Data, encrypt);
+            if (data != null)
+                await stream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -158,6 +152,15 @@ namespace Arci.Networking
         {
             stream.Dispose();
             tcpClient.Dispose();
+        }
+
+        private byte[] PrepareDataToSend(byte[] data, bool encrypt)
+        {
+            var result = encrypt && Encryptor != null ? Encryptor.Encrypt(data) : data;
+            if (result == null || !result.Any())
+                return null;
+
+            return BitConverter.GetBytes((UInt16)result.Length).Concat(result).ToArray();
         }
 
         private byte[] ReadData()

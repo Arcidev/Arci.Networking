@@ -1,6 +1,7 @@
 ﻿using Arci.Networking.Data;
 using Arci.Networking.Serialization.Attributes;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -109,6 +110,71 @@ namespace Arci.Networking.Serialization
             return type.GetProperties()
               .Where(x => x.GetCustomAttributes(typeof(PacketPropertyAttribute), true).Length > 0)
               .OrderBy(x => ((PacketPropertyAttribute)x.GetCustomAttributes(typeof(PacketPropertyAttribute), false)[0]).Order);
+        }
+
+        private static object ReadPacketObject(ByteBuffer byteBuffer, Type type)
+        {
+            if (type == typeof(Guid))
+            {
+                return byteBuffer.ReadGuid();
+            }
+            else if (type == typeof(PacketGuid))
+            {
+                return byteBuffer.ReadPacketGuid();
+            }
+            else if (type.IsGenericType && type.GetInterfaces().Any(x => x.GetGenericTypeDefinition() == typeof(ICollection<>)))
+            {
+                var instance = Activator.CreateInstance(type);
+                var count = byteBuffer.ReadUInt16();
+                for (var i = 0; i < count; i++)
+                {
+                    var value = ReadPacketProperty(byteBuffer, type.GetGenericArguments()[0]);
+                    type.GetMethod("Add").Invoke(instance, new[] { value });
+                }
+                return instance;
+            }
+            else if (type.IsArray)
+            {
+                var count = byteBuffer.ReadUInt16();
+                var arr = Array.CreateInstance(type.GetElementType(), count);
+                for (var i = 0; i < count; i++)
+                    arr.SetValue(ReadPacketProperty(byteBuffer, type.GetElementType()), i);
+                return arr;
+            }
+            else if (type.IsClass && type.GetConstructor(Type.EmptyTypes) != null)
+            {
+                var instance = Activator.CreateInstance(type);
+                ReadPacketProperties(byteBuffer, instance);
+                return instance;
+            }
+            return null;
+        }
+
+        private static void WritePacketObject(ByteBuffer byteBuffer, object value, Type type)
+        {
+            if (type == typeof(Guid))
+            {
+                byteBuffer.Write((Guid)value);
+            }
+            else if (type == typeof(PacketGuid))
+            {
+                byteBuffer.Write((PacketGuid)value);
+            }
+            else if (type.IsArray || (type.IsGenericType && type.GetInterfaces().Any(x => x.GetGenericTypeDefinition() == typeof(ICollection<>))))
+            {
+                UInt16 count = 0;
+                var itemsBuffer = new ByteBuffer();
+                foreach (var item in (IEnumerable)value)
+                {
+                    WritePacketProperty(itemsBuffer, item, type.GetElementType() ?? type.GetGenericArguments()[0]);
+                    count++;
+                }
+
+                byteBuffer.Write(count);
+                byteBuffer.Write(itemsBuffer);
+            }
+            else if (type.IsClass && type.GetConstructor(Type.EmptyTypes) != null)
+                WritePacketProperties(byteBuffer, value);
         }
     }
 }
