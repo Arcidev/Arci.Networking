@@ -13,12 +13,6 @@ namespace Arci.Networking
         private readonly TcpListener server;
 
         /// <summary>
-        /// Creates new instance listening on 127.0.0.1
-        /// </summary>
-        /// <param name="port">The port on which to listen for incoming connection attempts</param>
-        public Server(int port) : this (IPAddress.Parse("127.0.0.1"), port) { }
-
-        /// <summary>
         /// Creates new instance
         /// </summary>
         /// <param name="address">An IPAddress that represents the local IP address</param>

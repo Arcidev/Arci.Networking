@@ -4,6 +4,7 @@ using Arci.Networking.Security;
 using Shared;
 using System;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace ServerSample
             RsaEncryptor rsa = new RsaEncryptor(RSAKey.RsaParams) { UseOAEPPadding = true };
 
             // Creates new server instance on port 10751
-            Server server = new Server(10751);
+            Server server = new Server(IPAddress.Parse("127.0.0.1"), 10751);
             // Awaits client connection
             var tcpClient = await server.AcceptClientAsync();
             // Creates client instance
