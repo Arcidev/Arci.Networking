@@ -62,6 +62,10 @@ namespace Arci.Networking.Tests.DataTests
             Assert.IsTrue(guid1 != null);
             Assert.IsTrue(null != guid2);
             Assert.IsFalse(guid1.Equals(guid2));
+            Assert.IsTrue(guid1 == (UInt64)guid1);
+            Assert.IsTrue((UInt64)guid1 == guid1);
+            Assert.IsFalse(guid1 != (UInt64)guid1);
+            Assert.IsFalse((UInt64)guid1 != guid1);
             Assert.AreNotEqual(guid1.GetHashCode(), guid2.GetHashCode());
         }
 

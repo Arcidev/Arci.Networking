@@ -46,7 +46,7 @@ namespace Arci.Networking
             // check connection
             try
             {
-                await client.ConnectAsync(server, port);
+                await client.ConnectAsync(server, port).ConfigureAwait(false);
                 return new Client(client);
             }
             catch (SocketException)
@@ -60,8 +60,14 @@ namespace Arci.Networking
         /// Sends packet to server
         /// </summary>
         /// <param name="packet">Packet to send</param>
+        public void SendPacket(Packet packet) => SendPacket(packet, true);
+
+        /// <summary>
+        /// Sends packet to server
+        /// </summary>
+        /// <param name="packet">Packet to send</param>
         /// <param name="encrypt">Encrypts data with Aes key if set</param>
-        public void SendPacket(Packet packet, bool encrypt = true)
+        public void SendPacket(Packet packet, bool encrypt)
         {
             var data = encrypt && Encryptor != null ? Encryptor.Encrypt(packet.Data) : packet.Data;
             if (data == null || !data.Any())
@@ -75,15 +81,21 @@ namespace Arci.Networking
         /// Sends packet to server asynchronously
         /// </summary>
         /// <param name="packet">Packet to send</param>
+        public async Task SendPacketAsync(Packet packet) => await SendPacketAsync(packet, true).ConfigureAwait(false);
+
+        /// <summary>
+        /// Sends packet to server asynchronously
+        /// </summary>
+        /// <param name="packet">Packet to send</param>
         /// <param name="encrypt">Encrypts data with Aes key if set</param>
-        public async Task SendPacketAsync(Packet packet, bool encrypt = true)
+        public async Task SendPacketAsync(Packet packet, bool encrypt)
         {
             var data = encrypt && Encryptor != null ? Encryptor.Encrypt(packet.Data) : packet.Data;
             if (data == null || !data.Any())
                 return;
 
             var toSend = BitConverter.GetBytes((UInt16)data.Length).Concat(data).ToArray();
-            await stream.WriteAsync(toSend, 0, toSend.Length);
+            await stream.WriteAsync(toSend, 0, toSend.Length).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -100,11 +112,18 @@ namespace Arci.Networking
         /// Receive data as a list of packets from server
         /// </summary>
         /// <param name="decrypt">Decrypt data with Aes key if set</param>
+        /// <returns>List of packets received from server. Blocks thread until data become available.</returns>
+        public async Task<IEnumerable<Packet>> ReceiveDataAsync(bool decrypt) => await ReceiveDataAsync(decrypt, null).ConfigureAwait(false);
+
+        /// <summary>
+        /// Receive data as a list of packets from server
+        /// </summary>
+        /// <param name="decrypt">Decrypt data with Aes key if set</param>
         /// <param name="token">Token to cancel awaited reading</param>
         /// <returns>List of packets received from server. Blocks thread until data become available.</returns>
-        public async Task<IEnumerable<Packet>> ReceiveDataAsync(bool decrypt, CancellationToken? token = null)
+        public async Task<IEnumerable<Packet>> ReceiveDataAsync(bool decrypt, CancellationToken? token)
         {
-            return TransformStreamToPackets(await ReceiveDataAsync(token), decrypt);
+            return TransformStreamToPackets(await ReceiveDataAsync(token).ConfigureAwait(false), decrypt);
         }
 
         /// <summary>
@@ -119,11 +138,17 @@ namespace Arci.Networking
         /// <summary>
         /// Receives data as byte stream asynchronously
         /// </summary>
+        /// <returns>Byte stream of received data. Blocks thread until data become available.</returns>
+        public async Task<byte[]> ReceiveDataAsync() => await ReceiveDataAsync(null).ConfigureAwait(false);
+
+        /// <summary>
+        /// Receives data as byte stream asynchronously
+        /// </summary>
         /// <param name="token">Token to cancel awaited reading</param>
         /// <returns>Byte stream of received data. Blocks thread until data become available.</returns>
-        public async Task<byte[]> ReceiveDataAsync(CancellationToken? token = null)
+        public async Task<byte[]> ReceiveDataAsync(CancellationToken? token)
         {
-            return await ReadDataAsync(token);
+            return await ReadDataAsync(token).ConfigureAwait(false);
         }
 
         /// <summary>

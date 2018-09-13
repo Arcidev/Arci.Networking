@@ -5,9 +5,9 @@ namespace Arci.Networking.Data
     /// <summary>
     /// Represents 64bit integer as 8 byte values
     /// </summary>
-    public class PacketGuid
+    public class PacketGuid : IEquatable<PacketGuid>, IEquatable<UInt64>
     {
-        private byte[] byteVal;
+        private readonly byte[] byteVal;
 
         /// <summary>
         /// Creates new Guid instance
@@ -67,11 +67,56 @@ namespace Arci.Networking.Data
         /// Comparsion operator
         /// </summary>
         /// <param name="guid1">First guid value</param>
+        /// <param name="guid2">Second UInt64 value</param>
+        /// <returns>true if values represents same UIn64 value, otherwise false</returns>
+        public static bool operator ==(PacketGuid guid1, UInt64 guid2)
+        {
+            return Equals(guid1, guid2);
+        }
+
+        /// <summary>
+        /// Comparsion operator
+        /// </summary>
+        /// <param name="guid1">First guid value</param>
         /// <param name="guid2">Second guid value</param>
         /// <returns>false if values represents same UIn64 value, otherwise true</returns>
         public static bool operator !=(PacketGuid guid1, PacketGuid guid2)
         {
             return !Equals(guid1, guid2);
+        }
+
+        /// <summary>
+        /// Comparsion operator
+        /// </summary>
+        /// <param name="guid1">First guid value</param>
+        /// <param name="guid2">Second UInt64 value</param>
+        /// <returns>false if values represents same UIn64 value, otherwise true</returns>
+        public static bool operator !=(PacketGuid guid1, UInt64 guid2)
+        {
+            return !Equals(guid1, guid2);
+        }
+
+        /// <summary>
+        /// Compares with other Guid value
+        /// </summary>
+        /// <param name="other">Value to be compared with</param>
+        /// <returns>true if value represents same UIn64 value as this Guid value, otherwise false</returns>
+        public bool Equals(PacketGuid other)
+        {
+            if (other == null)
+                return false;
+
+            return Equals((UInt64)other);
+        }
+
+        /// <summary>
+        /// Compares with other UInt64 value
+        /// </summary>
+        /// <param name="other">Value to be compared with</param>
+        /// <returns>true if value represents same UIn64 value as this Guid value, otherwise false</returns>
+        public bool Equals(UInt64 other)
+        {
+            return (UInt64)this == other;
         }
 
         /// <summary>
@@ -85,10 +130,9 @@ namespace Arci.Networking.Data
                 return false;
 
             if (obj is UInt64)
-                return (UInt64)this == (UInt64)obj;
+                return Equals((UInt64)obj);
 
-            PacketGuid guid = obj as PacketGuid;
-            return guid != null && (UInt64)this == (UInt64)guid;
+            return Equals(obj as PacketGuid);
         }
 
         /// <summary>

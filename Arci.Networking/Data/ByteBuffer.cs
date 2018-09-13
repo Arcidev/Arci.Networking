@@ -77,8 +77,14 @@ namespace Arci.Networking.Data
         /// Writes guid into data stream
         /// </summary>
         /// <param name="guid">Guid to be written</param>
+        public void Write(Guid guid) => Write(guid, "N");
+
+        /// <summary>
+        /// Writes guid into data stream
+        /// </summary>
+        /// <param name="guid">Guid to be written</param>
         /// <param name="format">Guid format</param>
-        public void Write(Guid guid, string format = null)
+        public void Write(Guid guid, string format)
         {
             Write(guid.ToString(format ?? "N"));
         }
@@ -168,11 +174,17 @@ namespace Arci.Networking.Data
         }
 
         /// <summary>
+        /// Writes string value with ASCII encoding
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        public void Write(string val) => Write(val, Encoding.ASCII);
+
+        /// <summary>
         /// Writes string value
         /// </summary>
         /// <param name="val">Value to be written</param>
         /// <param name="encoding">Encoding type of string. If null provided then ASCII will be used</param>
-        public void Write(string val, Encoding encoding = null)
+        public void Write(string val, Encoding encoding)
         {
             writeData.Write((UInt16)val.Length);
             writeData.Write((encoding ?? Encoding.ASCII).GetBytes(val));
@@ -208,11 +220,17 @@ namespace Arci.Networking.Data
         }
 
         /// <summary>
+        /// Reads string with ASCII encoding
+        /// </summary>
+        /// <returns>String in ASCII format</returns>
+        public string ReadString() => ReadString(Encoding.ASCII);
+
+        /// <summary>
         /// Reads string
         /// </summary>
         /// <param name="encoding">Encoding type of string. If null provided then ASCII will be used</param>
-        /// <returns>String in ASCII format</returns>
-        public string ReadString(Encoding encoding = null)
+        /// <returns>String in specified format</returns>
+        public string ReadString(Encoding encoding)
         {
             return (encoding ?? Encoding.ASCII).GetString(ReadBytes());
         }
@@ -256,9 +274,15 @@ namespace Arci.Networking.Data
         /// <summary>
         /// Reads guid from data stream
         /// </summary>
+        /// <returns>Guid object</returns>
+        public Guid ReadGuid() => ReadGuid("N");
+
+        /// <summary>
+        /// Reads guid from data stream
+        /// </summary>
         /// <param name="format">Guid format</param>
         /// <returns>Guid object</returns>
-        public Guid ReadGuid(string format = null)
+        public Guid ReadGuid(string format)
         {
             return Guid.TryParseExact(ReadString(), format ?? "N", out var guid) ? guid : Guid.Empty;
         }

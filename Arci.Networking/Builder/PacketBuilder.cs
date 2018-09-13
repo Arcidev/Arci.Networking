@@ -9,7 +9,7 @@ namespace Arci.Networking.Builder
     /// </summary>
     public partial class PacketBuilder
     {
-        private Packet packet;
+        private readonly Packet packet;
 
         /// <summary>
         /// Creates new instance of packet builder
@@ -56,12 +56,23 @@ namespace Arci.Networking.Builder
         }
 
         /// <summary>
+        /// Writes string value with ASCII Encoding
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder Write(string val)
+        {
+            packet.Write(val);
+            return this;
+        }
+
+        /// <summary>
         /// Writes string value
         /// </summary>
         /// <param name="val">Value to be written</param>
         /// <param name="encoding">Encoding type of string. If null provided then ASCII will be used</param>
         /// <returns>This PacketBuilder</returns>
-        public PacketBuilder Write(string val, Encoding encoding = null)
+        public PacketBuilder Write(string val, Encoding encoding)
         {
             packet.Write(val, encoding);
             return this;

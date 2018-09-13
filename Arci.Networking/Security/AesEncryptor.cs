@@ -53,8 +53,8 @@ namespace Arci.Networking.Security
                 rng.GetBytes(iVec);
             }
 
-            aes.IV = iVec;
             aes.Key = key;
+            aes.IV = iVec;
             aes.Padding = PaddingMode.Zeros;
         }
 
@@ -65,8 +65,8 @@ namespace Arci.Networking.Security
         /// <param name="iVec">IVec to be set as AES iVec</param>
         public AesEncryptor(byte[] key, byte[] iVec)
         {
-            aes.IV = iVec;
             aes.Key = key;
+            aes.IV = iVec;
             aes.Padding = PaddingMode.Zeros;
         }
 
