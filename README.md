@@ -10,7 +10,7 @@ Simple library for client-server network communication with as less dependencies
 ## Build Status
 [![Build status](https://img.shields.io/appveyor/ci/Arcidev/arci-networking.svg?style=flat-square)](https://ci.appveyor.com/project/Arcidev/arci-networking)
 [![Test status](https://img.shields.io/appveyor/tests/Arcidev/arci-networking.svg?style=flat-square)](https://ci.appveyor.com/project/Arcidev/arci-networking/build/tests)
-[![Codacy](https://img.shields.io/codacy/grade/c6385a8834494ebcb0c53a5d4026f033.svg)](https://www.codacy.com/app/Arcidev/Arci.Networking?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Arcidev/Arci.Networking&amp;utm_campaign=Badge_Grade)
+[![Codacy](https://img.shields.io/codacy/grade/c6385a8834494ebcb0c53a5d4026f033.svg?style=flat-square)](https://www.codacy.com/app/Arcidev/Arci.Networking?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Arcidev/Arci.Networking&amp;utm_campaign=Badge_Grade)
 
 ## Copyright
 [![License](https://img.shields.io/github/license/Arcidev/Arci.Networking.svg?style=flat-square)](LICENSE.md)
