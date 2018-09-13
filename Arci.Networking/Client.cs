@@ -14,8 +14,8 @@ namespace Arci.Networking
     /// </summary>
     public class Client : IDisposable
     {
-        private TcpClient tcpClient;
-        private NetworkStream stream;
+        private readonly TcpClient tcpClient;
+        private readonly NetworkStream stream;
         private const int maxBufferSize = 10000;
 
         /// <summary>

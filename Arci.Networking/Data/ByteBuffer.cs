@@ -9,7 +9,7 @@ namespace Arci.Networking.Data
     /// </summary>
     public partial class ByteBuffer : IDisposable
     {
-        private BinaryReader readData;
+        private readonly BinaryReader readData;
         private BinaryWriter writeData;
         private MemoryStream memoryStream;
 

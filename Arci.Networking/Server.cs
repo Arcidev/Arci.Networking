@@ -10,7 +10,7 @@ namespace Arci.Networking
     /// </summary>
     public class Server : IDisposable
     {
-        private TcpListener server;
+        private readonly TcpListener server;
 
         /// <summary>
         /// Creates new instance listening on 127.0.0.1

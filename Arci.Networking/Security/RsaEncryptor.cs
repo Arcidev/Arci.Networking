@@ -8,7 +8,7 @@ namespace Arci.Networking.Security
     /// </summary>
     public class RsaEncryptor : IDisposable
     {
-        private RSA rsa;
+        private readonly RSA rsa = RSA.Create();
 
         /// <summary>
         /// Sets true to use OAEP padding. Otherwise PKCS#1 v1.5 padding will be used
@@ -28,7 +28,6 @@ namespace Arci.Networking.Security
         /// <param name="rsaParams">Custom RSA Parameters</param>
         public RsaEncryptor(RSAParameters rsaParams)
         {
-            rsa = RSA.Create();
             rsa.ImportParameters(rsaParams);
         }
 

@@ -12,7 +12,7 @@ namespace Arci.Networking.Security
     /// </summary>
     public class AesEncryptor : ISymmetricEncryptor, IDisposable
     {
-        private Aes aes;
+        private readonly Aes aes = Aes.Create();
 
         /// <summary>
         /// Returns copy of the current aes key
@@ -44,7 +44,6 @@ namespace Arci.Networking.Security
         /// <param name="type">Bit version type of Aes to be used</param>
         public AesEncryptor(AesEncryptionType type = AesEncryptionType.Aes128Bits)
         {
-            aes = Aes.Create();
             var iVec = new byte[16];
             var key = new byte[(int)type];
 
@@ -66,7 +65,6 @@ namespace Arci.Networking.Security
         /// <param name="iVec">IVec to be set as AES iVec</param>
         public AesEncryptor(byte[] key, byte[] iVec)
         {
-            aes = Aes.Create();
             aes.IV = iVec;
             aes.Key = key;
             aes.Padding = PaddingMode.Zeros;
