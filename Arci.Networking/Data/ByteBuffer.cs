@@ -301,12 +301,9 @@ namespace Arci.Networking.Data
         /// </summary>
         public void Dispose()
         {
-            if (writeData != null)
-                writeData.Dispose();
-            if (memoryStream != null)
-                memoryStream.Dispose();
-            if (readData != null)
-                readData.Dispose();
+            writeData?.Dispose();
+            memoryStream?.Dispose();
+            readData?.Dispose();
         }
 
         /// <summary>

@@ -53,15 +53,12 @@ namespace Arci.Networking.Data
         /// Inicializes data in packet
         /// </summary>
         /// <param name="opcode">Value to be set as new opcode number of current packet</param>
-        public void Initialize(Enum opcode) { Initialize(Convert.ToUInt16(opcode)); }
+        public void Initialize(Enum opcode) => Initialize(Convert.ToUInt16(opcode));
 
         /// <summary>
         /// Starts building this packet
         /// </summary>
         /// <returns>Packet builder</returns>
-        public PacketBuilder Builder()
-        {
-            return new PacketBuilder(this);
-        }
+        public PacketBuilder Builder() => new PacketBuilder(this);
     }
 }
