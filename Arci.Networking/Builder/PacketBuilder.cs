@@ -56,6 +56,17 @@ namespace Arci.Networking.Builder
         }
 
         /// <summary>
+        /// Writes guid to packet
+        /// </summary>
+        /// <param name="guid">Guid to be written</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder Write(PacketGuid guid)
+        {
+            packet.Write(guid);
+            return this;
+        }
+
+        /// <summary>
         /// Writes string value with ASCII Encoding
         /// </summary>
         /// <param name="val">Value to be written</param>
@@ -86,6 +97,27 @@ namespace Arci.Networking.Builder
         public PacketBuilder Write(ByteBuffer buffer)
         {
             packet.Write(buffer);
+            return this;
+        }
+
+        /// <summary>
+        /// Writes guid into packet
+        /// </summary>
+        /// <param name="guid">Guid to be written</param>
+        public PacketBuilder Write(Guid guid)
+        {
+            packet.Write(guid);
+            return this;
+        }
+
+        /// <summary>
+        /// Writes guid into packet
+        /// </summary>
+        /// <param name="guid">Guid to be written</param>
+        /// <param name="format">Guid format</param>
+        public PacketBuilder Write(Guid guid, string format)
+        {
+            packet.Write(guid, format);
             return this;
         }
 
