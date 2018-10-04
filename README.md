@@ -24,15 +24,15 @@ Serializer allows to directly serialize/deserialize object into/from Packet obje
 [PacketClass(1)]
 public class MyObject
 {
-	// Marks property to be serialized in specified order
-	[PacketProperty(1)]
-        public SByte SByte { get; set; }
+    // Marks property to be serialized in specified order
+    [PacketProperty(1)]
+    public SByte SByte { get; set; }
 
-        [PacketProperty(2)]
-        public UInt16 UInt16 { get; set; }
+    [PacketProperty(2)]
+    public UInt16 UInt16 { get; set; }
 
-        [PacketProperty(3)]
-        public DateTime DateTime { get; set; }
+    [PacketProperty(3)]
+    public DateTime DateTime { get; set; }
 }
 
 var obj = new MyObject();
