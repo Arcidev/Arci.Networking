@@ -16,7 +16,33 @@ Simple library for client-server network communication with as less dependencies
 [![License](https://img.shields.io/github/license/Arcidev/Arci.Networking.svg?style=flat-square)](LICENSE.md)
 
 ## Usage
-Basic usage of the library. You can find some basic example of an [client](https://github.com/Arcidev/Arci.Networking/tree/master/ClientSample) and a [server](https://github.com/Arcidev/Arci.Networking/tree/master/ServerSample) in the solution. For more advanced example you can check my [other project](https://github.com/Arcidev/Card-Game).
+Basic usage of the library. You can find some basic example of a [client](https://github.com/Arcidev/Arci.Networking/tree/master/ClientSample) and a [server](https://github.com/Arcidev/Arci.Networking/tree/master/ServerSample) in the solution. For more advanced example you can check my [other project](https://github.com/Arcidev/Card-Game).
+### Using serializer
+Serializer allows to directly serialize/deserialize object into/from Packet object.
+```csharp
+// Marks class as serializable to packet with 1 as packet identifier
+[PacketClass(1)]
+public class MyObject
+{
+	// Marks property to be serialized in specified order
+	[PacketProperty(1)]
+        public SByte SByte { get; set; }
+
+        [PacketProperty(2)]
+        public UInt16 UInt16 { get; set; }
+
+        [PacketProperty(3)]
+        public DateTime DateTime { get; set; }
+}
+
+var obj = new MyObject();
+// Object will be serialized into packet
+var packet = obj.ToPacket();
+// Deserializes object back to object of type MyObject
+obj = packet.FromPacket<MyObject>();
+```
+### Without using serializer
+You can choose not to use serializer and serialize/deserialize your objects manualy. Manual serialization is slightly faster (no requirements for reflection) and more flexible as the serializer does not support dynamic objects nor single types.
 #### Writing byte based values
 ```csharp
 var buffer = new ByteBuffer()
@@ -25,6 +51,7 @@ buffer.Write(int16Value);
 buffer.Write(byteValue);
 buffer.Write(stringValue);
 buffer.Write(byteArrayValue);
+buffer.Write(dateTimeValue);
 ```
 #### Writing bit based values
 Network stream can only work with byte values therefore we need to inform buffer that he needs to write values into stream as a whole byte when we're finished with bit writes (this is only necessary when bits does not form byte already e.g. number_of_bits_written % 8 != 0)
@@ -61,6 +88,8 @@ buffer.WriteGuidBitStreamInOrder(guid, 7, 6, 5);
 // Flush required because we wrote 9 bits instead of 8
 buffer.FlushBits();
 buffer.WriteGuidByteStreamInOrder(guid, 0, 1, 2, 3, 4, 5, 6, 7);
+// If you just want to save some space and do not care about the order
+buffer.Write(guid);
 ```
 #### Encapsulating with Packet
 Extends ByteBuffer by adding an identifier to a stream
@@ -91,8 +120,12 @@ var uint32value = packet.ReadUInt32();
 var guid = new PacketGuid();
 packet.ReadGuidBitStreamInOrder(guid, 0, 1, 2, 3, 4, 7, 6, 5);
 packet.ReadGuidByteStreamInOrder(guid, 0, 1, 2, 3, 4, 5, 6, 7);
+guid = packet.ReadGuid();
 var uint64value = (UInt64)guid;
 var boolean = packet.ReadBit();
+// Reading bit values reads the whole byte into memory and bits are being read from there.
+// Necessary if you wish to start bit reading from a new byte.
+packet.ClearUnflushedBits();
 ```
 #### Using Client
 ```csharp
