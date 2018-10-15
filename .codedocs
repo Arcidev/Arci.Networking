@@ -1,4 +1,4 @@
-INPUT = Arci.Networking
+INPUT = README.md Arci.Networking
 
 EXTRACT_STATIC = YES
 GENERATE_TREEVIEW = YES
