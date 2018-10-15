@@ -13,12 +13,7 @@ namespace ServerSample
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            RunServer().Wait();
-        }
-
-        private static async Task RunServer()
+        static async Task Main(string[] args)
         {
             // Client will send us the key and iVec
             AesEncryptor aes = null;

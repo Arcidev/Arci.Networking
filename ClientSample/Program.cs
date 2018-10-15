@@ -11,12 +11,7 @@ namespace ClientSample
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            RunClient().Wait();
-        }
-
-        private static async Task RunClient()
+        static async Task Main(string[] args)
         {
             Client client = await Client.CreateAsync("localhost", 10751);
             if (client == null)
@@ -46,7 +41,7 @@ namespace ClientSample
             packet.Write("Hello Server from fully encrypted packet!");
             client.SendPacket(packet);
             packet.Dispose();
-            
+
             bool end = false;
             while (!end)
             {
