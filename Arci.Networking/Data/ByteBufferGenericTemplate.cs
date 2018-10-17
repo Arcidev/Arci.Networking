@@ -3,7 +3,7 @@ using System;
 
 namespace Arci.Networking.Data
 {
-    public partial class ByteBuffer : IDisposable
+    public partial class ByteBuffer
     {
         
         /// <summary>
