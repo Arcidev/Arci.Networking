@@ -162,13 +162,13 @@ namespace Arci.Networking.Data
         /// </summary>
         /// <param name="bitsCount">Bits to be read</param>
         /// <returns>Value represented by bits that have been read</returns>
-        public UInt32 ReadBits(byte bitsCount)
+        public UInt64 ReadBits(byte bitsCount)
         {
-            UInt32 value = 0;
+            UInt64 value = 0;
             for (int i = bitsCount - 1; i >= 0; i--)
             {
                 if (ReadBit())
-                    value |= (UInt32)1 << i;
+                    value |= (UInt64)1 << i;
             }
             return value;
         }

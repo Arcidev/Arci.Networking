@@ -18,7 +18,7 @@ namespace Arci.Networking.Builder
         /// <exception cref="ArgumentNullException">Thrown if packet is null</exception>
         public PacketBuilder(Packet packet)
         {
-            this.packet = packet ?? throw new ArgumentNullException("Param packet cannot be null");
+            this.packet = packet ?? throw new ArgumentNullException($"Param {nameof(packet)} cannot be null");
         }
 
         /// <summary>
@@ -67,17 +67,6 @@ namespace Arci.Networking.Builder
         }
 
         /// <summary>
-        /// Writes string value with ASCII Encoding
-        /// </summary>
-        /// <param name="val">Value to be written</param>
-        /// <returns>This PacketBuilder</returns>
-        public PacketBuilder Write(string val)
-        {
-            packet.Write(val);
-            return this;
-        }
-
-        /// <summary>
         /// Writes string value
         /// </summary>
         /// <param name="val">Value to be written</param>
@@ -97,16 +86,6 @@ namespace Arci.Networking.Builder
         public PacketBuilder Write(ByteBuffer buffer)
         {
             packet.Write(buffer);
-            return this;
-        }
-
-        /// <summary>
-        /// Writes guid into packet
-        /// </summary>
-        /// <param name="guid">Guid to be written</param>
-        public PacketBuilder Write(Guid guid)
-        {
-            packet.Write(guid);
             return this;
         }
 

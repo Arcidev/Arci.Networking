@@ -279,6 +279,17 @@ namespace Arci.Networking.Builder
         }
                 
         /// <summary>
+        /// Writes Byte[] value to packet
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder Write(Byte[] val)
+        {
+            packet.Write(val);
+            return this;
+        }
+        
+        /// <summary>
         /// Writes Single value to packet
         /// </summary>
         /// <param name="val">Value to be written</param>
@@ -310,13 +321,24 @@ namespace Arci.Networking.Builder
             packet.Write(val);
             return this;
         }
-                
+        
         /// <summary>
-        /// Writes Byte[] value to stream
+        /// Writes String value to packet
         /// </summary>
         /// <param name="val">Value to be written</param>
         /// <returns>This PacketBuilder</returns>
-        public PacketBuilder Write(Byte[] val)
+        public PacketBuilder Write(String val)
+        {
+            packet.Write(val);
+            return this;
+        }
+        
+        /// <summary>
+        /// Writes Guid value to packet
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        /// <returns>This PacketBuilder</returns>
+        public PacketBuilder Write(Guid val)
         {
             packet.Write(val);
             return this;

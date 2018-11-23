@@ -6,12 +6,9 @@
     typeof(Byte), typeof(UInt16), typeof(UInt32), typeof(UInt64)
     };
 #>
-<# Type[] sizeTypes = new[] {
-    typeof(byte[])
-    };
-#>
 <# Type[] byteOnlyTypes = new[] {
-    typeof(Single), typeof(Double), typeof(Decimal)
+    typeof(byte[]), typeof(Single), typeof(Double), typeof(Decimal),
+    typeof(string), typeof(Guid)
     };
 #>
 
@@ -64,21 +61,6 @@ namespace Arci.Networking.Builder
 
         /// <summary>
         /// Writes <#= type.Name #> value to packet
-        /// </summary>
-        /// <param name="val">Value to be written</param>
-        /// <returns>This PacketBuilder</returns>
-        public PacketBuilder Write(<#= type.Name #> val)
-        {
-            packet.Write(val);
-            return this;
-        }
-        <# 
-        } #>
-        <# foreach (var type in sizeTypes)
-        { #>
-
-        /// <summary>
-        /// Writes <#= type.Name #> value to stream
         /// </summary>
         /// <param name="val">Value to be written</param>
         /// <returns>This PacketBuilder</returns>

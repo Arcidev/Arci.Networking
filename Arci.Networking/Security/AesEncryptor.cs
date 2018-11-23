@@ -25,7 +25,7 @@ namespace Arci.Networking.Security
         public byte[] IVec => aes.IV.ToArray();
 
         /// <summary>
-        /// Current encryptors. First bytes represent key, last 16 bytes represent iVec
+        /// Current encryptors. First 16/24/32 (based on <see cref="AesEncryptionType"/>) bytes represent key, last 16 bytes represent iVec
         /// </summary>
         public byte[] Encryptors => aes.Key.Concat(aes.IV).ToArray();
 
@@ -97,9 +97,9 @@ namespace Arci.Networking.Security
                         // Write all data to the stream.
                         swEncrypt.Write(toEncrypt);
                     }
-
-                    return msEncrypt.ToArray();
                 }
+
+                return msEncrypt.ToArray();
             }
         }
 
