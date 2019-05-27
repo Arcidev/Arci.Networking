@@ -129,7 +129,7 @@ namespace Arci.Networking.Serialization
                 for (var i = 0; i < count; i++)
                 {
                     var value = ReadPacketProperty(byteBuffer, type.GetGenericArguments()[0]);
-                    type.GetMethod("Add").Invoke(instance, new[] { value });
+                    type.GetMethod(nameof(ICollection<object>.Add)).Invoke(instance, new[] { value });
                 }
                 return instance;
             }
