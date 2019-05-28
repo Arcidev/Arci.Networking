@@ -188,4 +188,4 @@ var rsaDecryptedValue = rsa.Decrypt(rsaEncryptedValue);
 See [Wiki](https://github.com/Arcidev/Arci.Networking/wiki) for a list of changes between versions
 
 ## Supported frameworks
-- .NET Standard 2.1
+- .NET Standard 2.0
