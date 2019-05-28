@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arci.Networking.Tests.NetCo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arci.Networking", "Arci.Networking\Arci.Networking.csproj", "{1F9C6F0F-358B-4487-83D8-40677D6FC3AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arci.Networking.Tests.UAP", "Arci.Networking.Tests.UAP\Arci.Networking.Tests.UAP.csproj", "{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,27 +123,6 @@ Global
 		{1F9C6F0F-358B-4487-83D8-40677D6FC3AB}.Release|x64.Build.0 = Release|Any CPU
 		{1F9C6F0F-358B-4487-83D8-40677D6FC3AB}.Release|x86.ActiveCfg = Release|Any CPU
 		{1F9C6F0F-358B-4487-83D8-40677D6FC3AB}.Release|x86.Build.0 = Release|Any CPU
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Debug|Any CPU.Build.0 = Debug|x86
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Debug|ARM.ActiveCfg = Debug|ARM
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Debug|ARM.Build.0 = Debug|ARM
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Debug|ARM.Deploy.0 = Debug|ARM
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Debug|x64.ActiveCfg = Debug|x64
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Debug|x64.Build.0 = Debug|x64
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Debug|x64.Deploy.0 = Debug|x64
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Debug|x86.ActiveCfg = Debug|x86
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Debug|x86.Build.0 = Debug|x86
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Debug|x86.Deploy.0 = Debug|x86
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Release|Any CPU.ActiveCfg = Release|x86
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Release|ARM.ActiveCfg = Release|ARM
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Release|ARM.Build.0 = Release|ARM
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Release|ARM.Deploy.0 = Release|ARM
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Release|x64.ActiveCfg = Release|x64
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Release|x64.Build.0 = Release|x64
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Release|x64.Deploy.0 = Release|x64
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Release|x86.ActiveCfg = Release|x86
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Release|x86.Build.0 = Release|x86
-		{8EE20DE3-C2B0-43A9-9638-F17BB22AB139}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
