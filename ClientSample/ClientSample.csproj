@@ -57,7 +57,7 @@
       <Name>Arci.Networking</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">
-      <Project>{dda1699f-c5dc-40b0-83cf-7343abd4df43}</Project>
+      <Project>{750dfe28-37a7-4487-89a5-4d99158e53da}</Project>
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
