@@ -12,6 +12,7 @@ addons:
   
 script:
   - sudo snap alias dotnet-sdk.dotnet dotnet
+  - cd Arci.Networking.Tests.NetCore
   - dotnet restore
   - dotnet build
   - dotnet test
