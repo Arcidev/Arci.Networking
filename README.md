@@ -17,7 +17,7 @@ Simple library for client-server network communication with as less dependencies
 [![License](https://img.shields.io/github/license/Arcidev/Arci.Networking.svg?style=flat-square)](LICENSE.md)
 
 ## Documentation
-[![Documentation](https://codedocs.xyz/Arcidev/Arci.Networking.svg)](https://codedocs.xyz/Arcidev/Arci.Networking/)
+[![Documentation](https://img.shields.io/badge/code-documented-brightgreen.svg?style=flat-square)](https://codedocs.xyz/Arcidev/Arci.Networking/)
 
 ## Usage
 Basic usage of the library. You can find some basic example of a [client](https://github.com/Arcidev/Arci.Networking/tree/master/ClientSample) and a [server](https://github.com/Arcidev/Arci.Networking/tree/master/ServerSample) in the solution. For more advanced example you can check my [other project](https://github.com/Arcidev/Card-Game).
