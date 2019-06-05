@@ -2,8 +2,8 @@
 Simple library for client-server network communication with as less dependencies as possible. Use packets to encapsulate your data which can be encrypted using either RSA or AES. For RSA you can choose to use padding scheme OAEP or not. For AES you can choose to generate a key of length 16, 24 or 32 bytes and use several padding modes like for example PKCS7. Samples included within solution.
 
 ## Nuget
-[![NuGet](https://img.shields.io/nuget/v/Arci.Networking.svg?style=flat-square)](https://www.nuget.org/packages/Arci.Networking)
-[![NuGet downloads](https://img.shields.io/nuget/dt/Arci.Networking.svg?style=flat-square)](https://www.nuget.org/packages/Arci.Networking)
+[![NuGet](https://img.shields.io/nuget/v/Arci.Networking.svg?logo=nuget&style=flat-square)](https://www.nuget.org/packages/Arci.Networking)
+[![NuGet downloads](https://img.shields.io/nuget/dt/Arci.Networking.svg?logo=nuget&style=flat-square)](https://www.nuget.org/packages/Arci.Networking)
 
 	PM> Install-Package Arci.Networking
   
