@@ -158,7 +158,7 @@ var packets = await tcpClient.ReceiveDataAsync(false);
 #### Using Server
 
 ```csharp
-var server = new Server(10751);
+var server = new Server(IPAddress.Parse("127.0.0.1"), 10751);
 // Await new connection
 var tcpClient = await server.AcceptClientAsync();
 // Await collection of packets from this client
