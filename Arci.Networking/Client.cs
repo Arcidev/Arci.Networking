@@ -176,7 +176,7 @@ namespace Arci.Networking
         private async Task<byte[]> ReadDataAsync(CancellationToken? token)
         {
             var data = new byte[maxBufferSize];
-            int length = await stream.ReadAsync(data, 0, maxBufferSize, token ?? CancellationToken.None);
+            int length = await stream.ReadAsync(data, 0, maxBufferSize, token ?? CancellationToken.None).ConfigureAwait(false);
             if (length == 0)
                 return null;
 

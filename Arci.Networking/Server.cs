@@ -29,7 +29,7 @@ namespace Arci.Networking
         /// <returns>New Tcp client if pending. Otherwise null</returns>
         public async Task<TcpClient> AcceptClient()
         {
-            return server.Pending() ? await server.AcceptTcpClientAsync() : null;
+            return server.Pending() ? await server.AcceptTcpClientAsync().ConfigureAwait(false) : null;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Arci.Networking
         /// <returns>New Tcp client</returns>
         public async Task<TcpClient> AcceptClientAsync()
         {
-            return await server.AcceptTcpClientAsync();
+            return await server.AcceptTcpClientAsync().ConfigureAwait(false);
         }
 
         /// <summary>
