@@ -8,10 +8,6 @@
     typeof(DateTime)
     };
 #>
-<# Type[] sizeTypes = new[] {
-    typeof(byte[])
-    };
-#>
 
 using Arci.Networking.Data;
 using System;

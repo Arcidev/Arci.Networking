@@ -297,6 +297,16 @@ namespace Arci.Networking.Data
         }
 
         /// <summary>
+        /// Writes byte[] value to stream
+        /// </summary>
+        /// <param name="val">Value to be written</param>
+        public void Write(byte[] val)
+        {
+            writeData.Write((UInt16)val.Length);
+            writeData.Write(val);
+        }
+
+        /// <summary>
         /// Disposes object
         /// </summary>
         public void Dispose()

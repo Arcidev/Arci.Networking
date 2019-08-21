@@ -23,31 +23,6 @@ namespace Arci.Networking.Data
         {
             writeData.Write(val);
         }
-
-        /// <summary>
-        /// Writes 1 if SByte value is different from 0, otherwise writes 0
-        /// </summary>
-        /// <param name="bit">Value to be written</param>
-        public void WriteBit(SByte bit)
-        {
-            --bitPos;
-            if (bit != 0)
-                curBitVal |= (byte)(1 << bitPos);
-
-            if (bitPos == 0)
-                WriteCurBitVal();
-        }
-
-        /// <summary>
-        /// Writes value with specified number of bits
-        /// </summary>
-        /// <param name="value">Value to be written</param>
-        /// <param name="bitsCount">Number of bits that value should written with</param>
-        public void WriteBits(SByte value, byte bitsCount)
-        {
-            for (int i = bitsCount - 1; i >= 0; i--)
-                WriteBit(((SByte)1 << i) & value);
-        }
         
         /// <summary>
         /// Reads Int16 value from stream
@@ -65,31 +40,6 @@ namespace Arci.Networking.Data
         public void Write(Int16 val)
         {
             writeData.Write(val);
-        }
-
-        /// <summary>
-        /// Writes 1 if Int16 value is different from 0, otherwise writes 0
-        /// </summary>
-        /// <param name="bit">Value to be written</param>
-        public void WriteBit(Int16 bit)
-        {
-            --bitPos;
-            if (bit != 0)
-                curBitVal |= (byte)(1 << bitPos);
-
-            if (bitPos == 0)
-                WriteCurBitVal();
-        }
-
-        /// <summary>
-        /// Writes value with specified number of bits
-        /// </summary>
-        /// <param name="value">Value to be written</param>
-        /// <param name="bitsCount">Number of bits that value should written with</param>
-        public void WriteBits(Int16 value, byte bitsCount)
-        {
-            for (int i = bitsCount - 1; i >= 0; i--)
-                WriteBit(((Int16)1 << i) & value);
         }
         
         /// <summary>
@@ -109,31 +59,6 @@ namespace Arci.Networking.Data
         {
             writeData.Write(val);
         }
-
-        /// <summary>
-        /// Writes 1 if Int32 value is different from 0, otherwise writes 0
-        /// </summary>
-        /// <param name="bit">Value to be written</param>
-        public void WriteBit(Int32 bit)
-        {
-            --bitPos;
-            if (bit != 0)
-                curBitVal |= (byte)(1 << bitPos);
-
-            if (bitPos == 0)
-                WriteCurBitVal();
-        }
-
-        /// <summary>
-        /// Writes value with specified number of bits
-        /// </summary>
-        /// <param name="value">Value to be written</param>
-        /// <param name="bitsCount">Number of bits that value should written with</param>
-        public void WriteBits(Int32 value, byte bitsCount)
-        {
-            for (int i = bitsCount - 1; i >= 0; i--)
-                WriteBit(((Int32)1 << i) & value);
-        }
         
         /// <summary>
         /// Reads Int64 value from stream
@@ -151,31 +76,6 @@ namespace Arci.Networking.Data
         public void Write(Int64 val)
         {
             writeData.Write(val);
-        }
-
-        /// <summary>
-        /// Writes 1 if Int64 value is different from 0, otherwise writes 0
-        /// </summary>
-        /// <param name="bit">Value to be written</param>
-        public void WriteBit(Int64 bit)
-        {
-            --bitPos;
-            if (bit != 0)
-                curBitVal |= (byte)(1 << bitPos);
-
-            if (bitPos == 0)
-                WriteCurBitVal();
-        }
-
-        /// <summary>
-        /// Writes value with specified number of bits
-        /// </summary>
-        /// <param name="value">Value to be written</param>
-        /// <param name="bitsCount">Number of bits that value should written with</param>
-        public void WriteBits(Int64 value, byte bitsCount)
-        {
-            for (int i = bitsCount - 1; i >= 0; i--)
-                WriteBit(((Int64)1 << i) & value);
         }
         
         /// <summary>
@@ -195,31 +95,6 @@ namespace Arci.Networking.Data
         {
             writeData.Write(val);
         }
-
-        /// <summary>
-        /// Writes 1 if Byte value is different from 0, otherwise writes 0
-        /// </summary>
-        /// <param name="bit">Value to be written</param>
-        public void WriteBit(Byte bit)
-        {
-            --bitPos;
-            if (bit != 0)
-                curBitVal |= (byte)(1 << bitPos);
-
-            if (bitPos == 0)
-                WriteCurBitVal();
-        }
-
-        /// <summary>
-        /// Writes value with specified number of bits
-        /// </summary>
-        /// <param name="value">Value to be written</param>
-        /// <param name="bitsCount">Number of bits that value should written with</param>
-        public void WriteBits(Byte value, byte bitsCount)
-        {
-            for (int i = bitsCount - 1; i >= 0; i--)
-                WriteBit(((Byte)1 << i) & value);
-        }
         
         /// <summary>
         /// Reads UInt16 value from stream
@@ -237,31 +112,6 @@ namespace Arci.Networking.Data
         public void Write(UInt16 val)
         {
             writeData.Write(val);
-        }
-
-        /// <summary>
-        /// Writes 1 if UInt16 value is different from 0, otherwise writes 0
-        /// </summary>
-        /// <param name="bit">Value to be written</param>
-        public void WriteBit(UInt16 bit)
-        {
-            --bitPos;
-            if (bit != 0)
-                curBitVal |= (byte)(1 << bitPos);
-
-            if (bitPos == 0)
-                WriteCurBitVal();
-        }
-
-        /// <summary>
-        /// Writes value with specified number of bits
-        /// </summary>
-        /// <param name="value">Value to be written</param>
-        /// <param name="bitsCount">Number of bits that value should written with</param>
-        public void WriteBits(UInt16 value, byte bitsCount)
-        {
-            for (int i = bitsCount - 1; i >= 0; i--)
-                WriteBit(((UInt16)1 << i) & value);
         }
         
         /// <summary>
@@ -281,31 +131,6 @@ namespace Arci.Networking.Data
         {
             writeData.Write(val);
         }
-
-        /// <summary>
-        /// Writes 1 if UInt32 value is different from 0, otherwise writes 0
-        /// </summary>
-        /// <param name="bit">Value to be written</param>
-        public void WriteBit(UInt32 bit)
-        {
-            --bitPos;
-            if (bit != 0)
-                curBitVal |= (byte)(1 << bitPos);
-
-            if (bitPos == 0)
-                WriteCurBitVal();
-        }
-
-        /// <summary>
-        /// Writes value with specified number of bits
-        /// </summary>
-        /// <param name="value">Value to be written</param>
-        /// <param name="bitsCount">Number of bits that value should written with</param>
-        public void WriteBits(UInt32 value, byte bitsCount)
-        {
-            for (int i = bitsCount - 1; i >= 0; i--)
-                WriteBit(((UInt32)1 << i) & value);
-        }
         
         /// <summary>
         /// Reads UInt64 value from stream
@@ -324,32 +149,7 @@ namespace Arci.Networking.Data
         {
             writeData.Write(val);
         }
-
-        /// <summary>
-        /// Writes 1 if UInt64 value is different from 0, otherwise writes 0
-        /// </summary>
-        /// <param name="bit">Value to be written</param>
-        public void WriteBit(UInt64 bit)
-        {
-            --bitPos;
-            if (bit != 0)
-                curBitVal |= (byte)(1 << bitPos);
-
-            if (bitPos == 0)
-                WriteCurBitVal();
-        }
-
-        /// <summary>
-        /// Writes value with specified number of bits
-        /// </summary>
-        /// <param name="value">Value to be written</param>
-        /// <param name="bitsCount">Number of bits that value should written with</param>
-        public void WriteBits(UInt64 value, byte bitsCount)
-        {
-            for (int i = bitsCount - 1; i >= 0; i--)
-                WriteBit(((UInt64)1 << i) & value);
-        }
-                
+        
         /// <summary>
         /// Reads Single value from stream
         /// </summary>
@@ -405,13 +205,203 @@ namespace Arci.Networking.Data
         }
                 
         /// <summary>
-        /// Writes Byte[] value to stream
+        /// Writes 1 if SByte value is different from 0, otherwise writes 0
         /// </summary>
-        /// <param name="val">Value to be written</param>
-        public void Write(Byte[] val)
+        /// <param name="bit">Value to be written</param>
+        public void WriteBit(SByte bit)
         {
-            writeData.Write((UInt16)val.Length);
-            writeData.Write(val);
+            --bitPos;
+            if (bit != 0)
+                curBitVal |= (byte)(1 << bitPos);
+
+            if (bitPos == 0)
+                WriteCurBitVal();
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        public void WriteBits(SByte value, byte bitsCount)
+        {
+            for (int i = bitsCount - 1; i >= 0; i--)
+                WriteBit(((SByte)1 << i) & value);
+        }
+        
+        /// <summary>
+        /// Writes 1 if Int16 value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
+        public void WriteBit(Int16 bit)
+        {
+            --bitPos;
+            if (bit != 0)
+                curBitVal |= (byte)(1 << bitPos);
+
+            if (bitPos == 0)
+                WriteCurBitVal();
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        public void WriteBits(Int16 value, byte bitsCount)
+        {
+            for (int i = bitsCount - 1; i >= 0; i--)
+                WriteBit(((Int16)1 << i) & value);
+        }
+        
+        /// <summary>
+        /// Writes 1 if Int32 value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
+        public void WriteBit(Int32 bit)
+        {
+            --bitPos;
+            if (bit != 0)
+                curBitVal |= (byte)(1 << bitPos);
+
+            if (bitPos == 0)
+                WriteCurBitVal();
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        public void WriteBits(Int32 value, byte bitsCount)
+        {
+            for (int i = bitsCount - 1; i >= 0; i--)
+                WriteBit(((Int32)1 << i) & value);
+        }
+        
+        /// <summary>
+        /// Writes 1 if Int64 value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
+        public void WriteBit(Int64 bit)
+        {
+            --bitPos;
+            if (bit != 0)
+                curBitVal |= (byte)(1 << bitPos);
+
+            if (bitPos == 0)
+                WriteCurBitVal();
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        public void WriteBits(Int64 value, byte bitsCount)
+        {
+            for (int i = bitsCount - 1; i >= 0; i--)
+                WriteBit(((Int64)1 << i) & value);
+        }
+        
+        /// <summary>
+        /// Writes 1 if Byte value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
+        public void WriteBit(Byte bit)
+        {
+            --bitPos;
+            if (bit != 0)
+                curBitVal |= (byte)(1 << bitPos);
+
+            if (bitPos == 0)
+                WriteCurBitVal();
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        public void WriteBits(Byte value, byte bitsCount)
+        {
+            for (int i = bitsCount - 1; i >= 0; i--)
+                WriteBit(((Byte)1 << i) & value);
+        }
+        
+        /// <summary>
+        /// Writes 1 if UInt16 value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
+        public void WriteBit(UInt16 bit)
+        {
+            --bitPos;
+            if (bit != 0)
+                curBitVal |= (byte)(1 << bitPos);
+
+            if (bitPos == 0)
+                WriteCurBitVal();
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        public void WriteBits(UInt16 value, byte bitsCount)
+        {
+            for (int i = bitsCount - 1; i >= 0; i--)
+                WriteBit(((UInt16)1 << i) & value);
+        }
+        
+        /// <summary>
+        /// Writes 1 if UInt32 value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
+        public void WriteBit(UInt32 bit)
+        {
+            --bitPos;
+            if (bit != 0)
+                curBitVal |= (byte)(1 << bitPos);
+
+            if (bitPos == 0)
+                WriteCurBitVal();
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        public void WriteBits(UInt32 value, byte bitsCount)
+        {
+            for (int i = bitsCount - 1; i >= 0; i--)
+                WriteBit(((UInt32)1 << i) & value);
+        }
+        
+        /// <summary>
+        /// Writes 1 if UInt64 value is different from 0, otherwise writes 0
+        /// </summary>
+        /// <param name="bit">Value to be written</param>
+        public void WriteBit(UInt64 bit)
+        {
+            --bitPos;
+            if (bit != 0)
+                curBitVal |= (byte)(1 << bitPos);
+
+            if (bitPos == 0)
+                WriteCurBitVal();
+        }
+
+        /// <summary>
+        /// Writes value with specified number of bits
+        /// </summary>
+        /// <param name="value">Value to be written</param>
+        /// <param name="bitsCount">Number of bits that value should written with</param>
+        public void WriteBits(UInt64 value, byte bitsCount)
+        {
+            for (int i = bitsCount - 1; i >= 0; i--)
+                WriteBit(((UInt64)1 << i) & value);
         }
         
     }

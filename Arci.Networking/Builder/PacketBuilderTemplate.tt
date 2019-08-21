@@ -1,6 +1,7 @@
 ﻿<#@ template language="C#" #>
 <#@ output extension=".cs" #>
 <#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
 <# Type[] types = new[] {
     typeof(SByte), typeof(Int16), typeof(Int32), typeof(Int64),
     typeof(Byte), typeof(UInt16), typeof(UInt32), typeof(UInt64)
@@ -18,7 +19,7 @@ namespace Arci.Networking.Builder
 {
     public partial class PacketBuilder
     {
-        <# foreach (var type in types)
+        <# foreach (var type in types.Concat(byteOnlyTypes))
         { #>
 
         /// <summary>
@@ -31,6 +32,10 @@ namespace Arci.Networking.Builder
             packet.Write(val);
             return this;
         }
+        <# 
+        } #>
+        <# foreach (var type in types)
+        { #>
 
         /// <summary>
         /// Writes 1 if <#= type.Name #> value is different from 0, otherwise writes 0
@@ -52,21 +57,6 @@ namespace Arci.Networking.Builder
         public PacketBuilder WriteBits(<#= type.Name #> value, byte bitsCount)
         {
             packet.WriteBits(value, bitsCount);
-            return this;
-        }
-        <# 
-        } #>
-        <# foreach (var type in byteOnlyTypes)
-        { #>
-
-        /// <summary>
-        /// Writes <#= type.Name #> value to packet
-        /// </summary>
-        /// <param name="val">Value to be written</param>
-        /// <returns>This PacketBuilder</returns>
-        public PacketBuilder Write(<#= type.Name #> val)
-        {
-            packet.Write(val);
             return this;
         }
         <# 

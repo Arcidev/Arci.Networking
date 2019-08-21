@@ -1,13 +1,10 @@
 ﻿<#@ template language="C#" #>
 <#@ output extension=".cs" #>
 <#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
 <# Type[] types = new[] {
     typeof(SByte), typeof(Int16), typeof(Int32), typeof(Int64),
     typeof(Byte), typeof(UInt16), typeof(UInt32), typeof(UInt64)
-    };
-#>
-<# Type[] sizeTypes = new[] {
-    typeof(byte[])
     };
 #>
 <# Type[] byteOnlyTypes = new[] {
@@ -21,7 +18,7 @@ namespace Arci.Networking.Data
 {
     public partial class ByteBuffer
     {
-        <# foreach (var type in types)
+        <# foreach (var type in types.Concat(byteOnlyTypes))
         { #>
 
         /// <summary>
@@ -41,6 +38,10 @@ namespace Arci.Networking.Data
         {
             writeData.Write(val);
         }
+        <# 
+        } #>
+        <# foreach (var type in types)
+        { #>
 
         /// <summary>
         /// Writes 1 if <#= type.Name #> value is different from 0, otherwise writes 0
@@ -65,42 +66,6 @@ namespace Arci.Networking.Data
         {
             for (int i = bitsCount - 1; i >= 0; i--)
                 WriteBit(((<#= type.Name #>)1 << i) & value);
-        }
-        <# 
-        } #>
-        <# foreach (var type in byteOnlyTypes)
-        { #>
-
-        /// <summary>
-        /// Reads <#= type.Name #> value from stream
-        /// </summary>
-        /// <returns><#= type.Name #> value from stream</returns>
-        public <#= type.Name #> Read<#= type.Name #>()
-        {
-            return readData.Read<#= type.Name #>();
-        }
-
-        /// <summary>
-        /// Writes <#= type.Name #> value to stream
-        /// </summary>
-        /// <param name="val">Value to be written</param>
-        public void Write(<#= type.Name #> val)
-        {
-            writeData.Write(val);
-        }
-        <# 
-        } #>
-        <# foreach (var type in sizeTypes)
-        { #>
-
-        /// <summary>
-        /// Writes <#= type.Name #> value to stream
-        /// </summary>
-        /// <param name="val">Value to be written</param>
-        public void Write(<#= type.Name #> val)
-        {
-            writeData.Write((UInt16)val.Length);
-            writeData.Write(val);
         }
         <# 
         } #>

@@ -163,15 +163,17 @@ namespace Arci.Networking.Serialization
             else if (type.IsArray || (type.IsGenericType && type.GetInterfaces().Any(x => x.GetGenericTypeDefinition() == typeof(ICollection<>))))
             {
                 UInt16 count = 0;
-                var itemsBuffer = new ByteBuffer();
-                foreach (var item in (IEnumerable)value)
+                using (var itemsBuffer = new ByteBuffer())
                 {
-                    WritePacketProperty(itemsBuffer, item, type.GetElementType() ?? type.GetGenericArguments()[0]);
-                    count++;
-                }
+                    foreach (var item in (IEnumerable)value)
+                    {
+                        WritePacketProperty(itemsBuffer, item, type.GetElementType() ?? type.GetGenericArguments()[0]);
+                        count++;
+                    }
 
-                byteBuffer.Write(count);
-                byteBuffer.Write(itemsBuffer);
+                    byteBuffer.Write(count);
+                    byteBuffer.Write(itemsBuffer);
+                }
             }
             else if (type.IsClass && type.GetConstructor(Type.EmptyTypes) != null)
                 WritePacketProperties(byteBuffer, value);
