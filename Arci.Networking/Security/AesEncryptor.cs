@@ -88,19 +88,15 @@ namespace Arci.Networking.Security
         /// <returns>Encrypted data</returns>
         public byte[] Encrypt(byte[] toEncrypt)
         {
-            using (var msEncrypt = new MemoryStream())
+            using var msEncrypt = new MemoryStream();
+            using (var csEncrypt = new CryptoStream(msEncrypt, aes.CreateEncryptor(), CryptoStreamMode.Write))
             {
-                using (var csEncrypt = new CryptoStream(msEncrypt, aes.CreateEncryptor(), CryptoStreamMode.Write))
-                {
-                    using (var swEncrypt = new BinaryWriter(csEncrypt))
-                    {
-                        // Write all data to the stream.
-                        swEncrypt.Write(toEncrypt);
-                    }
-                }
-
-                return msEncrypt.ToArray();
+                using var swEncrypt = new BinaryWriter(csEncrypt);
+                // Write all data to the stream.
+                swEncrypt.Write(toEncrypt);
             }
+
+            return msEncrypt.ToArray();
         }
 
         /// <summary>
@@ -121,17 +117,12 @@ namespace Arci.Networking.Security
         /// <returns>Decrypted data</returns>
         public byte[] Decrypt(byte[] toDecode)
         {
-            using (var msDecrypt = new MemoryStream(toDecode, false))
-            {
-                using (var csDecrypt = new CryptoStream(msDecrypt, aes.CreateDecryptor(aes.Key, aes.IV), CryptoStreamMode.Read))
-                {
-                    using (var srDecrypt = new BinaryReader(csDecrypt))
-                    {
-                        // Read the decrypted bytes from the decrypting stream
-                        return srDecrypt.ReadBytes(toDecode.Length);
-                    }
-                }
-            }
+            using var msDecrypt = new MemoryStream(toDecode, false);
+            using var csDecrypt = new CryptoStream(msDecrypt, aes.CreateDecryptor(aes.Key, aes.IV), CryptoStreamMode.Read);
+            using var srDecrypt = new BinaryReader(csDecrypt);
+
+            // Read the decrypted bytes from the decrypting stream
+            return srDecrypt.ReadBytes(toDecode.Length);
         }
 
         /// <summary>

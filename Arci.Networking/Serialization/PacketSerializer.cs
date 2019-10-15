@@ -122,17 +122,6 @@ namespace Arci.Networking.Serialization
             {
                 return byteBuffer.ReadPacketGuid();
             }
-            else if (type.IsGenericType && type.GetInterfaces().Any(x => x.GetGenericTypeDefinition() == typeof(ICollection<>)))
-            {
-                var instance = Activator.CreateInstance(type);
-                var count = byteBuffer.ReadUInt16();
-                for (var i = 0; i < count; i++)
-                {
-                    var value = ReadPacketProperty(byteBuffer, type.GetGenericArguments()[0]);
-                    type.GetMethod(nameof(ICollection<object>.Add)).Invoke(instance, new[] { value });
-                }
-                return instance;
-            }
             else if (type.IsArray)
             {
                 var count = byteBuffer.ReadUInt16();
@@ -141,6 +130,15 @@ namespace Arci.Networking.Serialization
                     arr.SetValue(ReadPacketProperty(byteBuffer, type.GetElementType()), i);
                 return arr;
             }
+            else if (type.IsGenericType && type.IsInterface)
+            {
+                var listType = typeof(List<>).MakeGenericType(type.GetGenericArguments().First());
+                return type.IsAssignableFrom(listType) ? ReadCollection(byteBuffer, listType) : null;
+            }
+            else if (type.IsGenericType && type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(ICollection<>)))
+            {
+                return ReadCollection(byteBuffer, type);
+            }
             else if (type.IsClass && type.GetConstructor(Type.EmptyTypes) != null)
             {
                 var instance = Activator.CreateInstance(type);
@@ -148,6 +146,18 @@ namespace Arci.Networking.Serialization
                 return instance;
             }
             return null;
+        }
+
+        private static object ReadCollection(ByteBuffer byteBuffer, Type type)
+        {
+            var instance = Activator.CreateInstance(type);
+            var count = byteBuffer.ReadUInt16();
+            for (var i = 0; i < count; i++)
+            {
+                var value = ReadPacketProperty(byteBuffer, type.GetGenericArguments()[0]);
+                type.GetMethod(nameof(ICollection<object>.Add)).Invoke(instance, new[] { value });
+            }
+            return instance;
         }
 
         private static void WritePacketObject(ByteBuffer byteBuffer, object value, Type type)
@@ -160,20 +170,18 @@ namespace Arci.Networking.Serialization
             {
                 byteBuffer.Write((PacketGuid)value);
             }
-            else if (type.IsArray || (type.IsGenericType && type.GetInterfaces().Any(x => x.GetGenericTypeDefinition() == typeof(ICollection<>))))
+            else if (type.IsArray || (type.IsGenericType && (type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(ICollection<>)) || (type.IsInterface && type.IsAssignableFrom(typeof(List<>).MakeGenericType(type.GetGenericArguments().First()))))))
             {
                 UInt16 count = 0;
-                using (var itemsBuffer = new ByteBuffer())
+                using var itemsBuffer = new ByteBuffer();
+                foreach (var item in (IEnumerable)value)
                 {
-                    foreach (var item in (IEnumerable)value)
-                    {
-                        WritePacketProperty(itemsBuffer, item, type.GetElementType() ?? type.GetGenericArguments()[0]);
-                        count++;
-                    }
-
-                    byteBuffer.Write(count);
-                    byteBuffer.Write(itemsBuffer);
+                    WritePacketProperty(itemsBuffer, item, type.GetElementType() ?? type.GetGenericArguments()[0]);
+                    count++;
                 }
+
+                byteBuffer.Write(count);
+                byteBuffer.Write(itemsBuffer);
             }
             else if (type.IsClass && type.GetConstructor(Type.EmptyTypes) != null)
                 WritePacketProperties(byteBuffer, value);

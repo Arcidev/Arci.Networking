@@ -14,5 +14,8 @@ namespace Arci.Networking.Tests.ObjectTests.Objects
 
         [PacketProperty(3)]
         public List<TestObject3> ListOfObject { get; set; }
+
+        [PacketProperty(4)]
+        public IEnumerable<int> EnumerableOfInt { get; set; }
     }
 }

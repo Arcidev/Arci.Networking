@@ -232,7 +232,8 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             {
                 ArrayOfString = new string[] { "123", "456", "789" },
                 ListOfInt = new List<int>() { 1, 2, 3 },
-                ListOfObject = new List<TestObject3>() { new TestObject3(), new TestObject3(), new TestObject3() }
+                ListOfObject = new List<TestObject3>() { new TestObject3(), new TestObject3(), new TestObject3() },
+                EnumerableOfInt = new List<int>() { 1, 2, 3 }
             };
 
             var packet = obj.ToPacket();
@@ -246,6 +247,7 @@ namespace Arci.Networking.Tests.NetCore.ObjectTests
             Assert.Equal(obj.ListOfObject.Count, deserializedObject.ListOfObject.Count);
             Assert.Equal<string>(obj.ArrayOfString, deserializedObject.ArrayOfString);
             Assert.Equal<int>(obj.ListOfInt, deserializedObject.ListOfInt);
+            Assert.Equal(obj.EnumerableOfInt, deserializedObject.EnumerableOfInt);
         }
     }
 }
